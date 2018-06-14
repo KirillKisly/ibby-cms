@@ -18,8 +18,11 @@ namespace ibby_cms.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        ApplicationDbContext context;
+
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -30,20 +33,24 @@ namespace ibby_cms.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get {
+            get
+            {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set {
+            private set
+            {
                 _signInManager = value;
             }
         }
 
         public ApplicationUserManager UserManager
         {
-            get {
+            get
+            {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set {
+            private set
+            {
                 _userManager = value;
             }
         }
@@ -58,7 +65,7 @@ namespace ibby_cms.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /Account/Login   
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -68,9 +75,9 @@ namespace ibby_cms.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            // This doesn't count login failures towards account lockout   
+            // To enable password failures to trigger account lockout, change to shouldLockout: true   
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
@@ -85,12 +92,12 @@ namespace ibby_cms.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
+        //   
+        // GET: /Account/VerifyCode   
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
-            // Require that the user has already logged in via username/password or external login
+            // Require that the user has already logged in via username/password or external login   
             if (!await SignInManager.HasBeenVerifiedAsync()) {
                 return View("Error");
             }
@@ -130,6 +137,8 @@ namespace ibby_cms.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+                                            .ToList(), "Name", "Name");
             return View();
         }
 
@@ -151,9 +160,12 @@ namespace ibby_cms.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
 
                     return RedirectToAction("Index", "Home");
                 }
+                ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+                                                .ToList(), "Name", "Name");
                 AddErrors(result);
             }
 
@@ -166,8 +178,7 @@ namespace ibby_cms.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(int userId, string code)
         {
-            if (userId == default(int) || code == null) 
-            {
+            if (userId == default(int) || code == null) {
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
@@ -272,8 +283,7 @@ namespace ibby_cms.Controllers
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == default(int))
-            {
+            if (userId == default(int)) {
                 return View("Error");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
@@ -288,8 +298,7 @@ namespace ibby_cms.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
         {
-            if (!ModelState.IsValid) 
-            {
+            if (!ModelState.IsValid) {
                 return View();
             }
 
@@ -402,7 +411,8 @@ namespace ibby_cms.Controllers
 
         private IAuthenticationManager AuthenticationManager
         {
-            get {
+            get
+            {
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
