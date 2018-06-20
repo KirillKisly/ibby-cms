@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Admin panel";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active">
+                    <a href="#mainTab" data-toggle="tab">Main</a>
+                </li>
+                <li>
+                    <a href="#seoTab" data-toggle="tab">SEO</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="mainTab" class="tab-pane fade in active">
+                    <h3>Main Page</h3>
+                    <p>Main Page Content</p>
+                </div>
+                <div id="seoTab" class="tab-pane fade">
+                    <h3>SEO Page</h3>
+                    <p>SEO Page Content</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

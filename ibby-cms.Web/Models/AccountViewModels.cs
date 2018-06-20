@@ -63,9 +63,9 @@ namespace ibby_cms.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        /*[Required]
         [Display(Name = "UserRoles")]
-        public string UserRoles { get; set; }
+        public string UserRoles { get; set; }*/
 
         [Required]
         [EmailAddress]

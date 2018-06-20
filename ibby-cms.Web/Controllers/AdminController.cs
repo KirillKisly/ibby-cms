@@ -1,6 +1,5 @@
 ﻿using ibby_cms.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +8,22 @@ using System.Web.Mvc;
 
 namespace ibby_cms.Controllers
 {
-    public class UsersController : Controller
+    public class AdminController : Controller
     {
-        // GET: Users
-        [Authorize]
+        ApplicationDbContext context = new ApplicationDbContext();
+
+        // GET: Role
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated) {
-                var user = User.Identity;
-                ViewBag.Name = user.Name;
-
-                ViewBag.displayMenu = "No";
-
-                if (isAdminUser()) {
-                    ViewBag.displayMenu = "Yes";
+                if (!isAdminUser()) {
+                    return RedirectToAction("Index", "Home");
                 }
-                return View();
             }
             else {
-                ViewBag.Name = "Not Logged IN";
+                return RedirectToAction("Index", "Home");
             }
+
             return View();
         }
 
