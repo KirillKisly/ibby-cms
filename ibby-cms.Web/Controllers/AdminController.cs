@@ -27,6 +27,14 @@ namespace ibby_cms.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreatePage()
+        {
+            return View();
+        }
+
+
+
         public Boolean isAdminUser()
         {
             if (User.Identity.IsAuthenticated) {
