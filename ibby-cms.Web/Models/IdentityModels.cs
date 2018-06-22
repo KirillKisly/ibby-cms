@@ -21,7 +21,7 @@ namespace ibby_cms.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection")
+            : base("EntitiesContext")
         {
         }
 

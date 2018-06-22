@@ -10,7 +10,7 @@ namespace ibby_cms
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            InitializationRoles.CreateRolesanUsers(); // отдельный статический класс и вызвать
+            InitializationRoles.CreateRolesanUsers(); // Initializing roles 
         }
     }
 }

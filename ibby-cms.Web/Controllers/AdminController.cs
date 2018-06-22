@@ -33,8 +33,6 @@ namespace ibby_cms.Controllers
             return View();
         }
 
-
-
         public Boolean isAdminUser()
         {
             if (User.Identity.IsAuthenticated) {
