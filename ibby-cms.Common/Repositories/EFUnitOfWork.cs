@@ -16,7 +16,7 @@ namespace ibby_cms.Common.Repositories
 
         public EFUnitOfWork(string connectionString)
         {
-            context = new EntitiesContext; 
+            context = new EntitiesContext(); 
         }
 
         public void Save()
@@ -24,7 +24,7 @@ namespace ibby_cms.Common.Repositories
             context.SaveChanges();
         }
 
-        public IRepository<PageContentEssence> PageContentEssences
+        public IRepository<PageContentEssence> PageContentEntities
         {
             get
             {
@@ -36,7 +36,7 @@ namespace ibby_cms.Common.Repositories
             }
         }
 
-        public IRepository<PageSeoEssence> PageSeoEssences
+        public IRepository<PageSeoEssence> PageSeoEntities
         {
             get
             {
