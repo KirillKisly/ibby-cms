@@ -1,9 +1,43 @@
-﻿
+﻿@model IEnumerable<ibby_cms.Models.PageSeoViewModel>
 @{
     ViewBag.Title = "Admin panel";
 }
 
 <h2>Admin Panel</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeyWords)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descriptions)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach(var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyWords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descriptions)
+            </td>
+            <td>
+                @Html.ActionLink("Page", "MakePageContent", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+
 
 <li>
     @Html.ActionLink("Добавить страницу", "CreatePage")

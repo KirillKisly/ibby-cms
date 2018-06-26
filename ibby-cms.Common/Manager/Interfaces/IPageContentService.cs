@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace ibby_cms.Common.Manager.Interfaces
 {
-    interface IPageContentService
+    public interface IPageContentService
     {
         void MakePageContent(PageContentModel pageContentModel);
         IEnumerable<PageContentModel> GetPages();
         PageContentModel GetPage(int? id);
+        PageSeoModel GetSeo(int? id);
         void Dispose();
     }
 }

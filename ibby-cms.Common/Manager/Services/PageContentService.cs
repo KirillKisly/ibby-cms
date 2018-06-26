@@ -10,7 +10,7 @@ using AutoMapper;
 
 namespace ibby_cms.Common.Manager.Services
 {
-    public class PageContentService: IPageContentService
+    public class PageContentService : IPageContentService
     {
         IUnitOfWork Database { get; set; }
 
@@ -22,6 +22,7 @@ namespace ibby_cms.Common.Manager.Services
         public void MakePageContent(PageContentModel pageContentModel)
         {
             //PageSeoEssence pageSeoEssence = Database.PageSeoEntities.Get(pageContentModel.SeoID);
+
             PageContentEssence pageContentEssence = new PageContentEssence {
                 HtmlContent = pageContentModel.HtmlContent,
                 Content = pageContentModel.Content,
@@ -47,7 +48,7 @@ namespace ibby_cms.Common.Manager.Services
             }
 
             var pageContent = Database.PageContentEntities.Get(id.Value);
-            if(pageContent == null) {
+            if (pageContent == null) {
                 throw new ValidationException("Страница не найдена", "");
             }
 
@@ -56,7 +57,25 @@ namespace ibby_cms.Common.Manager.Services
                 Content = pageContent.Content,
                 Url = pageContent.Url,
                 Header = pageContent.Header,
-                SeoID = pageContent.SeoID 
+                SeoID = pageContent.SeoID
+            };
+        }
+
+        public PageSeoModel GetSeo(int? id)
+        {
+            if (id == null) {
+                throw new ValidationException("Не установлено id SEO", "");
+            }
+
+            var pageSeo = Database.PageSeoEntities.Get(id.Value);
+            if (pageSeo == null) {
+                throw new ValidationException("SEO не найдено", "");
+            }
+
+            return new PageSeoModel {
+                Title = pageSeo.Title,
+                KeyWords = pageSeo.KeyWords,
+                Descriptions = pageSeo.Descriptions
             };
         }
 
