@@ -34,11 +34,11 @@ namespace ibby_cms.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
-            var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
+            IEnumerable<PageSeoModel> pageSeoModels = pageContentService.GetSeos();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageSeoModel, PageSeoViewModel>()).CreateMapper();
+            var seos = mapper.Map<IEnumerable<PageSeoModel>, List<PageSeoViewModel>>(pageSeoModels);
 
-            return View(pages);
+            return View(seos);
         }
 
         public ActionResult MakePageContent(int? id)

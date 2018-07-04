@@ -21,27 +21,44 @@ namespace ibby_cms.Common.Manager.Services
 
         public void MakePageContent(PageContentModel pageContentModel)
         {
-            //PageSeoEssence pageSeoEssence = Database.PageSeoEntities.Get(pageContentModel.SeoID);
+            if (pageContentModel.SeoID != null) {
+                PageSeoEssence pageSeoEssence = Database.PageSeoEntities.Get(Convert.ToInt32(pageContentModel.SeoID));
 
-            PageContentEssence pageContentEssence = new PageContentEssence {
-                HtmlContent = pageContentModel.HtmlContent,
-                Content = pageContentModel.Content,
-                Url = pageContentModel.Url,
-                Header = pageContentModel.Header,
-                SeoID = pageContentModel.SeoID // не знаю что делать с SEO ID
-            };
+                /*if(pageSeoEssence == null) {
+                    throw new ValidationException("SEO Не найдено", "");
+                }*/
 
-            Database.PageContentEntities.Create(pageContentEssence);
-            Database.Save();
+                PageContentEssence pageContentEssence = new PageContentEssence {
+                    HtmlContent = pageContentModel.HtmlContent,
+                    Content = pageContentModel.Content,
+                    Url = pageContentModel.Url,
+                    Header = pageContentModel.Header,
+                    SeoID = pageSeoEssence.Id
+                };
+
+                Database.PageContentEntities.Create(pageContentEssence);
+                Database.Save();
+            }
+            else {
+                PageContentEssence pageContentEssence = new PageContentEssence {
+                    HtmlContent = pageContentModel.HtmlContent,
+                    Content = pageContentModel.Content,
+                    Url = pageContentModel.Url,
+                    Header = pageContentModel.Header
+                };
+
+                Database.PageContentEntities.Create(pageContentEssence);
+                Database.Save();
+            } 
         }
 
-        public IEnumerable<PageContentModel> GetPages()
+        IEnumerable<PageSeoModel> IPageContentService.GetSeos()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentEssence, PageContentModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<PageContentEssence>, List<PageContentModel>>(Database.PageContentEntities.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageSeoEssence, PageSeoModel>()).CreateMapper();
+            return mapper.Map<IEnumerable<PageSeoEssence>, List<PageSeoModel>>(Database.PageSeoEntities.GetAll());
         }
 
-        public PageContentModel GetPage(int? id)
+        /*public PageContentModel GetPage(int? id)
         {
             if (id == null) {
                 throw new ValidationException("Не установлено id страницы", "");
@@ -59,7 +76,7 @@ namespace ibby_cms.Common.Manager.Services
                 Header = pageContent.Header,
                 SeoID = pageContent.SeoID
             };
-        }
+        }*/
 
         public PageSeoModel GetSeo(int? id)
         {
@@ -73,6 +90,7 @@ namespace ibby_cms.Common.Manager.Services
             }
 
             return new PageSeoModel {
+                Id = pageSeo.Id,
                 Title = pageSeo.Title,
                 KeyWords = pageSeo.KeyWords,
                 Descriptions = pageSeo.Descriptions

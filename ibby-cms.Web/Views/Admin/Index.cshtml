@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.Descriptions)
             </td>
             <td>
-                @Html.ActionLink("Page", "MakePageContent", new { id = item.Id })
+                @Html.ActionLink("MakePageContent", "MakePageContent", new { id = item.Id })
             </td>
         </tr>
     }
@@ -40,7 +40,7 @@
 
 
 <li>
-    @Html.ActionLink("Добавить страницу", "CreatePage")
+    @Html.ActionLink("MakePageContent", "MakePageContent")
 </li>
 <li>
     @Html.ActionLink("Редактировать страницу", "EditPage")

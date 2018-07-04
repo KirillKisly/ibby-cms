@@ -97,12 +97,19 @@
     <Compile Include="Migrations\201806211322502_InitialCreate.Designer.cs">
       <DependentUpon>201806211322502_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806270822561_add field.cs" />
+    <Compile Include="Migrations\201806270822561_add field.Designer.cs">
+      <DependentUpon>201806270822561_add field.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201806211322502_InitialCreate.resx">
       <DependentUpon>201806211322502_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806270822561_add field.resx">
+      <DependentUpon>201806270822561_add field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

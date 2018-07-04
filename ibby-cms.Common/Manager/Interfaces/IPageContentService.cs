@@ -10,9 +10,10 @@ namespace ibby_cms.Common.Manager.Interfaces
     public interface IPageContentService
     {
         void MakePageContent(PageContentModel pageContentModel);
-        IEnumerable<PageContentModel> GetPages();
-        PageContentModel GetPage(int? id);
         PageSeoModel GetSeo(int? id);
+        IEnumerable<PageSeoModel> GetSeos();
         void Dispose();
+
+        //PageContentModel GetPage(int? id);
     }
 }

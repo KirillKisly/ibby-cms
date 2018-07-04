@@ -10,13 +10,13 @@ namespace ibby_cms.Common.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private EntitiesContext context = new EntitiesContext();
+        private EntitiesContext context;
         private PageContentRepository pageContentRepository;
         private PageSeoRepository pageSeoRepository;
 
         public EFUnitOfWork(string connectionString)
         {
-            context = new EntitiesContext(); 
+            context = new EntitiesContext(connectionString);
         }
 
         public void Save()
