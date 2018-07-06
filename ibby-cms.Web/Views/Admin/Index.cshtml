@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ibby_cms.Models.PageSeoViewModel>
+﻿@model IEnumerable<ibby_cms.Models.PageContentViewModel>
 @{
     ViewBag.Title = "Admin panel";
 }
@@ -8,30 +8,34 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Header)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.KeyWords)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descriptions)
+            @Html.DisplayNameFor(model => model.Url)
         </th>
         <th></th>
     </tr>
 
-    @foreach(var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Header)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.KeyWords)
+                @Html.DisplayFor(modelItem => item.Url)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descriptions)
-            </td>
-            <td>
-                @Html.ActionLink("MakePageContent", "MakePageContent", new { id = item.Id })
+                <div class="row">
+                    <div>
+                        @Html.ActionLink("Просмотреть", "ViewPage", new { id = item.Id })
+                    </div>
+                    <div>
+                        @Html.ActionLink("MakePageContent", "MakePageContent", new { id = item.Id })
+                    </div>
+                    <div>
+                        @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
+                    </div>
+                </div>
             </td>
         </tr>
     }
@@ -43,8 +47,5 @@
     @Html.ActionLink("MakePageContent", "MakePageContent")
 </li>
 <li>
-    @Html.ActionLink("Редактировать страницу", "EditPage")
-</li>
-<li>
-    @Html.ActionLink("Удалить страницу", "DeletePage")
+    @Html.ActionLink("Создать страницу", "CreatePage")
 </li>

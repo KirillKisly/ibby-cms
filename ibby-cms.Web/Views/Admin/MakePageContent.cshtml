@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <input type="hidden" name="SeoId" value="@Model.SeoID" />
+        <input type="hidden" name="SeoId" value="@Model.Id" />
 
         <div class="form-group">
             @Html.LabelFor(model => model.HtmlContent, htmlAttributes: new { @class = "control-label col-md-2" })

@@ -6,9 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
-using ibby_cms.Common.Manager.Interfaces;
-using ibby_cms.Common.Manager.Models;
+//using ibby_cms.Common.Manager.Interfaces;
+//using ibby_cms.Common.Manager.Models;
 using ibby_cms.Common;
+using ibby_cms.Common.Managers.PageContentManager.Interfaces;
+using ibby_cms.Common.Managers.PageSeoManager.Models;
+using ibby_cms.Common.Managers.PageContentManager.Models;
 
 namespace ibby_cms.Controllers
 {
@@ -23,6 +26,7 @@ namespace ibby_cms.Controllers
         }
 
         // GET: Role
+        
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated) {
@@ -34,28 +38,40 @@ namespace ibby_cms.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<PageSeoModel> pageSeoModels = pageContentService.GetSeos();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageSeoModel, PageSeoViewModel>()).CreateMapper();
-            var seos = mapper.Map<IEnumerable<PageSeoModel>, List<PageSeoViewModel>>(pageSeoModels);
+            IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
+            var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
 
-            return View(seos);
+            return View(pages);
         }
 
-        public ActionResult MakePageContent(int? id)
+        public ActionResult ViewPage(int? id)
         {
-            try {
-                PageSeoModel seo = pageContentService.GetSeo(id);
-                var pageContent = new PageContentViewModel { SeoID = seo.Id };
+            PageContentModel page = pageContentService.GetPage(id);
+            var pageContent = new PageContentViewModel {
+                Id = page.Id,
+                HtmlContent = page.HtmlContent,
+                Header = page.Header,
+                Content = page.Content,
+                Url = page.Url,
+                SeoID = page.SeoID
+            };
 
-                return View(pageContent);
-            }
-            catch(ValidationException ex) {
-                return Content(ex.Message);
-            }
+            PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
+            var pageSeo = new PageSeoViewModel {
+                Id = seo.Id,
+                Title = seo.Title,
+                Descriptions = seo.Descriptions,
+                KeyWords = seo.KeyWords
+            };
+
+            ViewBag.AnotherModel = pageSeo;
+
+            return View(pageContent);
         }
 
-        [HttpPost]
-        public ActionResult MakePageContent(PageContentViewModel pageContent)
+        //[HttpPost]
+        public ActionResult CreatePage(PageContentViewModel pageContent, PageSeoViewModel pageSeo)
         {
             try {
                 var pageContentModel = new PageContentModel {
@@ -65,7 +81,60 @@ namespace ibby_cms.Controllers
                     Header = pageContent.Header,
                     SeoID = pageContent.SeoID
                 };
-                pageContentService.MakePageContent(pageContentModel);
+
+                var pageSeoModel = new PageSeoModel {
+                    Title = pageSeo.Title,
+                    KeyWords = pageSeo.KeyWords,
+                    Descriptions = pageSeo.Descriptions
+                };
+
+                pageContentService.MakePageContent(pageContentModel, pageSeoModel);
+
+                return Content("<h2>Страница успешно создана</h2>");
+            }
+            catch (ValidationException ex) {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+
+            ViewBag.AnotherModel = pageSeo;
+
+            return View(pageContent);
+        }
+
+        public ActionResult DeletePage(int? id)
+        {
+            pageContentService.DeletePage(id);
+
+            //return Content("<h2>Страница успешно удалена</h2>");
+            return View();
+        }
+
+        public ActionResult MakePageContent(int? id)
+        {
+            try {
+                PageContentModel page = pageContentService.GetPage(id);
+                var pageContent = new PageContentViewModel { Id = page.Id };
+                
+
+                return View(pageContent);
+            }
+            catch(ValidationException ex) {
+                return Content("ОШИБКА!!!!" + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult MakePageContent(PageContentViewModel pageContent, PageSeoViewModel pageSeo)
+        {
+            try {
+                var pageContentModel = new PageContentModel {
+                    HtmlContent = pageContent.HtmlContent,
+                    Content = pageContent.Content,
+                    Url = pageContent.Url,
+                    Header = pageContent.Header,
+                    SeoID = pageContent.SeoID
+                };
+                //pageContentService.MakePageContent(pageContentModel);
 
                 return Content("<h2>Страница успешно создана</h2>");
             }
@@ -80,12 +149,6 @@ namespace ibby_cms.Controllers
         {
             pageContentService.Dispose();
             base.Dispose(disposing);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult CreatePage()
-        {
-            return View();
         }
 
         public Boolean isAdminUser()
