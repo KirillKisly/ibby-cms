@@ -38,6 +38,11 @@ namespace ibby_cms.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            return View();
+        }
+
+        public ActionResult ManagementPage()
+        {
             IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
             var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
@@ -90,7 +95,7 @@ namespace ibby_cms.Controllers
 
                     pageContentService.CreatePageContent(pageContentModel, pageSeoModel);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ManagementPage");
                 }
             }
             catch (ValidationException ex) {
@@ -141,7 +146,7 @@ namespace ibby_cms.Controllers
 
                 pageContentService.EditPage(pageContentModel, pageSeoModel);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ManagementPage");
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
