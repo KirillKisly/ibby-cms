@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ibby_cms.Models.PageContentViewModel>
+﻿@model PagedList.IPagedList<ibby_cms.Models.PageContentViewModel>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "Management pages";
 }
@@ -10,41 +13,37 @@
 </li>
 <br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Header)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Url)
-        </th>
-        <th></th>
-    </tr>
+    <table class="table">
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Header)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Url)
+                </td>
+                <td>
+                    <div class="row">
+                        <div>
+                            @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
+                        </div>
+                        <div>
+                            @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
+                        </div>
+                        <div>
+                            @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Header)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                <div class="row">
-                    <div>
-                        @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
-                    </div>
-                    <div>
-                        @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
-                    </div>
-                    <div>
-                        @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
-                    </div>
-                </div>
-            </td>
-        </tr>
-    }
-</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
+
 
 
 

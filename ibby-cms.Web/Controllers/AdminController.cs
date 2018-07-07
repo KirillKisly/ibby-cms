@@ -12,6 +12,7 @@ using ibby_cms.Common;
 using ibby_cms.Common.Managers.PageContentManager.Interfaces;
 using ibby_cms.Common.Managers.PageSeoManager.Models;
 using ibby_cms.Common.Managers.PageContentManager.Models;
+using PagedList;
 
 namespace ibby_cms.Controllers
 {
@@ -41,13 +42,16 @@ namespace ibby_cms.Controllers
             return View();
         }
 
-        public ActionResult ManagementPage()
+        public ActionResult ManagementPage(int? page)
         {
             IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
             var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
 
-            return View(pages);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            return View(pages.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult DetailsPage(int? id)
