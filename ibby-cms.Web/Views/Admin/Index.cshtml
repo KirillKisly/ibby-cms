@@ -27,10 +27,10 @@
             <td>
                 <div class="row">
                     <div>
-                        @Html.ActionLink("Просмотреть", "ViewPage", new { id = item.Id })
+                        @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
                     </div>
                     <div>
-                        @Html.ActionLink("MakePageContent", "MakePageContent", new { id = item.Id })
+                        @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
                     </div>
                     <div>
                         @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })

@@ -45,36 +45,86 @@ namespace ibby_cms.Controllers
             return View(pages);
         }
 
-        public ActionResult ViewPage(int? id)
+        public ActionResult DetailsPage(int? id)
         {
             PageContentModel page = pageContentService.GetPage(id);
+            PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 HtmlContent = page.HtmlContent,
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,
-                SeoID = page.SeoID
+                SeoID = page.SeoID,
+                Title = seo.Title,
+                Descriptions = seo.Descriptions,
+                KeyWords =  seo.KeyWords
             };
 
+            return View(pageContent);
+        }
+
+        public ActionResult CreatePage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreatePage(PageContentViewModel pageContent)
+        {
+            try {
+                if (ModelState.IsValid) {
+                    var pageContentModel = new PageContentModel {
+                        HtmlContent = pageContent.HtmlContent,
+                        Content = pageContent.Content,
+                        Url = pageContent.Url,
+                        Header = pageContent.Header,
+                        SeoID = pageContent.SeoID
+                    };
+
+                    var pageSeoModel = new PageSeoModel {
+                        Title = pageContent.Title,
+                        KeyWords = pageContent.KeyWords,
+                        Descriptions = pageContent.Descriptions
+                    };
+
+                    pageContentService.CreatePageContent(pageContentModel, pageSeoModel);
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (ValidationException ex) {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+
+            return View(pageContent);
+        }
+
+        public ActionResult EditPage(int? id)
+        {
+            PageContentModel page = pageContentService.GetPage(id);
             PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
-            var pageSeo = new PageSeoViewModel {
-                Id = seo.Id,
+            var pageContent = new PageContentViewModel {
+                Id = page.Id,
+                HtmlContent = page.HtmlContent,
+                Header = page.Header,
+                Content = page.Content,
+                Url = page.Url,
+                SeoID = page.SeoID,
                 Title = seo.Title,
                 Descriptions = seo.Descriptions,
                 KeyWords = seo.KeyWords
             };
 
-            ViewBag.AnotherModel = pageSeo;
-
             return View(pageContent);
         }
 
-        //[HttpPost]
-        public ActionResult CreatePage(PageContentViewModel pageContent, PageSeoViewModel pageSeo)
+        [HttpPost]
+        public ActionResult EditPage(PageContentViewModel pageContent)
         {
             try {
                 var pageContentModel = new PageContentModel {
+                    Id = pageContent.Id,
                     HtmlContent = pageContent.HtmlContent,
                     Content = pageContent.Content,
                     Url = pageContent.Url,
@@ -83,20 +133,19 @@ namespace ibby_cms.Controllers
                 };
 
                 var pageSeoModel = new PageSeoModel {
-                    Title = pageSeo.Title,
-                    KeyWords = pageSeo.KeyWords,
-                    Descriptions = pageSeo.Descriptions
+                    Id = pageContent.SeoID.Value,
+                    Title = pageContent.Title,
+                    KeyWords = pageContent.KeyWords,
+                    Descriptions = pageContent.Descriptions
                 };
 
-                pageContentService.MakePageContent(pageContentModel, pageSeoModel);
+                pageContentService.EditPage(pageContentModel, pageSeoModel);
 
-                return Content("<h2>Страница успешно создана</h2>");
+                return RedirectToAction("Index");
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
-
-            ViewBag.AnotherModel = pageSeo;
 
             return View(pageContent);
         }
@@ -104,8 +153,6 @@ namespace ibby_cms.Controllers
         public ActionResult DeletePage(int? id)
         {
             pageContentService.DeletePage(id);
-
-            //return Content("<h2>Страница успешно удалена</h2>");
             return View();
         }
 

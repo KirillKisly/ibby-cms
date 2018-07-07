@@ -301,10 +301,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\ViewPage.cshtml" />
     <Content Include="Views\Admin\MakePageContent.cshtml" />
     <Content Include="Views\Admin\CreatePage.cshtml" />
     <Content Include="Views\Admin\DeletePage.cshtml" />
+    <Content Include="Views\Admin\DetailsPage.cshtml" />
+    <Content Include="Views\Admin\EditPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

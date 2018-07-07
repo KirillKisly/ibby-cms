@@ -71,7 +71,7 @@ namespace ibby_cms.Common.Managers.PageContentManager.Services
             };
         }
 
-        public void MakePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel)
+        public void CreatePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel)
         {
             PageSeoEssence pageSeoEssence = new PageSeoEssence {
                 Title = pageSeoModel.Title,
@@ -92,33 +92,35 @@ namespace ibby_cms.Common.Managers.PageContentManager.Services
 
             Database.PageContentEntities.Create(pageContentEssence);
             Database.Save();
+        }
 
-
-            /*if (pageContentModel.SeoID != null) {
-                PageSeoEssence pageSeoEssence = Database.PageSeoEntities.Get(Convert.ToInt32(pageContentModel.SeoID));
-
-                PageContentEssence pageContentEssence = new PageContentEssence {
-                    HtmlContent = pageContentModel.HtmlContent,
-                    Content = pageContentModel.Content,
-                    Url = pageContentModel.Url,
-                    Header = pageContentModel.Header,
-                    SeoID = pageSeoEssence.Id
-                };
-
-                Database.PageContentEntities.Create(pageContentEssence);
-                Database.Save();
+        public void EditPage(PageContentModel pageContentModel, PageSeoModel pageSeoModel)
+        {
+            if(pageContentModel == null) {
+                throw new ValidationException("Страница не найдена", "");
             }
-            else {
-                PageContentEssence pageContentEssence = new PageContentEssence {
-                    HtmlContent = pageContentModel.HtmlContent,
-                    Content = pageContentModel.Content,
-                    Url = pageContentModel.Url,
-                    Header = pageContentModel.Header
-                };
 
-                Database.PageContentEntities.Create(pageContentEssence);
-                Database.Save();
-            }*/
+            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+                Id = pageSeoModel.Id,
+                Title = pageSeoModel.Title,
+                KeyWords = pageSeoModel.KeyWords,
+                Descriptions = pageSeoModel.Descriptions
+            };
+
+            PageContentEssence pageContentEssence = new PageContentEssence {
+                Id = pageContentModel.Id,
+                HtmlContent = pageContentModel.HtmlContent,
+                Content = pageContentModel.Content,
+                Url = pageContentModel.Url,
+                Header = pageContentModel.Header,
+                SeoID = pageContentModel.SeoID,
+                PageSeo = pageSeoEssence
+            };
+
+            Database.PageSeoEntities.Update(pageSeoEssence);
+            Database.PageContentEntities.Update(pageContentEssence);
+            
+            Database.Save();
         }
 
         public void DeletePage(int? id)
@@ -133,7 +135,7 @@ namespace ibby_cms.Common.Managers.PageContentManager.Services
                 var seo = Database.PageSeoEntities.Get(Convert.ToInt32(pageContent.SeoID));
                
                 Database.PageContentEntities.Delete(pageContent.Id);
-                //Database.PageSeoEntities.Delete(seo.Id);
+                Database.PageSeoEntities.Delete(seo.Id);
             }
             else {
                 Database.PageContentEntities.Delete(pageContent.Id);

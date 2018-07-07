@@ -1,15 +1,16 @@
 ﻿@model ibby_cms.Models.PageContentViewModel
 
 @{
-    ViewBag.Title = "CreatePage";
+    ViewBag.Title = "EditPage";
 }
 
-<h2>Создание страницы</h2>
+<h2>Редактирование страницы</h2>
 
 <br />
 @using (Html.BeginForm()) {
     <div class="container">
         <div class="row">
+            <input type="hidden" name="SeoId" value="@Model.SeoID" />
             <div class="col-xs-12">
 
                 <ul class="nav nav-tabs nav-justified">
@@ -83,7 +84,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Make Page" class="btn btn-default" />
+                            <input type="submit" value="Edit Page" class="btn btn-default" />
                         </div>
                     </div>
 
@@ -91,7 +92,5 @@
             </div>
         </div>
     </div>
-
-
 }
 

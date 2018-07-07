@@ -13,5 +13,9 @@ namespace ibby_cms.Models
         public string Content { get; set; }
         public string Url { get; set; }
         public string Header { get; set; }
+
+        public string Title { get; set; }
+        public string KeyWords { get; set; }
+        public string Descriptions { get; set; }
     }
 }
