@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\EntitiesContext.cs" />
+    <Compile Include="DAL\EntitiesContextInitializer.cs" />
     <Compile Include="Entitites\PageContentEssence.cs" />
     <Compile Include="Entitites\PageSeoEssence.cs" />
     <Compile Include="Migrations\201806211322502_InitialCreate.cs" />

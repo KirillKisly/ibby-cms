@@ -124,26 +124,30 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Managers\PageContentManager\Interfaces\IPageContentService.cs" />
-    <Compile Include="Managers\PageContentManager\Models\PageContentModel.cs" />
-    <Compile Include="Managers\PageContentManager\Services\PageContentService.cs" />
-    <Compile Include="Managers\PageSeoManager\Interfaces\IPageSeoService.cs" />
-    <Compile Include="Managers\PageSeoManager\Models\PageSeoModel.cs" />
-    <Compile Include="Manager\Interfaces\IPageContentService.cs" />
-    <Compile Include="Manager\Models\PageContentModel.cs" />
-    <Compile Include="Manager\Models\PageSeoModel.cs" />
-    <Compile Include="Manager\Services\PageContentService.cs" />
+    <Compile Include="Abstract\BaseManager.cs" />
+    <Compile Include="Abstract\Interfaces\IPageContentEssenceManager.cs" />
+    <Compile Include="Abstract\Interfaces\IPageSeoEssenceManager.cs" />
+    <Compile Include="Unused\IRepository.cs" />
+    <Compile Include="Unused\IUnitOfWork.cs" />
+    <Compile Include="Unused\Managers\PageContentManager\Interfaces\IPageContentService.cs" />
+    <Compile Include="Unused\Managers\PageContentManager\Models\PageContentModel.cs" />
+    <Compile Include="Unused\Managers\PageContentManager\Services\PageContentService.cs" />
+    <Compile Include="Unused\Managers\PageSeoManager\Interfaces\IPageSeoService.cs" />
+    <Compile Include="Unused\Managers\PageSeoManager\Models\PageSeoModel.cs" />
+    <Compile Include="Unused\Interfaces\IPageContentService.cs" />
+    <Compile Include="Models\PageContentModel.cs" />
+    <Compile Include="Models\PageSeoModel.cs" />
+    <Compile Include="Unused\Services\PageContentService.cs" />
+    <Compile Include="PageContentEssenceManager.cs" />
+    <Compile Include="PageSeoEssenceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\EFUnitOfWork.cs" />
-    <Compile Include="Repositories\PageContentRepository.cs" />
-    <Compile Include="Repositories\PageSeoRepository.cs" />
-    <Compile Include="ServiceModule.cs" />
+    <Compile Include="Unused\Repositories\EFUnitOfWork.cs" />
+    <Compile Include="Unused\Repositories\PageContentRepository.cs" />
+    <Compile Include="Unused\Repositories\PageSeoRepository.cs" />
     <Compile Include="ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Managers\PageSeoManager\Services\" />
+    <Folder Include="Unused\Managers\PageSeoManager\Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ibby-cms.Entities\ibby-cms.Entities.csproj">

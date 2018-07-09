@@ -5,10 +5,7 @@ namespace ibby_cms.App_Start
 {
     using System;
     using System.Web;
-    using ibby_cms.Common.Interfaces;
-    using ibby_cms.Common.Managers.PageContentManager.Interfaces;
-    using ibby_cms.Common.Managers.PageContentManager.Services;
-    using ibby_cms.Common.Repositories;
+    using ibby_cms.Common;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
@@ -62,10 +59,9 @@ namespace ibby_cms.App_Start
         /// Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
-        {
-            kernel.Bind<IUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument("EntitiesContext");
-            kernel.Bind<IPageContentService>().To<PageContentService>();
+        private static void RegisterServices(IKernel kernel){
+            kernel.Bind<Common.Abstract.Interfaces.IPageSeoEssenceManager>().To<PageSeoEssenceManager>();
+            kernel.Bind<Common.Abstract.Interfaces.IPageContentEssenceManager>().To<PageContentEssenceManager>();
         }
     }
 }  

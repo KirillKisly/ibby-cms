@@ -1,37 +1,23 @@
-﻿ using ibby_cms.Models;
-using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using ibby_cms.Models;
 using System.Web.Mvc;
-using AutoMapper;
-//using ibby_cms.Common.Manager.Interfaces;
-//using ibby_cms.Common.Manager.Models;
-using ibby_cms.Common;
-using ibby_cms.Common.Managers.PageContentManager.Interfaces;
-using ibby_cms.Common.Managers.PageSeoManager.Models;
-using ibby_cms.Common.Managers.PageContentManager.Models;
-using PagedList;
+using ibby_cms.Common.Abstract.Interfaces;
 
-namespace ibby_cms.Controllers
-{
-    public class AdminController : Controller
-    {
-        ApplicationDbContext context = new ApplicationDbContext();
-        IPageContentService pageContentService;
-
-        public AdminController(IPageContentService serv)
-        {
-            pageContentService = serv;
+namespace ibby_cms.Controllers{
+    [Authorize(Roles = "Admin")] // только адинимтратор может использовать этот контроллер
+    public class AdminController : Controller{
+        private readonly IPageContentEssenceManager _pageContentEssenceManager;
+        private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
+        // в контроллер инжектятся 2 менеджера, которые нужны, для выполнения бизнес-логики
+        public AdminController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager){
+            _pageContentEssenceManager = pageContentEssenseManager;
+            _pageSeoEssenceManager = pageSeoEssenceManager;
         }
 
         // GET: Role
-        
-        public ActionResult Index()
-        {
+        // какая цель преследуется этим кодом?
+        public ActionResult Index(){
             if (User.Identity.IsAuthenticated) {
-                if (!isAdminUser()) {
+                if (!IsAdminUser()) {
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -42,188 +28,210 @@ namespace ibby_cms.Controllers
             return View();
         }
 
-        public ActionResult ManagementPage(int? page)
-        {
-            IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
-            var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
+        public ActionResult ManagementPage(int? page){
+            // todo: реализовать и вызвать метод из менеджера
 
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            //IEnumerable<PageContentModel> pageContentModels = pageContentService.GetPages();
+            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
+            //var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
 
-            return View(pages.ToPagedList(pageNumber, pageSize));
+            //int pageSize = 10;
+            //int pageNumber = (page ?? 1);
+
+            //return View(pages.ToPagedList(pageNumber, pageSize));
+            return null;
         }
 
-        public ActionResult DetailsPage(int? id)
-        {
-            PageContentModel page = pageContentService.GetPage(id);
-            PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
-            var pageContent = new PageContentViewModel {
-                Id = page.Id,
-                HtmlContent = page.HtmlContent,
-                Header = page.Header,
-                Content = page.Content,
-                Url = page.Url,
-                SeoID = page.SeoID,
-                Title = seo.Title,
-                Descriptions = seo.Descriptions,
-                KeyWords =  seo.KeyWords
-            };
+        public ActionResult DetailsPage(int? id){
+            // todo: реализовать и вызвать метод из менеджера
 
-            return View(pageContent);
+            //PageContentModel page = pageContentService.GetPage(id);
+            //PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
+            //var pageContent = new PageContentViewModel {
+            //    Id = page.Id,
+            //    HtmlContent = page.HtmlContent,
+            //    Header = page.Header,
+            //    Content = page.Content,
+            //    Url = page.Url,
+            //    SeoID = page.SeoID,
+            //    Title = seo.Title,
+            //    Descriptions = seo.Descriptions,
+            //    KeyWords =  seo.KeyWords
+            //};
+
+            //return View(pageContent);
+            return null;
         }
 
-        public ActionResult CreatePage()
-        {
+        public ActionResult CreatePage(){
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreatePage(PageContentViewModel pageContent)
-        {
-            try {
-                if (ModelState.IsValid) {
-                    var pageContentModel = new PageContentModel {
-                        HtmlContent = pageContent.HtmlContent,
-                        Content = pageContent.Content,
-                        Url = pageContent.Url,
-                        Header = pageContent.Header,
-                        SeoID = pageContent.SeoID
-                    };
+        public ActionResult CreatePage(PageContentViewModel pageContent){
+            // todo: реализовать и вызвать метод из менеджера
 
-                    var pageSeoModel = new PageSeoModel {
-                        Title = pageContent.Title,
-                        KeyWords = pageContent.KeyWords,
-                        Descriptions = pageContent.Descriptions
-                    };
+            //try {
+            //    if (ModelState.IsValid) {
+            //        var pageContentModel = new PageContentModel {
+            //            HtmlContent = pageContent.HtmlContent,
+            //            Content = pageContent.Content,
+            //            Url = pageContent.Url,
+            //            Header = pageContent.Header,
+            //            SeoID = pageContent.SeoID
+            //        };
 
-                    pageContentService.CreatePageContent(pageContentModel, pageSeoModel);
+            //        var pageSeoModel = new PageSeoModel {
+            //            Title = pageContent.Title,
+            //            KeyWords = pageContent.KeyWords,
+            //            Descriptions = pageContent.Descriptions
+            //        };
 
-                    return RedirectToAction("ManagementPage");
-                }
-            }
-            catch (ValidationException ex) {
-                ModelState.AddModelError(ex.Property, ex.Message);
-            }
+            //        pageContentService.CreatePageContent(pageContentModel, pageSeoModel);
 
-            return View(pageContent);
+            //        return RedirectToAction("ManagementPage");
+            //    }
+            //}
+            //catch (ValidationException ex) {
+            //    ModelState.AddModelError(ex.Property, ex.Message);
+            //}
+
+            //return View(pageContent);
+            return null;
         }
 
-        public ActionResult EditPage(int? id)
-        {
-            PageContentModel page = pageContentService.GetPage(id);
-            PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
-            var pageContent = new PageContentViewModel {
-                Id = page.Id,
-                HtmlContent = page.HtmlContent,
-                Header = page.Header,
-                Content = page.Content,
-                Url = page.Url,
-                SeoID = page.SeoID,
-                Title = seo.Title,
-                Descriptions = seo.Descriptions,
-                KeyWords = seo.KeyWords
-            };
+        public ActionResult EditPage(int? id){
+            // todo: реализовать и вызвать метод из менеджера
 
-            return View(pageContent);
-        }
+            //PageContentModel page = pageContentService.GetPage(id);
+            //PageSeoModel seo = pageContentService.GetSeo(page.SeoID);
+            //var pageContent = new PageContentViewModel {
+            //    Id = page.Id,
+            //    HtmlContent = page.HtmlContent,
+            //    Header = page.Header,
+            //    Content = page.Content,
+            //    Url = page.Url,
+            //    SeoID = page.SeoID,
+            //    Title = seo.Title,
+            //    Descriptions = seo.Descriptions,
+            //    KeyWords = seo.KeyWords
+            //};
 
-        [HttpPost]
-        public ActionResult EditPage(PageContentViewModel pageContent)
-        {
-            try {
-                var pageContentModel = new PageContentModel {
-                    Id = pageContent.Id,
-                    HtmlContent = pageContent.HtmlContent,
-                    Content = pageContent.Content,
-                    Url = pageContent.Url,
-                    Header = pageContent.Header,
-                    SeoID = pageContent.SeoID
-                };
-
-                var pageSeoModel = new PageSeoModel {
-                    Id = pageContent.SeoID.Value,
-                    Title = pageContent.Title,
-                    KeyWords = pageContent.KeyWords,
-                    Descriptions = pageContent.Descriptions
-                };
-
-                pageContentService.EditPage(pageContentModel, pageSeoModel);
-
-                return RedirectToAction("ManagementPage");
-            }
-            catch (ValidationException ex) {
-                ModelState.AddModelError(ex.Property, ex.Message);
-            }
-
-            return View(pageContent);
-        }
-
-        public ActionResult DeletePage(int? id)
-        {
-            pageContentService.DeletePage(id);
-            return View();
-        }
-
-        public ActionResult MakePageContent(int? id)
-        {
-            try {
-                PageContentModel page = pageContentService.GetPage(id);
-                var pageContent = new PageContentViewModel { Id = page.Id };
-                
-
-                return View(pageContent);
-            }
-            catch(ValidationException ex) {
-                return Content("ОШИБКА!!!!" + ex.Message);
-            }
+            //return View(pageContent);
+            return null;
         }
 
         [HttpPost]
-        public ActionResult MakePageContent(PageContentViewModel pageContent, PageSeoViewModel pageSeo)
-        {
-            try {
-                var pageContentModel = new PageContentModel {
-                    HtmlContent = pageContent.HtmlContent,
-                    Content = pageContent.Content,
-                    Url = pageContent.Url,
-                    Header = pageContent.Header,
-                    SeoID = pageContent.SeoID
-                };
-                //pageContentService.MakePageContent(pageContentModel);
+        public ActionResult EditPage(PageContentViewModel pageContent){
+            // todo: реализовать и вызвать метод из менеджера
 
-                return Content("<h2>Страница успешно создана</h2>");
-            }
-            catch(ValidationException ex) {
-                ModelState.AddModelError(ex.Property, ex.Message);
-            }
+            //try {
+            //    var pageContentModel = new PageContentModel {
+            //        Id = pageContent.Id,
+            //        HtmlContent = pageContent.HtmlContent,
+            //        Content = pageContent.Content,
+            //        Url = pageContent.Url,
+            //        Header = pageContent.Header,
+            //        SeoID = pageContent.SeoID
+            //    };
 
-            return View(pageContent);
+            //    var pageSeoModel = new PageSeoModel {
+            //        Id = pageContent.SeoID.Value,
+            //        Title = pageContent.Title,
+            //        KeyWords = pageContent.KeyWords,
+            //        Descriptions = pageContent.Descriptions
+            //    };
+
+            //    pageContentService.EditPage(pageContentModel, pageSeoModel);
+
+            //    return RedirectToAction("ManagementPage");
+            //}
+            //catch (ValidationException ex) {
+            //    ModelState.AddModelError(ex.Property, ex.Message);
+            //}
+
+            //return View(pageContent);
+            return null;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            pageContentService.Dispose();
-            base.Dispose(disposing);
+        public ActionResult DeletePage(int? id){
+            // todo: реализовать и вызвать метод из менеджера
+
+            //pageContentService.DeletePage(id);
+            //return View();
+            return null;
         }
 
-        public Boolean isAdminUser()
-        {
-            if (User.Identity.IsAuthenticated) {
-                var user = User.Identity;
-                ApplicationDbContext context = new ApplicationDbContext();
+        public ActionResult MakePageContent(int? id){
+            // todo: реализовать и вызвать метод из менеджера
 
-                var UserManager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
-                var s = UserManager.GetRoles(user.GetUserId<int>());
+            //try {
+            //    PageContentModel page = pageContentService.GetPage(id);
+            //    var pageContent = new PageContentViewModel { Id = page.Id };
 
-                if (s[0].ToString() == "Admin") {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+
+            //    return View(pageContent);
+            //}
+            //catch(ValidationException ex) {
+            //    return Content("ОШИБКА!!!!" + ex.Message);
+            //}
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult MakePageContent(PageContentViewModel pageContent, PageSeoViewModel pageSeo){
+            // todo: реализовать и вызвать метод из менеджера
+
+            //try {
+            //    var pageContentModel = new PageContentModel {
+            //        HtmlContent = pageContent.HtmlContent,
+            //        Content = pageContent.Content,
+            //        Url = pageContent.Url,
+            //        Header = pageContent.Header,
+            //        SeoID = pageContent.SeoID
+            //    };
+            //    //pageContentService.MakePageContent(pageContentModel);
+
+            //    return Content("<h2>Страница успешно создана</h2>");
+            //}
+            //catch(ValidationException ex) {
+            //    ModelState.AddModelError(ex.Property, ex.Message);
+            //}
+
+            //return View(pageContent);
+            return null;
+        }
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    pageContentService.Dispose();
+        //    base.Dispose(disposing);
+        //}
+
+        //public Boolean isAdminUser(){
+        //    if (User.Identity.IsAuthenticated) {
+        //        var user = User.Identity;
+        //        ApplicationDbContext context = new ApplicationDbContext();
+
+        //        var UserManager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+        //        var s = UserManager.GetRoles(user.GetUserId<int>());
+
+        //        if (s[0].ToString() == "Admin") {
+        //            return true;
+        //        }
+        //        else {
+        //            return false;
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        // это то, что должно быть вместо кода выше, если он вообще нужен
+        public bool IsAdminUser() {
+            if (!User.Identity.IsAuthenticated) {
+                return false;
             }
-            return false;
+            return User.IsInRole("Admin");
         }
     }
 }

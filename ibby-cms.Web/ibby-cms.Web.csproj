@@ -341,10 +341,6 @@
       <Project>{d0f4c843-0108-4774-802b-eb9ca62abb16}</Project>
       <Name>ibby-cms.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ibby-cms.Data\ibby-cms.Data.csproj">
-      <Project>{6fc43b58-8cd6-4d19-b1cb-292752b09a93}</Project>
-      <Name>ibby-cms.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ibby-cms.Entities\ibby-cms.Entities.csproj">
       <Project>{362a3c7c-4d1a-4d3d-98aa-879088e8d120}</Project>
       <Name>ibby-cms.Entities</Name>
