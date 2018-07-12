@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using ibby_cms.Common.Abstract;
 using ibby_cms.Common.Abstract.Interfaces;
@@ -18,16 +19,8 @@ namespace ibby_cms.Common {
             context = entitiesContext;
             seoManager = new PageSeoEssenceManager(context);
         }
-
+         
         public void Create(PageContentEssence pageContentEssence) {
-            //PageContentEssence pageContentEssence = new PageContentEssence {
-            //    HtmlContent = pageContentModel.HtmlContent,
-            //    Content = pageContentModel.Content,
-            //    Header = pageContentModel.Header,
-            //    Url = pageContentModel.Url,
-            //    SeoID = pageContentModel.SeoID
-            //};
-
             context.PageContentEssences.Add(pageContentEssence);
         }
 
@@ -59,15 +52,6 @@ namespace ibby_cms.Common {
         }
 
         public void Update(PageContentEssence pageContentEssence) {
-            //PageContentEssence pageContentEssence = new PageContentEssence {
-            //    Id = pageContentModel.Id,
-            //    HtmlContent = pageContentModel.HtmlContent,
-            //    Content = pageContentModel.Content,
-            //    Url = pageContentModel.Url,
-            //    Header = pageContentModel.Header,
-            //    SeoID = pageContentModel.SeoID
-            //};
-
             context.Entry(pageContentEssence).State = EntityState.Modified;
         }
 
@@ -81,10 +65,18 @@ namespace ibby_cms.Common {
             seoManager.Create(pageSeoEssence);
             context.SaveChanges();
 
+            string url = "";
+            if (!string.IsNullOrEmpty(pageContentModel.Url)) {
+                url = GenerateUrl(pageContentModel.Url);
+            }
+            else {
+                url = GenerateUrl(pageContentModel.Header);
+            }
+
             PageContentEssence pageContentEssence = new PageContentEssence {
                 HtmlContent = pageContentModel.HtmlContent,
                 Content = pageContentModel.Content,
-                Url = pageContentModel.Url,
+                Url = url,
                 Header = pageContentModel.Header,
                 SeoID = pageSeoEssence.Id
             };
@@ -165,6 +157,43 @@ namespace ibby_cms.Common {
             }
             
             context.SaveChanges();
+        }
+
+        public string GenerateUrl(string url) {
+            // make the url lowercase
+            string encodedUrl = (url ?? "").ToLower();
+
+            // replace & with and
+            encodedUrl = Regex.Replace(encodedUrl, @"\&+", "and");
+
+            // remove characters
+            encodedUrl = encodedUrl.Replace("'", "");
+
+            // remove invalid characters
+            encodedUrl = Regex.Replace(encodedUrl, @"[^a-z0-9]", "-");
+
+            // remove duplicates
+            encodedUrl = Regex.Replace(encodedUrl, @"-+", "-");
+
+            // trim leading & trailing characters
+            encodedUrl = encodedUrl.Trim('-');
+
+            return encodedUrl;
+        }
+
+        public PageContentModel FindUrl(string url) {
+            PageContentEssence item = context.PageContentEssences.First(o => o.Url == url);
+
+            PageContentModel pageContentModel = new PageContentModel {
+                Id = item.Id,
+                HtmlContent = item.HtmlContent,
+                Content = item.Content,
+                Header = item.Header,
+                Url = item.Url,
+                SeoID = item.SeoID
+            };
+
+            return pageContentModel;
         }
     }
 }

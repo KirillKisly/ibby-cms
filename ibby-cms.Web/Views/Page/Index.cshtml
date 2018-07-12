@@ -1,0 +1,42 @@
+﻿@model ibby_cms.Models.PageContentViewModel
+
+@{
+    ViewBag.Title = "DetailsPage";
+}
+
+<h2>Просмотр страницы</h2>
+
+@using (Html.BeginForm()) {
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active">
+                        <a href="#mainTab" data-toggle="tab">Основное</a>
+                    </li>
+                    <li>
+                        <a href="#seoTab" data-toggle="tab">SEO</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="mainTab" class="tab-pane fade in active">
+
+                        <div class="form-horizontal">
+                            <h3>@Html.DisplayFor(model => model.Header)</h3>
+                            <p>@Html.DisplayFor(model => model.Url)</p>
+                            <p>@Html.DisplayFor(model => model.Content)</p>
+                        </div>
+                    </div>
+                    <div id="seoTab" class="tab-pane fade">
+                        <h3>@Html.DisplayFor(model => model.Title)</h3>
+                        <p>@Html.DisplayFor(model => model.Descriptions)</p>
+                        <p>@Html.DisplayFor(model => model.KeyWords)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.ActionLink("Вернуться назад", "ManagementPage")

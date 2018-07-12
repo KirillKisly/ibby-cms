@@ -6,12 +6,9 @@ using ibby_cms.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace ibby_cms.App_Start
-{
-    public static class InitializationRoles
-    {
-        public static void CreateRolesanUsers()
-        {
+namespace ibby_cms.App_Start {
+    public static class InitializationRoles {
+        public static void CreateRolesanUsers() {
             ApplicationDbContext context = new ApplicationDbContext();
 
             var roleManager = new RoleManager<CustomRole, int>(new CustomRoleStore(context));

@@ -33,6 +33,10 @@
                         <div>
                             @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
                         </div>
+
+                        <div>
+                            @Html.ActionLink("получить url", "Index", "Page", new { permalink = item.Url }, null)
+                        </div>
                     </div>
                 </td>
             </tr>

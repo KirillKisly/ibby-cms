@@ -16,12 +16,6 @@ namespace ibby_cms.Common {
         }
 
         public void Create(PageSeoEssence pageSeoEssence) {
-            //PageSeoEssence pageSeoEssence = new PageSeoEssence {
-            //    Title = pageSeoModel.Title,
-            //    Descriptions = pageSeoModel.Descriptions,
-            //    KeyWords = pageSeoModel.KeyWords
-            //};
-
             context.PageSeoEssences.Add(pageSeoEssence);
         }
 
@@ -51,13 +45,6 @@ namespace ibby_cms.Common {
         }
 
         public void Update(PageSeoEssence pageSeoEssence) {
-            //PageSeoEssence pageSeoEssence = new PageSeoEssence {
-            //    Id = pageSeoModel.Id,
-            //    Title = pageSeoModel.Title,
-            //    Descriptions = pageSeoModel.Descriptions,
-            //    KeyWords = pageSeoModel.KeyWords
-            //};
-
             context.Entry(pageSeoEssence).State = EntityState.Modified;
         }
     }
