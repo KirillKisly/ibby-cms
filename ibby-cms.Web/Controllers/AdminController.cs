@@ -17,7 +17,7 @@ namespace ibby_cms.Controllers {
             _pageContentEssenceManager = pageContentEssenseManager;
             _pageSeoEssenceManager = pageSeoEssenceManager;
         }
-
+         
         public ActionResult Index() {
             return View();
         }
@@ -29,6 +29,7 @@ namespace ibby_cms.Controllers {
 
             return View(pages);
         }
+
 
         public ActionResult DetailsPage(int? id) {
             PageContentModel page = _pageContentEssenceManager.Get(id.Value);
@@ -53,10 +54,12 @@ namespace ibby_cms.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult CreatePage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    var pageContentModel = new PageContentModel {
+                    var pageContentModel = new PageContentModel {  
                         HtmlContent = pageContent.HtmlContent,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
@@ -103,29 +106,34 @@ namespace ibby_cms.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult EditPage(PageContentViewModel pageContent) {
             // todo: реализовать и вызвать метод из менеджера
 
             try {
-                var pageContentModel = new PageContentModel {
-                    Id = pageContent.Id,
-                    HtmlContent = pageContent.HtmlContent,
-                    Content = pageContent.Content,
-                    Url = pageContent.Url,
-                    Header = pageContent.Header,
-                    SeoID = pageContent.SeoID
-                };
+                if (ModelState.IsValid) {
+                    var pageContentModel = new PageContentModel {
+                        Id = pageContent.Id,
+                        HtmlContent = pageContent.HtmlContent,
+                        Content = pageContent.Content,
+                        Url = pageContent.Url,
+                        Header = pageContent.Header,
+                        SeoID = pageContent.SeoID
+                    };
 
-                var pageSeoModel = new PageSeoModel {
-                    Id = pageContent.SeoID.Value,
-                    Title = pageContent.Title,
-                    KeyWords = pageContent.KeyWords,
-                    Descriptions = pageContent.Descriptions
-                };
+                    var pageSeoModel = new PageSeoModel {
+                        Id = pageContent.SeoID.Value,
+                        Title = pageContent.Title,
+                        KeyWords = pageContent.KeyWords,
+                        Descriptions = pageContent.Descriptions
+                    };
 
-                _pageContentEssenceManager.EditPage(pageContentModel, pageSeoModel);
 
-                return RedirectToAction("ManagementPage");
+                    _pageContentEssenceManager.EditPage(pageContentModel, pageSeoModel);
+
+                    return RedirectToAction("ManagementPage");
+                }
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);

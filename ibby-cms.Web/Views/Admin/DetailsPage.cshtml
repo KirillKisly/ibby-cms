@@ -25,7 +25,9 @@
                         <div class="form-horizontal">
                             <h3>@Html.DisplayFor(model => model.Header)</h3>
                             <p>@Html.DisplayFor(model => model.Url)</p>
-                            <p>@Html.DisplayFor(model => model.Content)</p>
+                            <div class="form-horizontal">
+                                <p>@Html.Raw(Model.Content)</p>
+                            </div>
                         </div>
                     </div>
                     <div id="seoTab" class="tab-pane fade">
@@ -39,5 +41,5 @@
     </div>
 }
 
-@Html.ActionLink("Вернуться назад", "ManagementPage")
+@Html.ActionLink("Вернуться назад", "ManagementPage", "Admin")
 

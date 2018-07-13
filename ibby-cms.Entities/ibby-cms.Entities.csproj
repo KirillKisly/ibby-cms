@@ -102,6 +102,14 @@
     <Compile Include="Migrations\201806270822561_add field.Designer.cs">
       <DependentUpon>201806270822561_add field.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807130744449_Required filed.cs" />
+    <Compile Include="Migrations\201807130744449_Required filed.Designer.cs">
+      <DependentUpon>201807130744449_Required filed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807130747419_Delete Required field.cs" />
+    <Compile Include="Migrations\201807130747419_Delete Required field.Designer.cs">
+      <DependentUpon>201807130747419_Delete Required field.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -111,6 +119,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806270822561_add field.resx">
       <DependentUpon>201806270822561_add field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807130744449_Required filed.resx">
+      <DependentUpon>201807130744449_Required filed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807130747419_Delete Required field.resx">
+      <DependentUpon>201807130747419_Delete Required field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

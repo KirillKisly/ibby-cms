@@ -122,11 +122,19 @@ namespace ibby_cms.Common {
                 Descriptions = pageSeoModel.Descriptions
             };
 
+            string url = "";
+            if (!string.IsNullOrEmpty(pageContentModel.Url)) {
+                url = GenerateUrl(pageContentModel.Url);
+            }
+            else {
+                url = GenerateUrl(pageContentModel.Header);
+            }
+
             PageContentEssence pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
                 HtmlContent = pageContentModel.HtmlContent,
                 Content = pageContentModel.Content,
-                Url = pageContentModel.Url,
+                Url = url,
                 Header = pageContentModel.Header,
                 SeoID = pageContentModel.SeoID,
                 PageSeo = pageSeoEssence
