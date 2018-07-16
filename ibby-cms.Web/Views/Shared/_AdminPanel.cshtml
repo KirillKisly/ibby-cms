@@ -1,14 +1,24 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Page.Title</title>
+    @RenderSection("head", required: false)
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
     <title>@ViewBag.Title - ibby-cms</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Content/simple-sidebar.css" rel="stylesheet">
 </head>
+
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -30,7 +40,28 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div id="wrapper" class="toggled">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        @Html.ActionLink("Администрирование", "Index", "Admin")
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                        @Html.ActionLink("Управление страницами", "ManagementPage", "Admin")
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
@@ -40,5 +71,11 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+
+
+
+    
+
 </body>
 </html>
