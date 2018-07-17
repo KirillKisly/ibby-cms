@@ -17,7 +17,7 @@ namespace ibby_cms.Controllers {
             _pageContentEssenceManager = pageContentEssenseManager;
             _pageSeoEssenceManager = pageSeoEssenceManager;
         }
-         
+
         public ActionResult Index() {
             return View();
         }
@@ -40,6 +40,7 @@ namespace ibby_cms.Controllers {
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,
+                IsPublished = page.IsPublished,
                 SeoID = page.SeoID,
                 Title = seo.Title,
                 Descriptions = seo.Descriptions,
@@ -47,6 +48,16 @@ namespace ibby_cms.Controllers {
             };
 
             return View(pageContent);
+        }
+
+        // todo: СДЕЛАТЬ передачу данных из одной вью в другую!!!!
+        public ActionResult DetailsPage(string header, string content) {
+            var pageContentModel = new PageContentModel {
+                Content = content,
+                Header = header
+            };
+
+            return View(pageContentModel);
         }
 
         public ActionResult CreatePage() {
@@ -59,11 +70,12 @@ namespace ibby_cms.Controllers {
         public ActionResult CreatePage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    var pageContentModel = new PageContentModel {  
+                    var pageContentModel = new PageContentModel {
                         HtmlContent = pageContent.HtmlContent,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
                         Header = pageContent.Header,
+                        IsPublished = pageContent.IsPublished,
                         SeoID = pageContent.SeoID
                     };
 
@@ -96,6 +108,7 @@ namespace ibby_cms.Controllers {
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,
+                IsPublished = page.IsPublished,
                 SeoID = page.SeoID,
                 Title = seo.Title,
                 Descriptions = seo.Descriptions,
@@ -119,6 +132,7 @@ namespace ibby_cms.Controllers {
                         Content = pageContent.Content,
                         Url = pageContent.Url,
                         Header = pageContent.Header,
+                        IsPublished = pageContent.IsPublished,
                         SeoID = pageContent.SeoID
                     };
 

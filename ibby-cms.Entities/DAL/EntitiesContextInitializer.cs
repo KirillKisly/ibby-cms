@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 
 namespace ibby_cms.Entities.DAL {
-    public class EntitiesContextInitializer: DropCreateDatabaseIfModelChanges<EntitiesContext> {
+    public class EntitiesContextInitializer : DropCreateDatabaseIfModelChanges<EntitiesContext> {
         protected override void Seed(EntitiesContext context) {
             var pageSeoEssence = new List<PageSeoEssence> {
                     new PageSeoEssence{Title="Title1", KeyWords= "1, 2, 3, 4, 5", Descriptions="Description" },
@@ -21,14 +21,14 @@ namespace ibby_cms.Entities.DAL {
             context.SaveChanges();
 
             var pageContentEssece = new List<PageContentEssence> {
-                    new PageContentEssence { HtmlContent = "HtmlContent1", Content = "Content1", Header = "Header1", Url = "Url1", SeoID=1 },
-                    new PageContentEssence { HtmlContent = "HtmlContent2", Content = "Content2", Header = "Header2", Url = "Url2", SeoID=2 },
-                    new PageContentEssence { HtmlContent = "HtmlContent3", Content = "Content3", Header = "Header3", Url = "Url3", SeoID=3 },
-                    new PageContentEssence { HtmlContent = "HtmlContent4", Content = "Content4", Header = "Header4", Url = "Url4", SeoID=4 },
-                    new PageContentEssence { HtmlContent = "HtmlContent5", Content = "Content5", Header = "Header5", Url = "Url5", SeoID=5 },
-                    new PageContentEssence { HtmlContent = "HtmlContent6", Content = "Content6", Header = "Header6", Url = "Url6", SeoID=6 },
-                    new PageContentEssence { HtmlContent = "HtmlContent7", Content = "Content7", Header = "Header7", Url = "Url7", SeoID=7 },
-                    new PageContentEssence { HtmlContent = "HtmlContent8", Content = "Content8", Header = "Header8", Url = "Url8", SeoID=8 }
+                    new PageContentEssence { HtmlContent = "HtmlContent1", Content = "Content1", Header = "Header1", Url = "Url1", IsPublished=false, SeoID=1 },
+                    new PageContentEssence { HtmlContent = "HtmlContent2", Content = "Content2", Header = "Header2", Url = "Url2", IsPublished=false, SeoID=2 },
+                    new PageContentEssence { HtmlContent = "HtmlContent3", Content = "Content3", Header = "Header3", Url = "Url3", IsPublished=false, SeoID=3 },
+                    new PageContentEssence { HtmlContent = "HtmlContent4", Content = "Content4", Header = "Header4", Url = "Url4", IsPublished=false, SeoID=4 },
+                    new PageContentEssence { HtmlContent = "HtmlContent5", Content = "Content5", Header = "Header5", Url = "Url5", IsPublished=false, SeoID=5 },
+                    new PageContentEssence { HtmlContent = "HtmlContent6", Content = "Content6", Header = "Header6", Url = "Url6", IsPublished=false, SeoID=6 },
+                    new PageContentEssence { HtmlContent = "HtmlContent7", Content = "Content7", Header = "Header7", Url = "Url7", IsPublished=false, SeoID=7 },
+                    new PageContentEssence { HtmlContent = "HtmlContent8", Content = "Content8", Header = "Header8", Url = "Url8", IsPublished=false, SeoID=8 }
                 };
 
             pageContentEssece.ForEach(c => context.PageContentEssences.Add(c));

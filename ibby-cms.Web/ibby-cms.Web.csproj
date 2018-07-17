@@ -252,23 +252,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\simple-sidebar.css" />
-    <Content Include="Content\index.html" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap-grid.min.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap-reboot.min.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap.css" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.js" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.js" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\vendor\jquery\jquery.js" />
-    <Content Include="Content\vendor\jquery\jquery.min.js" />
-    <Content Include="Content\vendor\jquery\jquery.slim.js" />
-    <Content Include="Content\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Content\CustomStyleMenu.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -278,14 +263,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\vendor\bootstrap\css\bootstrap.css.map" />
-    <Content Include="Content\vendor\bootstrap\css\bootstrap.min.css.map" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.js.map" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.js.map" />
-    <Content Include="Content\vendor\bootstrap\js\bootstrap.min.js.map" />
-    <Content Include="Content\vendor\jquery\jquery.min.map" />
-    <Content Include="Content\vendor\jquery\jquery.slim.min.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -670,11 +647,9 @@
     <Content Include="Themes\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Themes\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Views\Shared\_AdminPanel.cshtml" />
-    <Content Include="Views\Shared\_AdminPanelPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

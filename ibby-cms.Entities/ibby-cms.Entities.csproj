@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201807130747419_Delete Required field.Designer.cs">
       <DependentUpon>201807130747419_Delete Required field.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807170803512_Add IsPublished field.cs" />
+    <Compile Include="Migrations\201807170803512_Add IsPublished field.Designer.cs">
+      <DependentUpon>201807170803512_Add IsPublished field.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -125,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807130747419_Delete Required field.resx">
       <DependentUpon>201807130747419_Delete Required field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807170803512_Add IsPublished field.resx">
+      <DependentUpon>201807170803512_Add IsPublished field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

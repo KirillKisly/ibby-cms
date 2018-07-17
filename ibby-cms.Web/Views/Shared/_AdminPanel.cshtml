@@ -14,7 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="~/Content/simple-sidebar.css" rel="stylesheet">
+    <link href="~/Content/CustomStyleMenu.css" rel="stylesheet">
 </head>
 
 <body>
@@ -43,15 +43,9 @@
         <div id="wrapper" class="toggled">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        @Html.ActionLink("Администрирование", "Index", "Admin")
-                    </li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                        @Html.ActionLink("Управление страницами", "ManagementPage", "Admin")
-                    </li>
+                    <li class="sidebar-brand">@Html.ActionLink("Администрирование", "Index", "Admin")</li>
+                    <li></li>
+                    <li>@Html.ActionLink("Управление страницами", "ManagementPage", "Admin")</li>
                 </ul>
             </div>
 
@@ -60,22 +54,17 @@
                 <div class="container-fluid">
                     @RenderBody()
                 </div>
+                <hr />
+
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
+                </footer>
             </div>
         </div>
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-
-
-
-    
-
 </body>
 </html>

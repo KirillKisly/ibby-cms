@@ -40,6 +40,7 @@ namespace ibby_cms.Common {
                 Content = item.Content,
                 Header = item.Header,
                 Url = item.Url,
+                IsPublished = item.IsPublished,
                 SeoID = item.SeoID
             };
 
@@ -78,6 +79,7 @@ namespace ibby_cms.Common {
                 Content = pageContentModel.Content,
                 Url = url,
                 Header = pageContentModel.Header,
+                IsPublished = pageContentModel.IsPublished,
                 SeoID = pageSeoEssence.Id
             };
 
@@ -136,6 +138,7 @@ namespace ibby_cms.Common {
                 Content = pageContentModel.Content,
                 Url = url,
                 Header = pageContentModel.Header,
+                IsPublished = pageContentModel.IsPublished,
                 SeoID = pageContentModel.SeoID,
                 PageSeo = pageSeoEssence
             };
@@ -198,6 +201,7 @@ namespace ibby_cms.Common {
                 Content = item.Content,
                 Header = item.Header,
                 Url = item.Url,
+                IsPublished = item.IsPublished,
                 SeoID = item.SeoID
             };
 

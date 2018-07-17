@@ -62,7 +62,6 @@
                                     <script>CKEDITOR.replace("FullDescription");</script>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div id="seoTab" class="tab-pane fade">
@@ -89,15 +88,19 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Make Page" class="btn btn-default" />
-                        </div>
-                    </div>
-
                 </div>
             </div>
+            <br />
+            <br />
+            <br />
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Создать страницу" class="btn btn-default" />
+                        @Html.ActionLink("Просмотреть", "DetailsPage")
+                    </div>
+                </div>
+            
         </div>
     </div>
 }
