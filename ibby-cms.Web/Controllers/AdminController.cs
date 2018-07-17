@@ -51,13 +51,10 @@ namespace ibby_cms.Controllers {
         }
 
         // todo: СДЕЛАТЬ передачу данных из одной вью в другую!!!!
-        public ActionResult DetailsPage(string header, string content) {
-            var pageContentModel = new PageContentModel {
-                Content = content,
-                Header = header
-            };
-
-            return View(pageContentModel);
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult DetailsPage(PageContentViewModel pageContent) {
+            return View(pageContent);
         }
 
         public ActionResult CreatePage() {
