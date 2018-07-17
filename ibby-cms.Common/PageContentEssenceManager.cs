@@ -178,7 +178,7 @@ namespace ibby_cms.Common {
                 item.IsPublished = false;
             }
 
-            context.SaveChanges()
+            context.SaveChanges();
         }
 
         public string GenerateUrl(string url) {

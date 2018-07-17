@@ -7,10 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ibby_cms.Controllers
-{
-    public class PageController : Controller
-    {
+namespace ibby_cms.Controllers {
+    public class PageController : Controller {
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
 
@@ -19,9 +17,13 @@ namespace ibby_cms.Controllers
             _pageSeoEssenceManager = pageSeoEssenceManager;
         }
 
-        public ActionResult Index(string permalink = "url123")
-        {
+        public ActionResult Index(string permalink) {
             PageContentModel page = _pageContentEssenceManager.FindUrl(permalink);
+
+            if (!page.IsPublished) {
+                return new HttpStatusCodeResult(404);
+            }
+
             PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
