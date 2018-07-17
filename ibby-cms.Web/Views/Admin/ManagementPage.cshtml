@@ -14,34 +14,49 @@
 </li>
 <br />
 
-    <table class="table">
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Header)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Url)
-                </td>
-                <td>
-                    <div class="row">
-                        <div>
-                            @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
-                        </div>
-                        <div>
-                            @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
-                        </div>
-                        <div>
-                            @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
-                        </div>
-                        <div>
-                            @Html.ActionLink("Перейти на страницу по url", "Index", "Page", new { permalink = item.Url }, null)
-                        </div>
+<table class="table">
+    <tr>
+        <th>Заголовок</th>
+        <th>Url</th>
+        <th>Опубликована</th>
+        <th>Действия</th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Header)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @if (!item.IsPublished) {
+                    @Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })
+                }
+                else {
+                    @Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })
+                }
+
+            </td>
+            <td>
+                <div class="row">
+                    <div>
+                        @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
                     </div>
-                </td>
-            </tr>
-        }
-    </table>
+                    <div>
+                        @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
+                    </div>
+                    <div>
+                        @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
+                    </div>
+                    <div>
+                        @Html.ActionLink("Перейти на страницу по url", "Index", "Page", new { permalink = item.Url }, null)
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
 
 
 

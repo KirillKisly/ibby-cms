@@ -50,7 +50,6 @@ namespace ibby_cms.Controllers {
             return View(pageContent);
         }
 
-        // todo: СДЕЛАТЬ передачу данных из одной вью в другую!!!!
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult DetailsPage(PageContentViewModel pageContent) {
@@ -157,6 +156,13 @@ namespace ibby_cms.Controllers {
             // todo: реализовать и вызвать метод из менеджера
 
             _pageContentEssenceManager.DeletePage(id.Value);
+            return View();
+        }
+
+
+        public ActionResult PublishPage(int? id) {
+            _pageContentEssenceManager.PublishPage(id.Value);
+
             return View();
         }
 

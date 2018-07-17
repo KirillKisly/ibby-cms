@@ -13,6 +13,7 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void CreatePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel);
         void EditPage(PageContentModel pageContentModel, PageSeoModel pageSeoModel);
         void DeletePage(int? id);
+        void PublishPage(int? id);
         string GenerateUrl(string url);
         PageContentModel FindUrl(string url);
     }

@@ -19,7 +19,7 @@ namespace ibby_cms.Common {
             context = entitiesContext;
             seoManager = new PageSeoEssenceManager(context);
         }
-         
+
         public void Create(PageContentEssence pageContentEssence) {
             context.PageContentEssences.Add(pageContentEssence);
         }
@@ -150,9 +150,7 @@ namespace ibby_cms.Common {
         }
 
         public void DeletePage(int? id) {
-            if (id == null) {
-                throw new ValidationException("Не установлено id страницы", "");
-            }
+
 
             var pageContent = Get(id.Value);
             if (pageContent.SeoID != null) {
@@ -166,8 +164,21 @@ namespace ibby_cms.Common {
             else {
                 Delete(pageContent.Id);
             }
-            
+
             context.SaveChanges();
+        }
+
+        public void PublishPage(int? id) {
+            PageContentEssence item = context.PageContentEssences.Find(id);
+
+            if (!item.IsPublished) {
+                item.IsPublished = true;
+            }
+            else {
+                item.IsPublished = false;
+            }
+
+            context.SaveChanges()
         }
 
         public string GenerateUrl(string url) {
