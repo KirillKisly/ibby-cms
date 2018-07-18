@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201807170803512_Add IsPublished field.Designer.cs">
       <DependentUpon>201807170803512_Add IsPublished field.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807180949437_Delete field HtmlContent.cs" />
+    <Compile Include="Migrations\201807180949437_Delete field HtmlContent.Designer.cs">
+      <DependentUpon>201807180949437_Delete field HtmlContent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -132,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807170803512_Add IsPublished field.resx">
       <DependentUpon>201807170803512_Add IsPublished field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807180949437_Delete field HtmlContent.resx">
+      <DependentUpon>201807180949437_Delete field HtmlContent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

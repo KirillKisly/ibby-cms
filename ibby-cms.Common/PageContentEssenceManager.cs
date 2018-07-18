@@ -36,7 +36,6 @@ namespace ibby_cms.Common {
 
             PageContentModel pageContentModel = new PageContentModel {
                 Id = item.Id,
-                HtmlContent = item.HtmlContent,
                 Content = item.Content,
                 Header = item.Header,
                 Url = item.Url,
@@ -64,7 +63,7 @@ namespace ibby_cms.Common {
             };
 
             seoManager.Create(pageSeoEssence);
-            context.SaveChanges();
+            //context.SaveChanges();
 
             string url = "";
             if (!string.IsNullOrEmpty(pageContentModel.Url)) {
@@ -75,12 +74,12 @@ namespace ibby_cms.Common {
             }
 
             PageContentEssence pageContentEssence = new PageContentEssence {
-                HtmlContent = pageContentModel.HtmlContent,
                 Content = pageContentModel.Content,
                 Url = url,
                 Header = pageContentModel.Header,
                 IsPublished = pageContentModel.IsPublished,
-                SeoID = pageSeoEssence.Id
+                SeoID = pageSeoEssence.Id,
+                // заполнить данные !!!!!! PageSeo = new 
             };
 
             Create(pageContentEssence);
@@ -134,7 +133,6 @@ namespace ibby_cms.Common {
 
             PageContentEssence pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
-                HtmlContent = pageContentModel.HtmlContent,
                 Content = pageContentModel.Content,
                 Url = url,
                 Header = pageContentModel.Header,
@@ -203,12 +201,11 @@ namespace ibby_cms.Common {
             return encodedUrl;
         }
 
-        public PageContentModel FindUrl(string url) {
+        public PageContentModel FindUrl(string url = "404") {
             PageContentEssence item = context.PageContentEssences.First(o => o.Url == url);
 
             PageContentModel pageContentModel = new PageContentModel {
                 Id = item.Id,
-                HtmlContent = item.HtmlContent,
                 Content = item.Content,
                 Header = item.Header,
                 Url = item.Url,

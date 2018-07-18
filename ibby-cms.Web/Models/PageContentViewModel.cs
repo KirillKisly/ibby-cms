@@ -9,7 +9,7 @@ namespace ibby_cms.Models
     {
         public int Id { get; set; }
         public int? SeoID { get; set; }
-        public string HtmlContent { get; set; }
+        //public string HtmlContent { get; set; }
         public string Content { get; set; }
         public string Url { get; set; }
         public string Header { get; set; }

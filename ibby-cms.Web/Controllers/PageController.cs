@@ -27,7 +27,6 @@ namespace ibby_cms.Controllers {
             PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
-                HtmlContent = page.HtmlContent,
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,

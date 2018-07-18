@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ibby_cms.Models.PageContentViewModel>
+﻿@model PagedList.IPagedList<ibby_cms.Models.PageContentViewModel>
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -57,6 +57,12 @@
         </tr>
     }
 </table>
+
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
+
 
 
 

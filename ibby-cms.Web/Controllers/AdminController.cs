@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using ibby_cms.Common.Models;
 using ibby_cms.Common;
+using PagedList;
 
 namespace ibby_cms.Controllers {
     [Authorize(Roles = "Admin")] // только адинимтратор может использовать этот контроллер
@@ -22,12 +23,16 @@ namespace ibby_cms.Controllers {
             return View();
         }
 
-        public ActionResult ManagementPage() {
+        public ActionResult ManagementPage(int? page) {
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
             IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
             var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
+            pages.Reverse();
 
-            return View(pages);
+            return View(pages.ToPagedList(pageNumber, pageSize));
         }
 
 
@@ -36,7 +41,6 @@ namespace ibby_cms.Controllers {
             PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
-                HtmlContent = page.HtmlContent,
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,
@@ -67,11 +71,10 @@ namespace ibby_cms.Controllers {
             try {
                 if (ModelState.IsValid) {
                     var pageContentModel = new PageContentModel {
-                        HtmlContent = pageContent.HtmlContent,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
                         Header = pageContent.Header,
-                        IsPublished = pageContent.IsPublished,
+                        IsPublished = false,
                         SeoID = pageContent.SeoID
                     };
 
@@ -100,7 +103,6 @@ namespace ibby_cms.Controllers {
             PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
-                HtmlContent = page.HtmlContent,
                 Header = page.Header,
                 Content = page.Content,
                 Url = page.Url,
@@ -124,7 +126,6 @@ namespace ibby_cms.Controllers {
                 if (ModelState.IsValid) {
                     var pageContentModel = new PageContentModel {
                         Id = pageContent.Id,
-                        HtmlContent = pageContent.HtmlContent,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
                         Header = pageContent.Header,
