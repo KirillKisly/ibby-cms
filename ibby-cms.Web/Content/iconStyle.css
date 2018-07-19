@@ -1,0 +1,13 @@
+﻿.iconstyle-ok {
+    color: green;
+    font-size: 20px;
+    display: block;
+    margin: 5px;
+}
+
+.iconstyle-remove {
+    color: red;
+    font-size: 20px;
+    display: block;
+    margin: 5px;
+}

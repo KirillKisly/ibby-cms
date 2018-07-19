@@ -1,40 +1,20 @@
 ﻿@model ibby_cms.Models.PageContentViewModel
 
 @{
-    ViewBag.Title = Model.Header;
+    ViewBag.Title = Html.DisplayFor(model => model.Title);
+    ViewBag.Description = @Html.DisplayFor(model => model.Descriptions);
+    ViewBag.Keywords = @Html.DisplayFor(model => model.KeyWords);
+
 }
 
-<h2>@Model.Header</h2>
+<h1>@Html.DisplayFor(model => model.Header)</h1>
 
-@using (Html.BeginForm()) {
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-
-                <ul class="nav nav-tabs nav-justified">
-                    <li class="active">
-                        <a href="#mainTab" data-toggle="tab">Основное</a>
-                    </li>
-                    <li>
-                        <a href="#seoTab" data-toggle="tab">SEO</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div id="mainTab" class="tab-pane fade in active">
-
-                        <div class="form-horizontal">
-                            <h3>@Html.DisplayFor(model => model.Header)</h3>
-                            <p>@Html.DisplayFor(model => model.Url)</p>
-                            <p>@Html.Raw(Model.Content)</p>
-                        </div>
-                    </div>
-                    <div id="seoTab" class="tab-pane fade">
-                        <h3>@Html.DisplayFor(model => model.Title)</h3>
-                        <p>@Html.DisplayFor(model => model.Descriptions)</p>
-                        <p>@Html.DisplayFor(model => model.KeyWords)</p>
-                    </div>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <p>@Html.Raw(Model.Content)</p>
             </div>
         </div>
     </div>
-}
+</div>

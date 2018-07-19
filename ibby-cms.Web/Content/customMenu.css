@@ -1,7 +1,4 @@
-﻿body {
-}
-
-.sidenav {
+﻿.sidenav {
     height: 100%;
     width: 250px;
     position: fixed;
@@ -77,12 +74,6 @@
                 color: #fff;
                 background: none;
             }
-
-
-
-
-
-
 
 @media screen and (max-height: 450px) {
     .sidenav {

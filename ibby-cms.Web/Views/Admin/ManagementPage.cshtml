@@ -1,6 +1,7 @@
 ﻿@model PagedList.IPagedList<ibby_cms.Models.PageContentViewModel>
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/iconStyle.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Management pages";
@@ -8,18 +9,23 @@
 }
 
 <h2>Управление страницами</h2>
+
 <br />
-<li>
-    @Html.ActionLink("Создать страницу", "CreatePage")
-</li>
-<br />
+
+<div class="form-group">
+    <div class="col-md-offset-0 col-md-10">
+        <button onclick="location.href ='@Url.Action("CreatePage", "Admin")'" class="btn btn-primary">Создать страницу</button>
+    </div>
+</div>
+
+<br /><br /><br />
 
 <table class="table">
     <tr>
         <th>Заголовок</th>
         <th>Url</th>
-        <th>Опубликована</th>
-        <th>Действия</th>
+        <th>Состояние</th>
+        <th></th>
     </tr>
     @foreach (var item in Model) {
         <tr>
@@ -31,15 +37,25 @@
             </td>
             <td>
                 @if (!item.IsPublished) {
-                    @Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })
+                    <span class="glyphicon glyphicon-remove iconstyle-remove"></span>
+                    <p>Не опубликована</p>
                 }
                 else {
-                    @Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })
+                    <span class="glyphicon glyphicon-ok iconstyle-ok"></span>
+                    <p>Опубликована</p>
                 }
 
             </td>
             <td>
                 <div class="row">
+                    <div>
+                        @if (!item.IsPublished) {
+                            @Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })
+                        }
+                        else {
+                            @Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })
+                        }
+                    </div>
                     <div>
                         @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
                     </div>
@@ -47,10 +63,10 @@
                         @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
                     </div>
                     <div>
-                        @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
+                        @Html.ActionLink("Перейти на страницу", "Index", "Page", new { permalink = item.Url }, null)
                     </div>
                     <div>
-                        @Html.ActionLink("Перейти на страницу по url", "Index", "Page", new { permalink = item.Url }, null)
+                        @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
                     </div>
                 </div>
             </td>

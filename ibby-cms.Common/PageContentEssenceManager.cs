@@ -67,10 +67,10 @@ namespace ibby_cms.Common {
 
             string url = "";
             if (!string.IsNullOrEmpty(pageContentModel.Url)) {
-                url = GenerateUrl(pageContentModel.Url);
+                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Url);
             }
             else {
-                url = GenerateUrl(pageContentModel.Header);
+                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Header);
             }
 
             PageContentEssence pageContentEssence = new PageContentEssence {
@@ -84,31 +84,6 @@ namespace ibby_cms.Common {
 
             Create(pageContentEssence);
             context.SaveChanges();
-
-
-            //PageSeoEssenceManager seoManager = new PageSeoEssenceManager(context);
-
-            //PageSeoEssence pageSeoEssence = new PageSeoEssence {
-            //    Title = pageSeoModel.Title,
-            //    Descriptions = pageSeoModel.Descriptions,
-            //    KeyWords = pageSeoModel.KeyWords
-            //};
-
-            //seoManager.Create(pageSeoModel);
-            //context.SaveChanges();
-
-            //PageContentModel pageContent = new PageContentModel {
-            //    HtmlContent = pageContentModel.HtmlContent,
-            //    Content = pageContentModel.Content,
-            //    Url = pageContentModel.Url,
-            //    Header = pageContentModel.Header,
-            //    SeoID = pageSeoEssence.Id
-            //};
-
-
-            // // РЕАЛИЗОВАТЬ ВОТ ЭТО. НА ЧЁМ ОСТАНОВИЛСЯ!!!!!!!
-            //Create(pageContent);
-            //context.SaveChanges();
         }
 
         public void EditPage(PageContentModel pageContentModel, PageSeoModel pageSeoModel) {
@@ -125,10 +100,10 @@ namespace ibby_cms.Common {
 
             string url = "";
             if (!string.IsNullOrEmpty(pageContentModel.Url)) {
-                url = GenerateUrl(pageContentModel.Url);
+                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Url);
             }
             else {
-                url = GenerateUrl(pageContentModel.Header);
+                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Header);
             }
 
             PageContentEssence pageContentEssence = new PageContentEssence {

@@ -2,22 +2,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/customMenu.css" rel="stylesheet">
 </head>
 @using Microsoft.AspNet.Identity
+<body>
+    @if (Request.IsAuthenticated) {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
 
-@if (Request.IsAuthenticated) {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-        @Html.AntiForgeryToken()
-        <body>
             <div class="navbar navbar-inverse navbar-fixed-top">
 
                 @Html.ActionLink("ibby-cms", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                
-                        @Html.ActionLink("Вы зашли как " + User.Identity.GetUserName() + " !", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class="navbar-right navbar-brand" })
-                
+
+                @Html.ActionLink("Вы зашли как " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "navbar-right navbar-brand" })
+
 
 
             </div>
@@ -35,22 +36,25 @@
 
             </div>
 
-            <div class="main">
-                @RenderBody()
-                <hr />
-
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
-                </footer>
-            </div>
-
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")
-            @RenderSection("scripts", required: false)
-
-        </body>
+        }
     }
-}
+
+    <div class="main">
+        @RenderBody()
+        <hr />
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+
+
 </html>
 
 
