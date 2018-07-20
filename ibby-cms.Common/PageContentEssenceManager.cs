@@ -15,25 +15,31 @@ namespace ibby_cms.Common {
         private EntitiesContext context;
         private PageSeoEssenceManager seoManager;
 
+        // EntitiesContext - это Disposable
+        // для того, чтобы пользоваться им вот так, нужно делать Dispose
+        // я бы вообще не стал его инжектить в конструктор, а просто бы 
+        // пользовался конструкцией using
         public PageContentEssenceManager(EntitiesContext entitiesContext) {
             context = entitiesContext;
             seoManager = new PageSeoEssenceManager(context);
         }
-
+        // не вижу смысла в этом методе
         public void Create(PageContentEssence pageContentEssence) {
             context.PageContentEssences.Add(pageContentEssence);
         }
 
         public void Delete(int id) {
             PageContentEssence item = context.PageContentEssences.Find(id);
+            // тут уже проверка есть на null. Почему в других местах ее нет?
             if (item != null) {
                 context.PageContentEssences.Remove(item);
             }
         }
 
         public PageContentModel Get(int id) {
+            // а что, если item == null?!!!!
             PageContentEssence item = context.PageContentEssences.Find(id);
-
+            
             PageContentModel pageContentModel = new PageContentModel {
                 Id = item.Id,
                 Content = item.Content,
@@ -50,11 +56,11 @@ namespace ibby_cms.Common {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentEssence, PageContentModel>()).CreateMapper();
             return mapper.Map<IEnumerable<PageContentEssence>, List<PageContentModel>>(context.PageContentEssences.Include(o => o.PageSeo));
         }
-
+        // какой смысл создавать этот метод в одну строку?
         public void Update(PageContentEssence pageContentEssence) {
             context.Entry(pageContentEssence).State = EntityState.Modified;
         }
-
+        // опять 2 модели. Неужели у тебя 2 страницы?
         public void CreatePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel) {
             PageSeoEssence pageSeoEssence = new PageSeoEssence {
                 Title = pageSeoModel.Title,
@@ -86,6 +92,8 @@ namespace ibby_cms.Common {
             context.SaveChanges();
         }
 
+        // зачем обновлять все это отдельно?
+        // зачем 2 модели на вход? сделай одну общую
         public void EditPage(PageContentModel pageContentModel, PageSeoModel pageSeoModel) {
             if (pageContentModel == null) {
                 throw new ValidationException("Страница не найдена", "");
@@ -98,14 +106,17 @@ namespace ibby_cms.Common {
                 Descriptions = pageSeoModel.Descriptions
             };
 
-            string url = "";
-            if (!string.IsNullOrEmpty(pageContentModel.Url)) {
-                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Url);
-            }
-            else {
-                url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Header);
-            }
-
+            // этот код можно переписать в одну строку
+            //string url = "";
+            //if (!string.IsNullOrEmpty(pageContentModel.Url)) {
+            //    url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Url);
+            //}
+            //else {
+            //    url = FriendlyUrls.GetFriendlyUrl(pageContentModel.Header);
+            //}
+            // вот так
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
+            
             PageContentEssence pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
                 Content = pageContentModel.Content,
@@ -122,6 +133,10 @@ namespace ibby_cms.Common {
             context.SaveChanges();
         }
 
+        // я не понимаю назначение данного метода
+        // при удалении в любом из менеджеров ты должен удалить связанные сущности
+        // если таковые имеются
+        // если тебе нужно делать что-то сложное, заведи еще одного менеджера и сделай это там
         public void DeletePage(int? id) {
 
 
@@ -144,16 +159,20 @@ namespace ibby_cms.Common {
         public void PublishPage(int? id) {
             PageContentEssence item = context.PageContentEssences.Find(id);
 
-            if (!item.IsPublished) {
-                item.IsPublished = true;
-            }
-            else {
-                item.IsPublished = false;
-            }
+            //if (!item.IsPublished) {
+            //    item.IsPublished = true;
+            //}
+            //else {
+            //    item.IsPublished = false;
+            //}
+            //
+            // а вот так можно?
+            item.IsPublished = !item.IsPublished;
 
             context.SaveChanges();
         }
 
+        // это все можно упростить
         public string GenerateUrl(string url) {
             // make the url lowercase
             string encodedUrl = (url ?? "").ToLower();
@@ -175,7 +194,7 @@ namespace ibby_cms.Common {
 
             return encodedUrl;
         }
-
+        // метод First() сгенерирует экспшн, если такого url не существует. И что дальше?
         public PageContentModel FindUrl(string url = "404") {
             PageContentEssence item = context.PageContentEssences.First(o => o.Url == url);
 
