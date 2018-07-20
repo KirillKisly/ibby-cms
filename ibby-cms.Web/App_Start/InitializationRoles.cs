@@ -23,7 +23,6 @@ namespace ibby_cms.App_Start {
                 var user = new ApplicationUser();
                 user.UserName = "admin";
                 user.Email = "admin@admin.com";
-
                 string userPWD = "123Asd";
 
                 var chkUser = UserManager.Create(user, userPWD);

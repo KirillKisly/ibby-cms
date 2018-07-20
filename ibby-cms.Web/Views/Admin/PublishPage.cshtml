@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_AdminPanel.cshtml";
 }
 
-<h2>Страница успешно опубликована</h2>
+<h2>@ViewBag.Message</h2>
 
 @Html.ActionLink("Вернуться назад", "ManagementPage", "Admin")
 

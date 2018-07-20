@@ -163,6 +163,7 @@ namespace ibby_cms.Controllers {
 
         public ActionResult PublishPage(int? id) {
             _pageContentEssenceManager.PublishPage(id.Value);
+            ViewBag.Message = "Страница опубликована123";
 
             return View();
         }

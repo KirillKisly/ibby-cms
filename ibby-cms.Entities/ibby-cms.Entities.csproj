@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201807180949437_Delete field HtmlContent.Designer.cs">
       <DependentUpon>201807180949437_Delete field HtmlContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807201157177_restore model.cs" />
+    <Compile Include="Migrations\201807201157177_restore model.Designer.cs">
+      <DependentUpon>201807201157177_restore model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -139,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807180949437_Delete field HtmlContent.resx">
       <DependentUpon>201807180949437_Delete field HtmlContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807201157177_restore model.resx">
+      <DependentUpon>201807201157177_restore model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
