@@ -30,7 +30,7 @@ namespace ibby_cms.Common {
 
         public void Delete(int id) {
             PageContentEssence item = context.PageContentEssences.Find(id);
-            // тут уже проверка есть на null. Почему в других местах ее нет?
+
             if (item != null) {
                 context.PageContentEssences.Remove(item);
             }
@@ -40,6 +40,10 @@ namespace ibby_cms.Common {
             // а что, если item == null?!!!!
             PageContentEssence item = context.PageContentEssences.Find(id);
             
+            if(item == null) {
+                throw new ValidationException("Страница не найдена", "");
+            }
+
             PageContentModel pageContentModel = new PageContentModel {
                 Id = item.Id,
                 Content = item.Content,
@@ -56,10 +60,40 @@ namespace ibby_cms.Common {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentEssence, PageContentModel>()).CreateMapper();
             return mapper.Map<IEnumerable<PageContentEssence>, List<PageContentModel>>(context.PageContentEssences.Include(o => o.PageSeo));
         }
+
         // какой смысл создавать этот метод в одну строку?
         public void Update(PageContentEssence pageContentEssence) {
             context.Entry(pageContentEssence).State = EntityState.Modified;
         }
+
+        public void CreatePage(PageModel pageModel) {
+            if(pageModel == null) {
+                throw new ValidationException("Пустая страница","");
+            }
+
+            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+                Title = pageModel.Title,
+                Descriptions = pageModel.Descriptions,
+                KeyWords = pageModel.KeyWords
+            };
+
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageModel.Url) ? pageModel.Url : pageModel.Header);
+            PageContentEssence pageContentEssence = new PageContentEssence {
+                Header = pageModel.Header,
+                Content = pageModel.Content,
+                Url = url,
+                IsPublished = pageModel.IsPublished,
+                PageSeo = pageSeoEssence
+            };
+
+            using (EntitiesContext context = new EntitiesContext()) {
+                context.PageSeoEssences.Add(pageSeoEssence);
+                context.PageContentEssences.Add(pageContentEssence);
+
+                context.SaveChanges();
+            }
+        }
+
         // опять 2 модели. Неужели у тебя 2 страницы?
         public void CreatePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel) {
             PageSeoEssence pageSeoEssence = new PageSeoEssence {
@@ -90,6 +124,34 @@ namespace ibby_cms.Common {
 
             Create(pageContentEssence);
             context.SaveChanges();
+        }
+
+        public void EditPage(PageModel pageModel) {
+            if (pageModel == null) {
+                throw new ValidationException("Страница не найдена", "");
+            }
+
+            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+                Title = pageModel.Title,
+                Descriptions = pageModel.Descriptions,
+                KeyWords = pageModel.KeyWords
+            };
+
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageModel.Url) ? pageModel.Url : pageModel.Header);
+            PageContentEssence pageContentEssence = new PageContentEssence {
+                Header = pageModel.Header,
+                Content = pageModel.Content,
+                Url = url,
+                IsPublished = pageModel.IsPublished,
+                PageSeo = pageSeoEssence
+            };
+
+            using (EntitiesContext context = new EntitiesContext()) {
+                context.Entry(pageSeoEssence).State = EntityState.Modified;
+                context.Entry(pageContentEssence).State = EntityState.Modified;
+
+                context.SaveChanges();
+            }
         }
 
         // зачем обновлять все это отдельно?

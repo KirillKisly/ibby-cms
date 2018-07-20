@@ -128,6 +128,7 @@
     <Compile Include="Abstract\Interfaces\IPageContentEssenceManager.cs" />
     <Compile Include="Abstract\Interfaces\IPageSeoEssenceManager.cs" />
     <Compile Include="FriendlyUrls.cs" />
+    <Compile Include="Models\PageModel.cs" />
     <Compile Include="Unused\IRepository.cs" />
     <Compile Include="Unused\IUnitOfWork.cs" />
     <Compile Include="Unused\Managers\PageContentManager\Interfaces\IPageContentService.cs" />

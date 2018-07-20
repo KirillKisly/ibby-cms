@@ -9,6 +9,10 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void Create(PageContentEssence pageContentEssence);
         void Update(PageContentEssence pageContentEssence);
         void Delete(int id);
+        
+        // new methods
+        void CreatePage(PageModel pageModel);
+        void EditPage(PageModel pageModel);
 
         void CreatePageContent(PageContentModel pageContentModel, PageSeoModel pageSeoModel);
         void EditPage(PageContentModel pageContentModel, PageSeoModel pageSeoModel);

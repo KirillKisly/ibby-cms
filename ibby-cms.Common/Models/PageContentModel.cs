@@ -1,4 +1,6 @@
-﻿namespace ibby_cms.Common.Models{
+﻿using System.Collections.Generic;
+
+namespace ibby_cms.Common.Models{
     public class PageContentModel{
         public int Id { get; set; }
         public string Header { get; set; }
@@ -7,6 +9,6 @@
         public bool IsPublished { get; set; }
         public int? SeoID { get; set; }
 
-        //public virtual PageSeoModel PageSeo { get; set; }
+        public virtual ICollection<PageModel> PageModel { get; set; }
     }
 }

@@ -70,21 +70,35 @@ namespace ibby_cms.Controllers {
         public ActionResult CreatePage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    var pageContentModel = new PageContentModel {
+                    //var pageContentModel = new PageContentModel {
+                    //    Content = pageContent.Content,
+                    //    Url = pageContent.Url,
+                    //    Header = pageContent.Header,
+                    //    IsPublished = false,
+                    //    SeoID = pageContent.SeoID
+                    //};
+
+                    //var pageSeoModel = new PageSeoModel {
+                    //    Title = pageContent.Title,
+                    //    KeyWords = pageContent.KeyWords,
+                    //    Descriptions = pageContent.Descriptions
+                    //};
+
+
+                    //_pageContentEssenceManager.CreatePageContent(pageContentModel, pageSeoModel);
+
+                    var pageModel = new PageModel {
+                        Header = pageContent.Header,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
-                        Header = pageContent.Header,
-                        IsPublished = false,
-                        SeoID = pageContent.SeoID
-                    };
-
-                    var pageSeoModel = new PageSeoModel {
+                        IsPublished = pageContent.IsPublished,
                         Title = pageContent.Title,
-                        KeyWords = pageContent.KeyWords,
-                        Descriptions = pageContent.Descriptions
+                        Descriptions = pageContent.Descriptions,
+                        KeyWords = pageContent.KeyWords
                     };
 
-                    _pageContentEssenceManager.CreatePageContent(pageContentModel, pageSeoModel);
+                    _pageContentEssenceManager.CreatePage(pageModel);
+
 
                     return RedirectToAction("ManagementPage");
                 }
@@ -124,24 +138,36 @@ namespace ibby_cms.Controllers {
 
             try {
                 if (ModelState.IsValid) {
-                    var pageContentModel = new PageContentModel {
-                        Id = pageContent.Id,
+                    //var pageContentModel = new PageContentModel {
+                    //    Id = pageContent.Id,
+                    //    Content = pageContent.Content,
+                    //    Url = pageContent.Url,
+                    //    Header = pageContent.Header,
+                    //    IsPublished = pageContent.IsPublished,
+                    //    SeoID = pageContent.SeoID
+                    //};
+
+                    //var pageSeoModel = new PageSeoModel {
+                    //    Id = pageContent.SeoID.Value,
+                    //    Title = pageContent.Title,
+                    //    KeyWords = pageContent.KeyWords,
+                    //    Descriptions = pageContent.Descriptions
+                    //};
+
+
+                    //_pageContentEssenceManager.EditPage(pageContentModel, pageSeoModel);
+
+                    var pageModel = new PageModel {
+                        Header = pageContent.Header,
                         Content = pageContent.Content,
                         Url = pageContent.Url,
-                        Header = pageContent.Header,
                         IsPublished = pageContent.IsPublished,
-                        SeoID = pageContent.SeoID
-                    };
-
-                    var pageSeoModel = new PageSeoModel {
-                        Id = pageContent.SeoID.Value,
                         Title = pageContent.Title,
-                        KeyWords = pageContent.KeyWords,
-                        Descriptions = pageContent.Descriptions
+                        Descriptions = pageContent.Descriptions,
+                        KeyWords = pageContent.KeyWords
                     };
 
-
-                    _pageContentEssenceManager.EditPage(pageContentModel, pageSeoModel);
+                    _pageContentEssenceManager.EditPage(pageModel);
 
                     return RedirectToAction("ManagementPage");
                 }
