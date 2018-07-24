@@ -9,7 +9,7 @@ using ibby_cms.Common;
 using PagedList;
 
 namespace ibby_cms.Controllers {
-    [Authorize(Roles = "Admin")] 
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller {
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
@@ -156,10 +156,9 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult PublishPage(int? id) {
-            _pageContentEssenceManager.PublishPage(id.Value);
-            ViewBag.Message = "Страница опубликована123";
+            bool isPublished = _pageContentEssenceManager.IsPublishPage(id.Value);
 
-            return View();
+            return RedirectToAction("ManagementPage");
         }
     }
 }

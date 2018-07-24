@@ -9,7 +9,7 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void Delete(int id);
         void CreatePage(PageModel pageModel);
         void EditPage(PageModel pageModel);
-        void PublishPage(int? id);
+        bool IsPublishPage(int? id);
         PageContentModel FindUrl(string url);
     }
 }

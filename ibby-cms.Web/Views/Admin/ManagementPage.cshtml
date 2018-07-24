@@ -2,6 +2,20 @@
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/iconStyle.css" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    function IsPublished(item) {
+        var isPublished = item;
+
+        if (isPublished) {
+            alert("страница опубликована");
+        }
+        else {
+            alert("страница снята с публикации");
+        }
+    }
+</script>
 
 @{
     ViewBag.Title = "Management pages";
@@ -38,11 +52,11 @@
             <td>
                 @if (!item.IsPublished) {
                     <span class="glyphicon glyphicon-remove iconstyle-remove"></span>
-                    <p>Не опубликована</p>
+                    <span>Не опубликована</span>
                 }
                 else {
                     <span class="glyphicon glyphicon-ok iconstyle-ok"></span>
-                    <p>Опубликована</p>
+                    <span>Опубликована</span>
                 }
 
             </td>
@@ -50,10 +64,10 @@
                 <div class="row">
                     <div>
                         @if (!item.IsPublished) {
-                            @Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })
+                            <a href="#" onclick="IsPublished(item.IsPublished)">@Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })</a>
                         }
                         else {
-                            @Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })
+                            <a href="#" onclick="IsPublished(item.IsPublished)">@Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })</a>
                         }
                     </div>
                     <div>

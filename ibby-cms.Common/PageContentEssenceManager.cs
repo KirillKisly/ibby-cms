@@ -112,12 +112,14 @@ namespace ibby_cms.Common {
             }
         }
 
-        public void PublishPage(int? id) {
+        public bool IsPublishPage(int? id) {
             using (EntitiesContext context = new EntitiesContext()) {
                 PageContentEssence item = context.PageContentEssences.Find(id);
                 item.IsPublished = !item.IsPublished;
 
                 context.SaveChanges();
+
+                return item.IsPublished;
             }
         }
 
