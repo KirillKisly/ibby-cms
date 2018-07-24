@@ -9,11 +9,11 @@ using ibby_cms.Common;
 using PagedList;
 
 namespace ibby_cms.Controllers {
-    [Authorize(Roles = "Admin")] // только адинимтратор может использовать этот контроллер
+    [Authorize(Roles = "Admin")] 
     public class AdminController : Controller {
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
-        // в контроллер инжектятся 2 менеджера, которые нужны, для выполнения бизнес-логики
+
         public AdminController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager) {
             _pageContentEssenceManager = pageContentEssenseManager;
             _pageSeoEssenceManager = pageSeoEssenceManager;
@@ -34,7 +34,6 @@ namespace ibby_cms.Controllers {
 
             return View(pages.ToPagedList(pageNumber, pageSize));
         }
-
 
         public ActionResult DetailsPage(int? id) {
             PageContentModel page = _pageContentEssenceManager.Get(id.Value);
@@ -70,47 +69,15 @@ namespace ibby_cms.Controllers {
         public ActionResult CreatePage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    //var pageContentModel = new PageContentModel {
-                    //    Content = pageContent.Content,
-                    //    Url = pageContent.Url,
-                    //    Header = pageContent.Header,
-                    //    IsPublished = false,
-                    //    SeoID = pageContent.SeoID
-                    //};
-
-                    //var pageSeoModel = new PageSeoModel {
-                    //    Title = pageContent.Title,
-                    //    KeyWords = pageContent.KeyWords,
-                    //    Descriptions = pageContent.Descriptions
-                    //};
-
-
-                    //_pageContentEssenceManager.CreatePageContent(pageContentModel, pageSeoModel);
-
-                    //var pageModel = new PageModel {
-                    //    Header = pageContent.Header,
-                    //    Content = pageContent.Content,
-                    //    Url = pageContent.Url,
-                    //    IsPublished = pageContent.IsPublished,
-                    //    Title = pageContent.Title,
-                    //    Descriptions = pageContent.Descriptions,
-                    //    KeyWords = pageContent.KeyWords
-                    //};
-
-                    //_pageContentEssenceManager.CreatePage(pageModel);
-
                     var pageModel = new PageModel {
                         Id = pageContent.Id,
                         PageContent = new PageContentModel {
-                            //Id = pageContent.Id,
                             Header = pageContent.Header,
                             Content = pageContent.Content,
                             Url = pageContent.Url,
                             IsPublished = pageContent.IsPublished,
-                            //SeoID = pageContent.SeoID
                         },
                         PageSeo = new PageSeoModel {
-                            //Id = pageContent.SeoID.Value,
                             Title = pageContent.Title,
                             Descriptions = pageContent.Descriptions,
                             KeyWords = pageContent.KeyWords
@@ -130,8 +97,6 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult EditPage(int? id) {
-            // todo: реализовать и вызвать метод из менеджера
-
             PageContentModel page = _pageContentEssenceManager.Get(id.Value);
             PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
@@ -153,8 +118,6 @@ namespace ibby_cms.Controllers {
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult EditPage(PageContentViewModel pageContent) {
-            // todo: реализовать и вызвать метод из менеджера
-
             try {
                 if (ModelState.IsValid) {
                     var pageModel = new PageModel {
@@ -188,44 +151,15 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult DeletePage(int? id) {
-            // todo: реализовать и вызвать метод из менеджера
-
             _pageContentEssenceManager.Delete(id.Value);
             return View();
         }
-
 
         public ActionResult PublishPage(int? id) {
             _pageContentEssenceManager.PublishPage(id.Value);
             ViewBag.Message = "Страница опубликована123";
 
             return View();
-        }
-
-        //public Boolean isAdminUser(){
-        //    if (User.Identity.IsAuthenticated) {
-        //        var user = User.Identity;
-        //        ApplicationDbContext context = new ApplicationDbContext();
-
-        //        var UserManager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
-        //        var s = UserManager.GetRoles(user.GetUserId<int>());
-
-        //        if (s[0].ToString() == "Admin") {
-        //            return true;
-        //        }
-        //        else {
-        //            return false;
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        // это то, что должно быть вместо кода выше, если он вообще нужен
-        public bool IsAdminUser() {
-            if (!User.Identity.IsAuthenticated) {
-                return false;
-            }
-            return User.IsInRole("Admin");
         }
     }
 }

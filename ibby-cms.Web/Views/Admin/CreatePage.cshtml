@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_AdminPanel.cshtml";
 }
 
-<script src="~/Themes/ckeditor/ckeditor.js"></script>
+<script src="~/CKEditor/ckeditor/ckeditor.js"></script>
+<script src="~/CKEditor/ckfinder/ckfinder.js"></script>
 
 <h2>Создание страницы</h2>
 
@@ -51,9 +52,9 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.Content, new { @id = "FullDescription", @class = "form-control", @rows = "200" })
+                                    @Html.TextAreaFor(model => model.Content, new { @id = "FullContent", @class = "form-control", @rows = "200" })
                                     @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-                                    <script>CKEDITOR.replace("FullDescription");</script>
+                                    <script>CKEDITOR.replace("FullContent");</script>
                                 </div>
                             </div>
                         </div>
