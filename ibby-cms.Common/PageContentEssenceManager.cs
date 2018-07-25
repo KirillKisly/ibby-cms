@@ -62,6 +62,10 @@ namespace ibby_cms.Common {
             }
 
             var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageModel.PageContent.Url) ? pageModel.PageContent.Url : pageModel.PageContent.Header);
+            if (!HasUrl(url)) {
+                throw new ValidationException("Такой url уже существует. Введите другой", "");
+            }
+
             PageContentEssence pageContentEssence = new PageContentEssence {
                 Header = pageModel.PageContent.Header,
                 Content = pageModel.PageContent.Content,
@@ -139,6 +143,18 @@ namespace ibby_cms.Common {
 
                 return pageContentModel;
             }
+        }
+
+        private bool HasUrl(string url) {
+            IEnumerable<PageContentModel> allPage = GetAll();
+
+            foreach(var item in allPage) {
+                if (item.Url.Contains(url)) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 
