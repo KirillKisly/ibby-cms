@@ -9,43 +9,46 @@ using System.Data.Entity;
 
 namespace ibby_cms.Common {
     public class PageSeoEssenceManager : BaseManager, IPageSeoEssenceManager {
-        private EntitiesContext context;
 
-        public PageSeoEssenceManager(EntitiesContext entitiesContext) {
-            context = entitiesContext;
-        }
-
-        public void Create(PageSeoEssence pageSeoEssence) {
-            context.PageSeoEssences.Add(pageSeoEssence);
+        public PageSeoEssenceManager() {
         }
 
         public void Delete(int id) {
-            PageSeoEssence item = context.PageSeoEssences.Find(id);
-            if (item != null) {
-                context.PageSeoEssences.Remove(item);
+            using (EntitiesContext context = new EntitiesContext()) {
+                PageSeoEssence item = context.PageSeoEssences.Find(id);
+
+                if (item != null) {
+                    context.PageSeoEssences.Remove(item);
+
+                    context.SaveChanges();
+                }
             }
         }
 
         public PageSeoModel Get(int id) {
-            PageSeoEssence item = context.PageSeoEssences.Find(id);
+            using (EntitiesContext context = new EntitiesContext()) {
+                PageSeoEssence item = context.PageSeoEssences.Find(id);
 
-            PageSeoModel pageSeoModel = new PageSeoModel {
-                Id = item.Id,
-                Title = item.Title,
-                Descriptions = item.Descriptions,
-                KeyWords = item.KeyWords
-            };
+                if (item == null) {
+                    throw new ValidationException("SEO-данные не найдены", "");
+                }
 
-            return pageSeoModel;
+                PageSeoModel pageSeoModel = new PageSeoModel {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Descriptions = item.Descriptions,
+                    KeyWords = item.KeyWords
+                };
+
+                return pageSeoModel;
+            }
         }
 
         public IEnumerable<PageSeoModel> GetAll() {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageSeoEssence, PageSeoModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<PageSeoEssence>, List<PageSeoModel>>(context.PageSeoEssences);
-        }
-
-        public void Update(PageSeoEssence pageSeoEssence) {
-            context.Entry(pageSeoEssence).State = EntityState.Modified;
+            using (EntitiesContext context = new EntitiesContext()) {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageSeoEssence, PageSeoModel>()).CreateMapper();
+                return mapper.Map<IEnumerable<PageSeoEssence>, List<PageSeoModel>>(context.PageSeoEssences);
+            }
         }
     }
 }
