@@ -24,7 +24,6 @@ namespace ibby_cms.Common {
 
                     context.SaveChanges();
                 }
-
             }
         }
 
@@ -128,9 +127,13 @@ namespace ibby_cms.Common {
         }
 
         // метод First() сгенерирует экспшн, если такого url не существует. И что дальше?
-        public PageContentModel FindUrl(string url = "404") {
+        public PageContentModel FindUrl(string url) {
             using (EntitiesContext context = new EntitiesContext()) {
                 PageContentEssence item = context.PageContentEssences.First(o => o.Url == url);
+
+                if (item == null) {
+                    throw new ValidationException("", "");
+                }
 
                 PageContentModel pageContentModel = new PageContentModel {
                     Id = item.Id,

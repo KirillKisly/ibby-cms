@@ -1,10 +1,51 @@
-﻿
+﻿@model ibby_cms.Models.PageContentViewModel
+
 @{
     ViewBag.Title = "DeletePage";
     Layout = "~/Views/Shared/_AdminPanel.cshtml";
+
 }
 
-<h2>Страница успешно удалена</h2>
+<h3>Вы уверены что хотите удалить страницу?</h3>
 
+
+
+@using (@Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Вернуться назад", "ManagementPage", "Admin")
+        <input type="submit" value="Удалить страницу" class="btn btn-primary" />
+    </div>
+</div>
+}
+
+
+@*@using (@Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    @Html.ActionLink("DeletePage", "DeletePage1", new { id = Model.Id })
+    <input type="submit" value="Создать страницу" formaction="DeletePage" class="btn btn-primary" />
+        <button onclick="@Url.Action("DeletePage", "Admin", new { id = Model.Id, a = "asd" })" formtarget="_blank" formaction="DetailsPage" class="btn btn-primary">Просмотреть страницу</button>
+
+<button onclick="location.href ='@Html.ActionLink("DeletePage", "Admin", new { id = Model.Id})'" class="btn btn-primary">Удалить страницу</button>
 @Html.ActionLink("Вернуться назад", "ManagementPage", "Admin")
 
+}*@
+
+<br /><br /><hr />
+
+<div>
+    <h1>@Html.DisplayFor(model => model.Header)</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <p>@Html.Raw(Model.Content)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

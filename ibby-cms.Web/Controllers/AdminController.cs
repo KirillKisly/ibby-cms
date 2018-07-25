@@ -151,8 +151,28 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult DeletePage(int? id) {
-            _pageContentEssenceManager.Delete(id.Value);
-            return View();
+            PageContentModel page = _pageContentEssenceManager.Get(id.Value);
+            PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
+            var pageContent = new PageContentViewModel {
+                Id = page.Id,
+                Header = page.Header,
+                Content = page.Content,
+                Url = page.Url,
+                IsPublished = page.IsPublished,
+                SeoID = page.SeoID,
+                Title = seo.Title,
+                Descriptions = seo.Descriptions,
+                KeyWords = seo.KeyWords
+            };
+
+            return View(pageContent);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePage(int id) {
+            _pageContentEssenceManager.Delete(id);
+            return RedirectToAction("ManagementPage");
         }
 
         public ActionResult PublishPage(int? id) {
