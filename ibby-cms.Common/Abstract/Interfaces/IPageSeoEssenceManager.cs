@@ -6,8 +6,11 @@ namespace ibby_cms.Common.Abstract.Interfaces {
     public interface IPageSeoEssenceManager {
         IEnumerable<PageSeoModel> GetAll();
         PageSeoModel Get(int id);
-        void Create(PageSeoEssence pageSeoEssence);
-        void Update(PageSeoEssence pageSeoEssence);
+        //void Create(PageSeoEssence pageSeoEssence);
+        //void Update(PageSeoEssence pageSeoEssence);
         void Delete(int id);
+
+        void SaveSeo(PageSeoModel pageSeoModel);
+        void EditPage(PageSeoModel pageSeoModel);
     }
 }

@@ -50,5 +50,42 @@ namespace ibby_cms.Common {
                 return mapper.Map<IEnumerable<PageSeoEssence>, List<PageSeoModel>>(context.PageSeoEssences);
             }
         }
+
+        public void SaveSeo(PageSeoModel pageSeoModel) {
+            if (pageSeoModel == null) {
+                throw new ValidationException("Пустые данные SEO", "");
+            }
+
+            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+                Title = pageSeoModel.Title,
+                KeyWords = pageSeoModel.KeyWords,
+                Descriptions = pageSeoModel.Descriptions
+            };
+
+            using (EntitiesContext context = new EntitiesContext()) {
+                context.PageSeoEssences.Add(pageSeoEssence);
+
+                context.SaveChanges();
+            }
+        }
+
+        public void EditPage(PageSeoModel pageSeoModel) {
+            if (pageSeoModel == null) {
+                throw new ValidationException("SEO не найдено", "");
+            }
+
+            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+                Id = pageSeoModel.Id,
+                Title = pageSeoModel.Title,
+                Descriptions = pageSeoModel.Descriptions,
+                KeyWords = pageSeoModel.KeyWords
+            };
+
+            using (EntitiesContext context = new EntitiesContext()) {
+                context.Entry(pageSeoEssence).State = EntityState.Modified;
+
+                context.SaveChanges();
+            }
+        }
     }
 }

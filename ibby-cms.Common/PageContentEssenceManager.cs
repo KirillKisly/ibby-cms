@@ -55,25 +55,25 @@ namespace ibby_cms.Common {
             }
         }
 
-        public void CreatePage(PageModel pageModel) {
-            if (pageModel == null) {
+        public void CreatePage(PageContentModel pageContentModel) {
+            if (pageContentModel == null) {
                 throw new ValidationException("Пустая страница", "");
             }
 
-            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageModel.PageContent.Url) ? pageModel.PageContent.Url : pageModel.PageContent.Header);
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
             if (!HasUrl(url)) {
-                throw new ValidationException("Такой url уже существует. Введите другой", "");
+                throw new ValidationException("Такой url уже существует.", "");
             }
 
             PageContentEssence pageContentEssence = new PageContentEssence {
-                Header = pageModel.PageContent.Header,
-                Content = pageModel.PageContent.Content,
+                Header = pageContentModel.Header,
+                Content = pageContentModel.Content,
                 Url = url,
-                IsPublished = pageModel.PageContent.IsPublished,
+                IsPublished = pageContentModel.IsPublished,
                 PageSeo = new PageSeoEssence {
-                    Title = pageModel.PageSeo.Title,
-                    Descriptions = pageModel.PageSeo.Descriptions,
-                    KeyWords = pageModel.PageSeo.KeyWords
+                    Title = pageContentModel.PageSeoModel.Title,
+                    KeyWords = pageContentModel.PageSeoModel.KeyWords,
+                    Descriptions = pageContentModel.PageSeoModel.Descriptions
                 }
             };
 
@@ -84,31 +84,30 @@ namespace ibby_cms.Common {
             }
         }
 
-        public void EditPage(PageModel pageModel) {
-            if (pageModel == null) {
+        public void EditPage(PageContentModel pageContentModel) {
+            if (pageContentModel == null) {
                 throw new ValidationException("Страница не найдена", "");
             }
 
-            PageSeoEssence pageSeoEssence = new PageSeoEssence {
-                Id = pageModel.PageSeo.Id,
-                Title = pageModel.PageSeo.Title,
-                Descriptions = pageModel.PageSeo.Descriptions,
-                KeyWords = pageModel.PageSeo.KeyWords
-            };
+            //PageSeoEssence pageSeoEssence = new PageSeoEssence {
+            //    Id = pageContentModel.PageSeo.Id,
+            //    Title = pageModel.PageSeo.Title,
+            //    Descriptions = pageModel.PageSeo.Descriptions,
+            //    KeyWords = pageModel.PageSeo.KeyWords
+            //};
 
-            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageModel.PageContent.Url) ? pageModel.PageContent.Url : pageModel.PageContent.Header);
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
             PageContentEssence pageContentEssence = new PageContentEssence {
-                Id = pageModel.Id,
-                Header = pageModel.PageContent.Header,
-                Content = pageModel.PageContent.Content,
+                Id = pageContentModel.Id,
+                Header = pageContentModel.Header,
+                Content = pageContentModel.Content,
                 Url = url,
-                IsPublished = pageModel.PageContent.IsPublished,
-                SeoID = pageModel.PageContent.SeoID,
-                PageSeo = pageSeoEssence
+                IsPublished = pageContentModel.IsPublished,
+                SeoID = pageContentModel.SeoID
             };
 
             using (EntitiesContext context = new EntitiesContext()) {
-                context.Entry(pageSeoEssence).State = EntityState.Modified; // спросить почему через lazy loading не изменяет данные
+                //context.Entry(pageSeoEssence).State = EntityState.Modified; // спросить почему через lazy loading не изменяет данные
                 context.Entry(pageContentEssence).State = EntityState.Modified;
 
                 context.SaveChanges();

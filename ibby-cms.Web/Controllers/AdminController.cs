@@ -69,22 +69,37 @@ namespace ibby_cms.Controllers {
         public ActionResult CreatePage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    var pageModel = new PageModel {
-                        Id = pageContent.Id,
-                        PageContent = new PageContentModel {
-                            Header = pageContent.Header,
-                            Content = pageContent.Content,
-                            Url = pageContent.Url,
-                            IsPublished = pageContent.IsPublished,
-                        },
-                        PageSeo = new PageSeoModel {
-                            Title = pageContent.Title,
-                            Descriptions = pageContent.Descriptions,
-                            KeyWords = pageContent.KeyWords
-                        }
+                    var pageSeoModel = new PageSeoModel {
+                        Title = pageContent.Title,
+                        KeyWords = pageContent.KeyWords,
+                        Descriptions = pageContent.Descriptions
                     };
 
-                    _pageContentEssenceManager.CreatePage(pageModel);
+                    var pageContentModel = new PageContentModel {
+                        Header = pageContent.Header,
+                        Content = pageContent.Content,
+                        Url = pageContent.Url,
+                        IsPublished = false,
+                        PageSeoModel = pageSeoModel
+                    };
+                    _pageContentEssenceManager.CreatePage(pageContentModel);
+
+                    //var pageModel = new PageModel {
+                    //    Id = pageContent.Id,
+                    //    PageContent = new PageContentModel {
+                    //        Header = pageContent.Header,
+                    //        Content = pageContent.Content,
+                    //        Url = pageContent.Url,
+                    //        IsPublished = pageContent.IsPublished,
+                    //    },
+                    //    PageSeo = new PageSeoModel {
+                    //        Title = pageContent.Title,
+                    //        Descriptions = pageContent.Descriptions,
+                    //        KeyWords = pageContent.KeyWords
+                    //    }
+                    //};
+
+                    //_pageContentEssenceManager.CreatePage(pageModel);
 
                     return RedirectToAction("ManagementPage");
                 }
@@ -120,25 +135,43 @@ namespace ibby_cms.Controllers {
         public ActionResult EditPage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
-                    var pageModel = new PageModel {
-                        Id = pageContent.Id,
-                        PageContent = new PageContentModel {
-                            Id = pageContent.Id,
-                            Header = pageContent.Header,
-                            Content = pageContent.Content,
-                            Url = pageContent.Url,
-                            IsPublished = pageContent.IsPublished,
-                            SeoID = pageContent.SeoID
-                        },
-                        PageSeo = new PageSeoModel {
-                            Id = pageContent.SeoID.Value,
-                            Title = pageContent.Title,
-                            Descriptions = pageContent.Descriptions,
-                            KeyWords = pageContent.KeyWords
-                        }
+                    var pageSeoModel = new PageSeoModel {
+                        Id = pageContent.SeoID.Value,
+                        Title = pageContent.Title,
+                        KeyWords = pageContent.KeyWords,
+                        Descriptions = pageContent.Descriptions
                     };
+                    _pageSeoEssenceManager.EditPage(pageSeoModel);
 
-                    _pageContentEssenceManager.EditPage(pageModel);
+                    var pageContentModel = new PageContentModel {
+                        Id = pageContent.Id,
+                        Header = pageContent.Header,
+                        Content = pageContent.Content,
+                        Url = pageContent.Url,
+                        IsPublished = false,
+                        SeoID = pageSeoModel.Id
+                    };
+                    _pageContentEssenceManager.EditPage(pageContentModel);
+
+                    //var pageModel = new PageModel {
+                    //    Id = pageContent.Id,
+                    //    PageContent = new PageContentModel {
+                    //        Id = pageContent.Id,
+                    //        Header = pageContent.Header,
+                    //        Content = pageContent.Content,
+                    //        Url = pageContent.Url,
+                    //        IsPublished = pageContent.IsPublished,
+                    //        SeoID = pageContent.SeoID
+                    //    },
+                    //    PageSeo = new PageSeoModel {
+                    //        Id = pageContent.SeoID.Value,
+                    //        Title = pageContent.Title,
+                    //        Descriptions = pageContent.Descriptions,
+                    //        KeyWords = pageContent.KeyWords
+                    //    }
+                    //};
+
+                    //_pageContentEssenceManager.EditPage(pageModel);
 
                     return RedirectToAction("ManagementPage");
                 }
@@ -171,7 +204,10 @@ namespace ibby_cms.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePage(int id) {
+            var deletePage = _pageContentEssenceManager.Get(id);
             _pageContentEssenceManager.Delete(id);
+            _pageSeoEssenceManager.Delete(deletePage.SeoID.Value);
+
             return RedirectToAction("ManagementPage");
         }
 

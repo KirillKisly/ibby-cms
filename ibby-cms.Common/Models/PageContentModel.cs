@@ -9,6 +9,6 @@ namespace ibby_cms.Common.Models{
         public bool IsPublished { get; set; }
         public int? SeoID { get; set; }
 
-        public virtual ICollection<PageModel> PageModel { get; set; }
+        public virtual PageSeoModel PageSeoModel { get; set; }
     }
 }

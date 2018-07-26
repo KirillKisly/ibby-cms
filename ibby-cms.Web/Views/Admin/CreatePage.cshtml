@@ -12,7 +12,6 @@
 
 <br />
 
-
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <div class="container jumbotron">
@@ -60,10 +59,12 @@
                             </div>
                         </div>
                     </div>
+
                     <div id="seoTab" class="tab-pane fade">
                         <br />
 
                         <div class="form-horizontal">
+
                             <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace ibby_cms.Entities.Entitites {
     public class PageContentEssence {
         [Key]

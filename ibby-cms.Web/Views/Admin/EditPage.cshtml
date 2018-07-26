@@ -5,17 +5,18 @@
     Layout = "~/Views/Shared/_AdminPanel.cshtml";
 }
 
-<script src="~/Themes/ckeditor/ckeditor.js"></script>
+<script src="~/CKEditor/ckeditor/ckeditor.js"></script>
+<script src="~/CKEditor/ckfinder/ckfinder.js"></script>
 
 <h2>Редактирование страницы</h2>
 
 <br />
-@using (Html.BeginForm()) {
+@using (@Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    <div class="container">
+    <div class="container jumbotron">
         <div class="row">
             <input type="hidden" name="SeoId" value="@Model.SeoID" />
-            <div class="col-xs-12">
+            <div class="col-md-12">
 
                 <ul class="nav nav-tabs nav-justified">
                     <li class="active">
@@ -32,62 +33,68 @@
 
                         <div class="form-horizontal">
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Header, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Header, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок" } })
+                                    @Html.ValidationMessageFor(model => model.Header, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите URL" } })
+                                    @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.Content, new { @id = "FullDescription", @class = "form-control", @rows = "200" })
+                                    @Html.TextAreaFor(model => model.Content, new { @id = "FullContent", @class = "form-control", @rows = "200" })
                                     @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-                                    <script>CKEDITOR.replace("FullDescription");</script>
+                                    <script>CKEDITOR.replace("FullContent");</script>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div id="seoTab" class="tab-pane fade">
                         <br />
 
                         <div class="form-horizontal">
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Title" } })
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Descriptions, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Descriptions, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <div class="form-group">
+
+                            <div class="form-group col-md-12">
                                 @Html.LabelFor(model => model.KeyWords, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.KeyWords, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.KeyWords, new { htmlAttributes = new { @class = "form-control", placeholder = "Ключевые слова" } })
                                 </div>
                             </div>
+
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.Descriptions, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Descriptions, new { @class = "form-control", @rows = "10", placeholder = "Описание..." })
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
-                        </div>
-                    </div>
-
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
                 </div>
             </div>
         </div>
