@@ -63,8 +63,10 @@
                         @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
                     </div>
                     <div>
-                        @Html.ActionLink("Перейти на страницу", "Index", "Page", new { permalink = item.Url }, null)
-                    </div>
+                        @if (item.IsPublished) {
+                            @Html.ActionLink("Перейти на страницу", "Index", "Page", new { permalink = item.Url }, null)
+                        }
+                        </div>
                     <div>
                         @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
                     </div>
