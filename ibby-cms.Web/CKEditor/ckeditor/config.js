@@ -8,14 +8,11 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
-    config.syntaxhighlight_lang = 'csharp';
-    config.syntaxhighlight_hideControls = true;
-    config.languages = 'vi';
     config.filebrowserBrowseUrl = '/CKEditor/ckfinder/ckfinder.html';
-    config.filebrowserImageBrowseUrl = '/CKEditor/ckfinder/ckfinder.html?Types=Images';
-    config.filebrowserFlashBrowseUrl = '/CKEditor/ckfinder/ckfinder.html?Types=Flash';
-    config.filebrowserUploadUrl = '/CKEditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=File';
-    config.filebrowserImageUploadUrl = '/CKEditor/Data';
+    config.filebrowserImageBrowseUrl = '/CKEditor/ckfinder/ckfinder.html?type=Images';
+    config.filebrowserFlashBrowseUrl = '/CKEditor/ckfinder/ckfinder.html?type=Flash';
+    config.filebrowserUploadUrl = '/CKEditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files';
+    config.filebrowserImageUploadUrl = '/CKEditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images';
     config.filebrowserFlashUploadUrl = '/CKEditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash';
 
     CKFinder.setupCKEditor(null, '/CKEditor/ckfinder/');
