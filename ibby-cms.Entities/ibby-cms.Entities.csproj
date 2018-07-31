@@ -93,6 +93,7 @@
     <Compile Include="DAL\EntitiesContext.cs" />
     <Compile Include="DAL\EntitiesContextInitializer.cs" />
     <Compile Include="Entitites\PageContentEssence.cs" />
+    <Compile Include="Entitites\HtmlContentEssence.cs" />
     <Compile Include="Entitites\PageSeoEssence.cs" />
     <Compile Include="Migrations\201806211322502_InitialCreate.cs" />
     <Compile Include="Migrations\201806211322502_InitialCreate.Designer.cs">
@@ -122,6 +123,18 @@
     <Compile Include="Migrations\201807201157177_restore model.Designer.cs">
       <DependentUpon>201807201157177_restore model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807311114471_add PageHtmlContentEssence.cs" />
+    <Compile Include="Migrations\201807311114471_add PageHtmlContentEssence.Designer.cs">
+      <DependentUpon>201807311114471_add PageHtmlContentEssence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311155359_Rename HtmlContentEssence.cs" />
+    <Compile Include="Migrations\201807311155359_Rename HtmlContentEssence.Designer.cs">
+      <DependentUpon>201807311155359_Rename HtmlContentEssence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311239542_Update fields.cs" />
+    <Compile Include="Migrations\201807311239542_Update fields.Designer.cs">
+      <DependentUpon>201807311239542_Update fields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -146,6 +159,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807201157177_restore model.resx">
       <DependentUpon>201807201157177_restore model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311114471_add PageHtmlContentEssence.resx">
+      <DependentUpon>201807311114471_add PageHtmlContentEssence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311155359_Rename HtmlContentEssence.resx">
+      <DependentUpon>201807311155359_Rename HtmlContentEssence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311239542_Update fields.resx">
+      <DependentUpon>201807311239542_Update fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

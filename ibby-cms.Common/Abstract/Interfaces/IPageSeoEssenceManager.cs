@@ -11,6 +11,6 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void Delete(int id);
 
         void SaveSeo(PageSeoModel pageSeoModel);
-        void EditPage(PageSeoModel pageSeoModel);
+        void EditSeo(PageSeoModel pageSeoModel);
     }
 }

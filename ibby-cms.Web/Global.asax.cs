@@ -22,11 +22,6 @@ namespace ibby_cms
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            /*NinjectModule pageContentModule = new PageContentModule();
-            NinjectModule serviceModule = new ServiceModule("EntitiesContext");
-            var kernel = new StandardKernel(pageContentModule, serviceModule);
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));*/
         }
     }
 }

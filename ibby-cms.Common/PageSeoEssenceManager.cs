@@ -15,7 +15,7 @@ namespace ibby_cms.Common {
 
         public void Delete(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageSeoEssence item = context.PageSeoEssences.Find(id);
+                var item = context.PageSeoEssences.Find(id);
 
                 if (item != null) {
                     context.PageSeoEssences.Remove(item);
@@ -27,13 +27,13 @@ namespace ibby_cms.Common {
 
         public PageSeoModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageSeoEssence item = context.PageSeoEssences.Find(id);
+                var item = context.PageSeoEssences.Find(id);
 
                 if (item == null) {
                     throw new ValidationException("SEO-данные не найдены", "");
                 }
 
-                PageSeoModel pageSeoModel = new PageSeoModel {
+                var pageSeoModel = new PageSeoModel {
                     Id = item.Id,
                     Title = item.Title,
                     Descriptions = item.Descriptions,
@@ -56,7 +56,7 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Пустые данные SEO", "");
             }
 
-            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+            var pageSeoEssence = new PageSeoEssence {
                 Title = pageSeoModel.Title,
                 KeyWords = pageSeoModel.KeyWords,
                 Descriptions = pageSeoModel.Descriptions
@@ -69,12 +69,12 @@ namespace ibby_cms.Common {
             }
         }
 
-        public void EditPage(PageSeoModel pageSeoModel) {
+        public void EditSeo(PageSeoModel pageSeoModel) {
             if (pageSeoModel == null) {
                 throw new ValidationException("SEO не найдено", "");
             }
 
-            PageSeoEssence pageSeoEssence = new PageSeoEssence {
+            var pageSeoEssence = new PageSeoEssence {
                 Id = pageSeoModel.Id,
                 Title = pageSeoModel.Title,
                 Descriptions = pageSeoModel.Descriptions,

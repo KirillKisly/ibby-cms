@@ -28,12 +28,15 @@ namespace ibby_cms.Controllers {
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 Header = page.Header,
-                Content = page.Content,
+                //Content = page.Content,
                 Url = page.Url,
                 SeoID = page.SeoID,
                 Title = seo.Title,
                 Descriptions = seo.Descriptions,
-                KeyWords = seo.KeyWords
+                KeyWords = seo.KeyWords,
+                HtmlContentID = page.HtmlContentID,
+                HtmlContent = page.HtmlContentModel.HtmlContent,
+                UniqueCode = page.HtmlContentModel.UniqueCode
             };
 
             return View(pageContent);

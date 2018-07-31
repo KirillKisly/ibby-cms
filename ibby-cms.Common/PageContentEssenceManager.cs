@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AutoMapper;
 using ibby_cms.Common.Abstract;
 using ibby_cms.Common.Abstract.Interfaces;
@@ -29,19 +28,31 @@ namespace ibby_cms.Common {
 
         public PageContentModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageContentEssence item = context.PageContentEssences.Find(id);
+                var item = context.PageContentEssences.Include(x => x.PageSeo).Include(x => x.HtmlContent).FirstOrDefault(a => a.Id.Equals(id));
 
                 if (item == null) {
                     throw new ValidationException("Страница не найдена", "");
                 }
 
-                PageContentModel pageContentModel = new PageContentModel {
+                var pageContentModel = new PageContentModel {
                     Id = item.Id,
-                    Content = item.Content,
+                    //Content = item.Content,
                     Header = item.Header,
                     Url = item.Url,
                     IsPublished = item.IsPublished,
-                    SeoID = item.SeoID
+                    SeoID = item.SeoID,
+                    HtmlContentID = item.HtmlContentID,
+                    HtmlContentModel = new HtmlContentModel {
+                        Id = item.HtmlContent.Id,
+                        HtmlContent = item.HtmlContent.HtmlContent,
+                        UniqueCode = item.HtmlContent.UniqueCode
+                    },
+                    PageSeoModel = new PageSeoModel {
+                        Id = item.PageSeo.Id,
+                        Title = item.PageSeo.Title,
+                        KeyWords = item.PageSeo.KeyWords,
+                        Descriptions = item.PageSeo.Descriptions
+                    }
                 };
 
                 return pageContentModel;
@@ -51,7 +62,7 @@ namespace ibby_cms.Common {
         public IEnumerable<PageContentModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentEssence, PageContentModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<PageContentEssence>, List<PageContentModel>>(context.PageContentEssences.Include(o => o.PageSeo));
+                return mapper.Map<IEnumerable<PageContentEssence>, List<PageContentModel>>(context.PageContentEssences.Include(o => o.PageSeo).Include(o => o.HtmlContent));
             }
         }
 
@@ -65,11 +76,15 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Такой url уже существует.", "");
             }
 
-            PageContentEssence pageContentEssence = new PageContentEssence {
+            var pageContentEssence = new PageContentEssence {
                 Header = pageContentModel.Header,
-                Content = pageContentModel.Content,
+                //Content = pageContentModel.Content,
                 Url = url,
                 IsPublished = pageContentModel.IsPublished,
+                HtmlContent = new HtmlContentEssence {
+                    HtmlContent = pageContentModel.HtmlContentModel.HtmlContent,
+                    UniqueCode = pageContentModel.HtmlContentModel.UniqueCode
+                },
                 PageSeo = new PageSeoEssence {
                     Title = pageContentModel.PageSeoModel.Title,
                     KeyWords = pageContentModel.PageSeoModel.KeyWords,
@@ -89,25 +104,18 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Страница не найдена", "");
             }
 
-            //PageSeoEssence pageSeoEssence = new PageSeoEssence {
-            //    Id = pageContentModel.PageSeo.Id,
-            //    Title = pageModel.PageSeo.Title,
-            //    Descriptions = pageModel.PageSeo.Descriptions,
-            //    KeyWords = pageModel.PageSeo.KeyWords
-            //};
-
             var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
             PageContentEssence pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
                 Header = pageContentModel.Header,
-                Content = pageContentModel.Content,
+                //Content = pageContentModel.Content,
                 Url = url,
                 IsPublished = pageContentModel.IsPublished,
-                SeoID = pageContentModel.SeoID
+                SeoID = pageContentModel.SeoID,
+                HtmlContentID = pageContentModel.HtmlContentID
             };
 
             using (EntitiesContext context = new EntitiesContext()) {
-                //context.Entry(pageSeoEssence).State = EntityState.Modified; // спросить почему через lazy loading не изменяет данные
                 context.Entry(pageContentEssence).State = EntityState.Modified;
 
                 context.SaveChanges();
@@ -116,7 +124,7 @@ namespace ibby_cms.Common {
 
         public bool IsPublishPage(int? id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageContentEssence item = context.PageContentEssences.Find(id);
+                var item = context.PageContentEssences.Find(id);
                 item.IsPublished = !item.IsPublished;
 
                 context.SaveChanges();
@@ -136,11 +144,12 @@ namespace ibby_cms.Common {
 
                 PageContentModel pageContentModel = new PageContentModel {
                     Id = item.Id,
-                    Content = item.Content,
+                    //Content = item.Content,
                     Header = item.Header,
                     Url = item.Url,
                     IsPublished = item.IsPublished,
-                    SeoID = item.SeoID
+                    SeoID = item.SeoID,
+                    HtmlContentID = item.HtmlContentID
                 };
 
                 return pageContentModel;
@@ -150,7 +159,7 @@ namespace ibby_cms.Common {
         private bool HasUrl(string url) {
             IEnumerable<PageContentModel> allPage = GetAll();
 
-            foreach(var item in allPage) {
+            foreach (var item in allPage) {
                 if (item.Url.Contains(url)) {
                     return false;
                 }

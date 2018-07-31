@@ -55,6 +55,7 @@ namespace ibby_cms.App_Start {
         private static void RegisterServices(IKernel kernel) {
             kernel.Bind<Common.Abstract.Interfaces.IPageSeoEssenceManager>().To<PageSeoEssenceManager>();
             kernel.Bind<Common.Abstract.Interfaces.IPageContentEssenceManager>().To<PageContentEssenceManager>();
+            kernel.Bind<Common.Abstract.Interfaces.IHtmlContentEssenceManager>().To<HtmlContentEssenceManager>();
         }
     }
 }
