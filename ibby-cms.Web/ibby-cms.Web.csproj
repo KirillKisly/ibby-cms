@@ -1067,7 +1067,6 @@
     <Content Include="Content\bootstrap-template\vendor\datatables-plugins\dataTables.bootstrap.css" />
     <Content Include="Content\bootstrap-template\vendor\datatables-plugins\dataTables.bootstrap.js" />
     <Content Include="Content\bootstrap-template\vendor\datatables-plugins\dataTables.bootstrap.min.js" />
-    <Content Include="Content\bootstrap-template\vendor\datatables-plugins\index.html" />
     <Content Include="Content\bootstrap-template\vendor\datatables-responsive\dataTables.responsive.css" />
     <Content Include="Content\bootstrap-template\vendor\datatables-responsive\dataTables.responsive.js" />
     <Content Include="Content\bootstrap-template\vendor\datatables\css\dataTables.bootstrap.css" />
