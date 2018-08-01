@@ -16,7 +16,7 @@ namespace ibby_cms.Common {
 
         public void Delete(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageContentEssence item = context.PageContentEssences.Find(id);
+                var item = context.PageContentEssences.Find(id);
 
                 if (item != null) {
                     context.PageContentEssences.Remove(item);
@@ -36,7 +36,6 @@ namespace ibby_cms.Common {
 
                 var pageContentModel = new PageContentModel {
                     Id = item.Id,
-                    //Content = item.Content,
                     Header = item.Header,
                     Url = item.Url,
                     IsPublished = item.IsPublished,
@@ -78,7 +77,6 @@ namespace ibby_cms.Common {
 
             var pageContentEssence = new PageContentEssence {
                 Header = pageContentModel.Header,
-                //Content = pageContentModel.Content,
                 Url = url,
                 IsPublished = pageContentModel.IsPublished,
                 HtmlContent = new HtmlContentEssence {
@@ -105,10 +103,9 @@ namespace ibby_cms.Common {
             }
 
             var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
-            PageContentEssence pageContentEssence = new PageContentEssence {
+            var pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
                 Header = pageContentModel.Header,
-                //Content = pageContentModel.Content,
                 Url = url,
                 IsPublished = pageContentModel.IsPublished,
                 SeoID = pageContentModel.SeoID,
@@ -141,18 +138,6 @@ namespace ibby_cms.Common {
                 if (item == null) {
                     throw new ValidationException("", "");
                 }
-
-                //var pageContentModel = new PageContentModel {
-                //    Id = item.Id,
-                //    //Content = item.Content,
-                //    Header = item.Header,
-                //    Url = item.Url,
-                //    IsPublished = item.IsPublished,
-                //    SeoID = item.SeoID,
-                //    HtmlContentID = item.HtmlContentID,
-
-                //};
-
                 var pageContentModel = Get(item.Id);
 
                 return pageContentModel;

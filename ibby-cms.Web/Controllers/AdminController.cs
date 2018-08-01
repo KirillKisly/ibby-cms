@@ -87,7 +87,6 @@ namespace ibby_cms.Controllers {
 
                     var pageContentModel = new PageContentModel {
                         Header = pageContent.Header,
-                        //Content = pageContent.Content,
                         Url = pageContent.Url,
                         IsPublished = false,
                         PageSeoModel = pageSeoModel,
@@ -110,7 +109,6 @@ namespace ibby_cms.Controllers {
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 Header = page.Header,
-                //Content = page.Content,
                 Url = page.Url,
                 IsPublished = page.IsPublished,
                 SeoID = page.PageSeoModel.Id,
@@ -131,6 +129,13 @@ namespace ibby_cms.Controllers {
         public ActionResult EditPage(PageContentViewModel pageContent) {
             try {
                 if (ModelState.IsValid) {
+                    var htmlContentModel = new HtmlContentModel {
+                        HtmlContent = pageContent.HtmlContent,
+                        UniqueCode = System.Guid.NewGuid().ToString()
+                    };
+                    _htmlContentEssenceManager.SaveHtmlContent(htmlContentModel);
+                    int htmlContentId = _htmlContentEssenceManager.GetId(htmlContentModel.UniqueCode);
+
                     var pageSeoModel = new PageSeoModel {
                         Id = pageContent.SeoID.Value,
                         Title = pageContent.Title,
@@ -139,21 +144,13 @@ namespace ibby_cms.Controllers {
                     };
                     _pageSeoEssenceManager.EditSeo(pageSeoModel);
 
-                    var htmlContentModel = new HtmlContentModel {
-                        Id = pageContent.HtmlContentID.Value,
-                        HtmlContent = pageContent.HtmlContent,
-                        UniqueCode = pageContent.UniqueCode
-                    };
-                    _htmlContentEssenceManager.EditHtmlContent(htmlContentModel);
-
                     var pageContentModel = new PageContentModel {
                         Id = pageContent.Id,
                         Header = pageContent.Header,
-                        //Content = pageContent.Content,
                         Url = pageContent.Url,
                         IsPublished = false,
                         SeoID = pageSeoModel.Id,
-                        HtmlContentID = htmlContentModel.Id
+                        HtmlContentID = htmlContentId
                     };
                     _pageContentEssenceManager.EditPage(pageContentModel);
 
@@ -169,7 +166,7 @@ namespace ibby_cms.Controllers {
 
         public ActionResult DeletePage(int? id) {
             PageContentModel page = _pageContentEssenceManager.Get(id.Value);
-            //PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
+
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 Header = page.Header,
