@@ -55,12 +55,12 @@ namespace ibby_cms.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль был изменен."
+                : message == ManageMessageId.SetPasswordSuccess ? "Ваш пароль был установлен."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Двухфакторная проверка подлинности была установлена."
+                : message == ManageMessageId.Error ? "Произошла ошибка."
+                : message == ManageMessageId.AddPhoneSuccess ? "YВаш номер телефона был добавлен."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона был удален."
                 : "";
 
             //var userId = User.Identity.GetUserId();
@@ -116,7 +116,7 @@ namespace ibby_cms.Controllers
             if (UserManager.SmsService != null) {
                 var message = new IdentityMessage {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Ваш код безопасности:" + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -178,7 +178,7 @@ namespace ibby_cms.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "Не удалось проверить телефон");
             return View(model);
         }
 
@@ -261,8 +261,8 @@ namespace ibby_cms.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Ваша учетная запись была удалена"
+                : message == ManageMessageId.Error ? "Произошла ошибка"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user == null) {

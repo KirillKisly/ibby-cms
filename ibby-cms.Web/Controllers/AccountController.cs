@@ -87,7 +87,7 @@ namespace ibby_cms.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Неудачная попытка входа.");
                     return View(model);
             }
         }
@@ -127,7 +127,7 @@ namespace ibby_cms.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Неправильный код.");
                     return View(model);
             }
         }

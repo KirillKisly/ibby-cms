@@ -15,14 +15,14 @@ namespace ibby_cms.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Страница описания вашего приложения.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Ваша контактная страница.";
 
             return View();
         }
