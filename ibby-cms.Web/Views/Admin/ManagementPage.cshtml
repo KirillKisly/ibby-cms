@@ -15,17 +15,94 @@
     Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
 }
 
-<h1 class="page-header">Управление страницами</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Управление страницами</h2>
+    </div>
 
-<div class="form-group">
-    <div class="col-md-offset-0 col-md-10">
-        <button onclick="location.href ='@Url.Action("CreatePage", "Admin")'" class="btn btn-primary">Создать страницу</button>
+    <div class="form-group">
+        <div class="col-lg-12">
+            <button onclick="location.href ='@Url.Action("CreatePage", "Admin")'" class="btn btn-primary">Создать страницу</button>
+        </div>
     </div>
 </div>
 
+
+
 <div class="row">
     <div class="col-lg-12">
-        <table class="table table-striped table-bordered table-hover" id="ModelDataTables">
+        <br />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Url</th>
+                                <th>Состояние</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model) {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Header)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Url)
+                                    </td>
+                                    <td>
+                                        @if (!item.IsPublished) {
+                                            <span class="fa fa-times fa-fw iconstyle-remove"></span>
+                                            <span>Не опубликована</span>
+                                        }
+                                        else {
+                                            <span class="fa fa-check fa-fw iconstyle-ok"></span>
+                                            <span>Опубликована</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!item.IsPublished) {
+                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-success btn-circle" title="Опубликовать страницу">
+                                                <i class="fa fa-caret-up"></i>
+                                            </button>
+                                        }
+                                        else {
+                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-danger btn-circle" title="Снять с публикации страницу">
+                                                <i class="fa fa-caret-down"></i>
+                                            </button>
+                                        }
+                                        <button onclick="location.href = '@Url.Action("DetailsPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-info btn-circle" title="Просмотреть страницу">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button onclick="location.href = '@Url.Action("EditPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                        <button onclick="location.href = '@Url.Action("DeletePage", "Admin", new { id = item.Id})' " type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                        @if (item.IsPublished) {
+                                            <button onclick="location.href = '@Url.Action("Index", "Page", new { permalink = item.Url}, null)' " type="button" class="btn btn-default btn-circle" title="Перейти на страницу">
+                                                <i class="fa fa-align-justify"></i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<table class="table table-striped table-bordered table-hover" id="ModelDataTables">
             <thead>
                 <tr>
                     <th>Заголовок</th>
@@ -83,12 +160,13 @@
             </tbody>
         </table>
 
-        <br />
-        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    <br />
+            Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-        @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
-    </div>
-</div>
+            @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
+            </div>
+            </div>
+*@
 
 @section Scripts
 {
