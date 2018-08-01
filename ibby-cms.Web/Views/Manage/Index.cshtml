@@ -10,7 +10,7 @@
     <h4>Изменение настроек учетной записи</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt>Пароль:</dt>
         <dd>
             [
             @if (Model.HasPassword)
@@ -23,7 +23,7 @@
             }
             ]
         </dd>
-        <dt>External Logins:</dt>
+        <dt>Внешние сервисы входа:</dt>
         <dd>
             @Model.Logins.Count [
             @Html.ActionLink("Управление", "ManageLogins") ]
