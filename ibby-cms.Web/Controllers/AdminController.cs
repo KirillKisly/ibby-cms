@@ -26,7 +26,7 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult ManagementPage(int? page) {
-            int pageSize = 10;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();

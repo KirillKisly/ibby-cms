@@ -96,6 +96,10 @@
                 </div>
             </div>
         </div>
+        <br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
     </div>
 </div>
 

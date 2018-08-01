@@ -16,18 +16,17 @@ namespace ibby_cms.Models
         [Display(Name ="Заголовок")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         public string Header { get; set; }
-
-        //[Required(ErrorMessage ="Добавьте описание")]
-        //[Display(Name = "Содержание")]
-        //public string Content { get; set; }
-
         [Display(Name ="URL")]
         public string Url { get; set; }
         public bool IsPublished { get; set; }
+        [Display(Name = "Название (Title)")]
         public string Title { get; set; }
+        [Display(Name = "Ключевые слова")]
         public string KeyWords { get; set; }
+        [Display(Name = "Описание")]
         public string Descriptions { get; set; }
-
+        [Required(ErrorMessage = "Добавьте содержание")]
+        [Display(Name = "Содержание")]
         public string HtmlContent { get; set; }
         public string UniqueCode { get; set; }
     }
