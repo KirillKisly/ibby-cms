@@ -136,21 +136,24 @@ namespace ibby_cms.Common {
         // метод First() сгенерирует экспшн, если такого url не существует. И что дальше?
         public PageContentModel FindUrl(string url) {
             using (EntitiesContext context = new EntitiesContext()) {
-                PageContentEssence item = context.PageContentEssences.First(o => o.Url == url);
+                var item = context.PageContentEssences.First(o => o.Url == url);
 
                 if (item == null) {
                     throw new ValidationException("", "");
                 }
 
-                PageContentModel pageContentModel = new PageContentModel {
-                    Id = item.Id,
-                    //Content = item.Content,
-                    Header = item.Header,
-                    Url = item.Url,
-                    IsPublished = item.IsPublished,
-                    SeoID = item.SeoID,
-                    HtmlContentID = item.HtmlContentID
-                };
+                //var pageContentModel = new PageContentModel {
+                //    Id = item.Id,
+                //    //Content = item.Content,
+                //    Header = item.Header,
+                //    Url = item.Url,
+                //    IsPublished = item.IsPublished,
+                //    SeoID = item.SeoID,
+                //    HtmlContentID = item.HtmlContentID,
+
+                //};
+
+                var pageContentModel = Get(item.Id);
 
                 return pageContentModel;
             }
