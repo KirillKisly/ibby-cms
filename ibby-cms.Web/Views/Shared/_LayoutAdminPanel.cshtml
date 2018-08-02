@@ -86,7 +86,7 @@
                                     <a href="@Url.Action("ManagementPage", "Admin")"><i class="fa fa-th fa-fw"></i> Управление страницами</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
+                                    <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i> Настройки профиля</a>
                                 </li>
                                 <li>
                                     <br /><br /><br />
@@ -101,25 +101,15 @@
             }
         }
 
-
-
-
-
-
-
-
-
-
-
         <!-- Page Content -->
         <div id="page-wrapper">
-            <div class="container body-content">
+            <div class="container body-content" style="height: 100%">
                 <div class="row">
                     <div class="col-lg-12">
                         @RenderBody()
                         <hr />
                             <footer>
-                                <p>&copy; @DateTime.Now.Year - ibby-cms Application</p>
+                                <p>&copy; @DateTime.Now.Year - ibby-cms</p>
                             </footer>
                     </div>
                 </div>

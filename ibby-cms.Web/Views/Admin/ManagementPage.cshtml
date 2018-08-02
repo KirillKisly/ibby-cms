@@ -11,7 +11,7 @@
 <link href="~/Content/bootstrap-template/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 @{
-    ViewBag.Title = "Management pages";
+    ViewBag.Title = "Управление страницами";
     Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
 }
 
@@ -77,26 +77,26 @@
                                     </td>
                                     <td>
                                         @if (!item.IsPublished) {
-                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-success btn-circle" title="Опубликовать страницу">
+                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id })'" type="button" class="btn btn-success btn-circle" title="Опубликовать страницу">
                                                 <i class="fa fa-caret-up"></i>
                                             </button>
                                         }
                                         else {
-                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-danger btn-circle" title="Снять с публикации страницу">
+                                            <button onclick="location.href = '@Url.Action("PublishPage", "Admin", new { id = item.Id })'" type="button" class="btn btn-danger btn-circle" title="Снять с публикации страницу">
                                                 <i class="fa fa-caret-down"></i>
                                             </button>
                                         }
-                                        <button onclick="location.href = '@Url.Action("DetailsPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-info btn-circle" title="Просмотреть страницу">
+                                        <a href="@Url.Action("DetailsPage", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть страницу">
                                             <i class="fa fa-eye"></i>
-                                        </button>
-                                        <button onclick="location.href = '@Url.Action("EditPage", "Admin", new { id = item.Id})' " type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
+                                        </a>
+                                        <button onclick="location.href = '@Url.Action("EditPage", "Admin", new { id = item.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
                                             <i class="fa fa-pencil"></i>
                                         </button>
-                                        <button onclick="location.href = '@Url.Action("DeletePage", "Admin", new { id = item.Id})' " type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
+                                        <button onclick="location.href = '@Url.Action("DeletePage", "Admin", new { id = item.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
                                             <i class="fa fa-trash-o"></i>
                                         </button>
                                         @if (item.IsPublished) {
-                                            <button onclick="location.href = '@Url.Action("Index", "Page", new { permalink = item.Url}, null)' " type="button" class="btn btn-default btn-circle" title="Перейти на страницу">
+                                            <button onclick="location.href = '@Url.Action("Index", "Page", new { permalink = item.Url}, null)'" type="button" class="btn btn-default btn-circle" title="Перейти на страницу">
                                                 <i class="fa fa-align-justify"></i>
                                             </button>
                                         }

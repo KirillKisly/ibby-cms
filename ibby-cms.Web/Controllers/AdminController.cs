@@ -54,11 +54,9 @@ namespace ibby_cms.Controllers {
 
         public ActionResult DetailsPage(int? id) {
             var page = _pageContentEssenceManager.Get(id.Value);
-            //PageSeoModel seo = _pageSeoEssenceManager.Get(page.SeoID.Value);
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 Header = page.Header,
-                //Content = page.Content,
                 Url = page.Url,
                 IsPublished = page.IsPublished,
                 SeoID = page.SeoID,
