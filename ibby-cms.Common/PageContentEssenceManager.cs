@@ -156,6 +156,17 @@ namespace ibby_cms.Common {
             return true;
         }
 
+        public IEnumerable<PageContentModel> Search(string searchString) {
+            if (!String.IsNullOrEmpty(searchString)) {
+                var pageContentModels = GetAll();
+                pageContentModels.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()));
+
+                return pageContentModels;
+            }
+
+            return null;
+        }
+
 
 
         // ---------------------------------------------------

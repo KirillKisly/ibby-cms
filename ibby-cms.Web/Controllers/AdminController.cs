@@ -7,6 +7,8 @@ using AutoMapper;
 using ibby_cms.Common.Models;
 using ibby_cms.Common;
 using PagedList;
+using System;
+using System.Linq;
 
 namespace ibby_cms.Controllers {
     [Authorize(Roles = "Admin")]
@@ -25,14 +27,27 @@ namespace ibby_cms.Controllers {
             return View();
         }
 
-        public ActionResult ManagementPage(int? page) {
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
+        public ActionResult ManagementPage(int? page, string searchString, string currentFilter) {
+            if (searchString != null) {
+                page = 1;
+            }
+            else {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
 
             IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
             var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
             pages.Reverse();
+
+            if (!String.IsNullOrEmpty(searchString)) {
+                pages = pages.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()) || p.Url.ToUpper().Contains(searchString.ToUpper())).ToList();
+            }
+
+
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
 
             return View(pages.ToPagedList(pageNumber, pageSize));
         }
