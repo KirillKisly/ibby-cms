@@ -108,97 +108,13 @@
                 </div>
             </div>
         </div>
-        <br />
-        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+        @if (Model.PageCount != 1) {
+            <div>
+                <br />
+                Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-        @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page, currentFilter = ViewBag.CurrentFilter }))
+                @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        }
+        </div>
     </div>
-</div>
-
-
-
-
-@*<table class="table table-striped table-bordered table-hover" id="ModelDataTables">
-            <thead>
-                <tr>
-                    <th>Заголовок</th>
-                    <th>Url</th>
-                    <th>Состояние</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Header)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Url)
-                        </td>
-                        <td>
-                            @if (!item.IsPublished) {
-                                <span class="fa fa-times fa-fw iconstyle-remove"></span>
-                                <span>Не опубликована</span>
-                            }
-                            else {
-                                <span class="fa fa-check fa-fw iconstyle-ok"></span>
-                                <span>Опубликована</span>
-                            }
-                        </td>
-                        <td>
-                            <div>
-                                @if (!item.IsPublished) {
-                                    @Html.ActionLink("Публиковать", "PublishPage", new { id = item.Id })
-                                }
-                                else {
-                                    @Html.ActionLink("Снять с публикации", "PublishPage", new { id = item.Id })
-                                }
-                            </div>
-                            <div>
-                                @Html.ActionLink("Просмотреть", "DetailsPage", new { id = item.Id })
-                            </div>
-                            <div>
-                                @Html.ActionLink("Редактировать", "EditPage", new { id = item.Id })
-                            </div>
-                            <div>
-                                @if (item.IsPublished) {
-                                    @Html.ActionLink("Перейти на страницу", "Index", "Page", new { permalink = item.Url }, null)
-                                }
-                            </div>
-                            <div>
-                                @Html.ActionLink("Удалить", "DeletePage", new { id = item.Id })
-                            </div>
-
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-    <br />
-            Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-            @Html.PagedListPager(Model, page => Url.Action("ManagementPage", new { page }))
-            </div>
-            </div>
-*@
-
-@section Scripts
-{
-    <script src="~/Content/bootstrap-template/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="~/Content/bootstrap-template/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="~/Content/bootstrap-template/vendor/datatables-responsive/dataTables.responsive.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#ModelDataTables').DataTable({
-                responsive: true,
-                ordering: false,
-                paging: false,
-                info: false,
-                searching: true
-            });
-        });
-    </script>
-}
