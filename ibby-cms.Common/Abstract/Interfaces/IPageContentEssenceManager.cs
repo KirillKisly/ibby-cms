@@ -11,6 +11,5 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void EditPage(PageContentModel pageContentModel);
         bool IsPublishPage(int? id);
         PageContentModel FindUrl(string url);
-        IEnumerable<PageContentModel> Search(string searchString);
     }
 }
