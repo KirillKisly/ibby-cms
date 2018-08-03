@@ -14,7 +14,7 @@ namespace ibby_cms.Models
 
         [Required]
         [Display(Name ="Заголовок")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 100 символов")]
         public string Header { get; set; }
         [Display(Name ="URL")]
         public string Url { get; set; }

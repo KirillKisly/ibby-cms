@@ -8,97 +8,83 @@
     <meta name="author" content="">
     <title>@ViewBag.Title</title>
 
-    <!-- Bootstrap Core CSS -->
     <link href="~/Content/bootstrap-template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- MetisMenu CSS -->
     <link href="~/Content/bootstrap-template/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="~/Content/bootstrap-template/dist/css/sb-admin-2.css" rel="stylesheet">
-    <!-- Custom Fonts -->
     <link href="~/Content/bootstrap-template/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 @using Microsoft.AspNet.Identity
 
 <body>
     <div id="wrapper">
+
+        <!-- Navigation -->
         @if (Request.IsAuthenticated) {
             using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
                 @Html.AntiForgeryToken()
-                <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("ibby-cms", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <!-- /.navbar-header -->
-            <!-- /.navbar-top-links -->
-            <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> @User.Identity.GetUserName()</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i> Настройки</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @Html.ActionLink("ibby-cms", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
 
-            <div class="navbar-default sidebar sa-fix" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Поиск...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i> Панель администрирования</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("ManagementPage", "Admin")"><i class="fa fa-th fa-fw"></i> Управление страницами</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i> Настройки профиля</a>
-                        </li>
-                        <li>
-                            <br />
-                        </li>
-                        <li>
-                            <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#"><i class="fa fa-user fa-fw"></i> @User.Identity.GetUserName()</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i> Настройки</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
+
+                    <div class="navbar-default sidebar sa-fix" role="navigation">
+                        <div class="sidebar-nav navbar-collapse collapse">
+                            <ul class="nav" id="side-menu">
+                                <li class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Поиск...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Admin")"><i class="fa fa-home fa-fw"></i> Панель администрирования</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ManagementPage", "Admin")"><i class="fa fa-th fa-fw"></i> Управление страницами</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Manage")"><i class="fa fa-gear fa-fw"></i> Настройки профиля</a>
+                                </li>
+                                <li>
+                                    <br />
+                                </li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             }
         }
 
@@ -121,17 +107,10 @@
         </div>
     </div>
 
-
-
-
-    <!-- /#wrapper -->
-    <!-- jQuery -->
+    <!-- Scripts -->
     <script src="~/Content/bootstrap-template/vendor/jquery/jquery.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
     <script src="~/Content/bootstrap-template/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Metis Menu Plugin JavaScript -->
     <script src="~/Content/bootstrap-template/vendor/metisMenu/metisMenu.min.js"></script>
-    <!-- Custom Theme JavaScript -->
     <script src="~/Content/bootstrap-template/dist/js/sb-admin-2.js"></script>
 
     @RenderSection("scripts", required: false)
