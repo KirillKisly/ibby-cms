@@ -12,7 +12,7 @@ namespace ibby_cms.Models
         public int? SeoID { get; set; }
         public int? HtmlContentID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name ="Заголовок")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 100 символов")]
         public string Header { get; set; }

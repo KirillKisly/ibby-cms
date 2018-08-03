@@ -27,7 +27,7 @@ namespace ibby_cms.Models
 
     public class SetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Новый пароль")]
@@ -41,12 +41,12 @@ namespace ibby_cms.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.Password)]
         [Display(Name = "Текущий пароль")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Новый пароль")]
@@ -60,7 +60,7 @@ namespace ibby_cms.Models
 
     public class AddPhoneNumberViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Phone]
         [Display(Name = "Номер телефона")]
         public string Number { get; set; }
@@ -68,11 +68,11 @@ namespace ibby_cms.Models
 
     public class VerifyPhoneNumberViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Код подтверждения")]
         public string Code { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Phone]
         [Display(Name = "Номер телефона")]
         public string PhoneNumber { get; set; }

@@ -5,7 +5,7 @@ namespace ibby_cms.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -25,10 +25,11 @@ namespace ibby_cms.Models
 
     public class VerifyCodeViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Это поле обязательно для заполнения")]
+        [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} символов.", MinimumLength = 6)]
         public string Provider { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Код")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
@@ -41,18 +42,18 @@ namespace ibby_cms.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Логин")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
@@ -67,16 +68,16 @@ namespace ibby_cms.Models
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }*/
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Логин")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
@@ -90,12 +91,12 @@ namespace ibby_cms.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [StringLength(100, ErrorMessage = "Длина {0} должна быть не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
@@ -111,7 +112,7 @@ namespace ibby_cms.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
