@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ibby_cms.Entities.Entitites {
     public class PageContentEssence {
@@ -12,5 +13,6 @@ namespace ibby_cms.Entities.Entitites {
 
         public virtual PageSeoEssence PageSeo { get; set; }
         public virtual HtmlContentEssence HtmlContent { get; set; }
+        public virtual ICollection<MenuItem> MenuItems { get; set; }
     }
 }

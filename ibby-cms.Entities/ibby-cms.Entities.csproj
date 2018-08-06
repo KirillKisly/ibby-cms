@@ -92,6 +92,8 @@
   <ItemGroup>
     <Compile Include="DAL\EntitiesContext.cs" />
     <Compile Include="DAL\EntitiesContextInitializer.cs" />
+    <Compile Include="Entitites\Menu.cs" />
+    <Compile Include="Entitites\MenuItem.cs" />
     <Compile Include="Entitites\PageContentEssence.cs" />
     <Compile Include="Entitites\HtmlContentEssence.cs" />
     <Compile Include="Entitites\PageSeoEssence.cs" />
