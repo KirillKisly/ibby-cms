@@ -23,6 +23,7 @@ namespace ibby_cms.Models
         public ApplicationDbContext()
             : base("EntitiesContext")
         {
+
         }
 
         public static ApplicationDbContext Create()

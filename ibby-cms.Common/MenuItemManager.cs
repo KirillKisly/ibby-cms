@@ -4,6 +4,7 @@ using ibby_cms.Common.Abstract.Interfaces;
 using ibby_cms.Common.Models;
 using ibby_cms.Entities.DAL;
 using ibby_cms.Entities.Entitites;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -88,11 +89,41 @@ namespace ibby_cms.Common {
         }
 
         public IEnumerable<MenuItemModel> GetAll() {
-            throw new System.NotImplementedException();
+            using (EntitiesContext context = new EntitiesContext()) {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItem, MenuItemModel>()).CreateMapper();
+                return mapper.Map<IEnumerable<MenuItem>, List<MenuItemModel>>(context.MenuItems);
+            }
         }
 
         public void SaveMenu(MenuItemModel menuItemModel) {
-            throw new System.NotImplementedException();
+            if (menuItemModel == null) {
+                throw new ValidationException("Элемент меню отсутствует", "");
+            }
+
+            string url = !String.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.PageModel.Url;
+
+            var menuItem = new MenuItem() {
+                Url = url,
+                Title = menuItemModel.Title,
+                Menu = new Menu {
+                    Code = menuItemModel.MenuModel.Code,
+                    Title = menuItemModel.MenuModel.Title
+                },
+                Page = new PageContentEssence {
+                    Header = menuItemModel.PageModel.Header,
+                    Url = url,
+                    IsPublished = menuItemModel.PageModel.IsPublished,
+                    HtmlContent = new HtmlContentEssence {
+                        HtmlContent = menuItemModel.PageModel.HtmlContentModel.HtmlContent,
+                        UniqueCode = menuItemModel.PageModel.HtmlContentModel.UniqueCode
+                    },
+                    PageSeo = new PageSeoEssence {
+                        Title = menuItemModel.PageModel.PageSeoModel.Title,
+                        KeyWords = menuItemModel.PageModel.PageSeoModel.KeyWords,
+                        Descriptions = menuItemModel.PageModel.PageSeoModel.Descriptions
+                    }
+                }
+            };
         }
     }
 }
