@@ -49,13 +49,13 @@ namespace ibby_cms.Common {
                 //var item = context.MenuItems.Include(x => x.Menu).Include(x => x.Page).Include(x => x.Page.PageSeo).FirstOrDefault(a => a.Id.Equals(id));
 
                 if (item == null) {
-                    throw new ValidationException("Элемент меню не найден","");
+                    throw new ValidationException("Элемент меню не найден", "");
                 }
 
                 var menuItemModel = new MenuItemModel {
                     Id = item.Id,
                     MenuId = item.MenuId,
-                    Url  = item.Url,
+                    Url = item.Url,
                     PageId = item.PageId,
                     Title = item.Title,
                     MenuModel = new MenuModel {
@@ -76,10 +76,10 @@ namespace ibby_cms.Common {
                             UniqueCode = item.Page.HtmlContent.UniqueCode
                         },
                         PageSeoModel = new PageSeoModel {
-                           Id = item.Page.PageSeo.Id,
-                           Title = item.Page.PageSeo.Title,
-                           KeyWords = item.Page.PageSeo.KeyWords,
-                           Descriptions = item.Page.PageSeo.Descriptions
+                            Id = item.Page.PageSeo.Id,
+                            Title = item.Page.PageSeo.Title,
+                            KeyWords = item.Page.PageSeo.KeyWords,
+                            Descriptions = item.Page.PageSeo.Descriptions
                         }
                     }
                 };
@@ -91,7 +91,7 @@ namespace ibby_cms.Common {
         public IEnumerable<MenuItemModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItem, MenuItemModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<MenuItem>, List<MenuItemModel>>(context.MenuItems);
+                return mapper.Map<IEnumerable<MenuItem>, List<MenuItemModel>>(context.MenuItems.Include(o => o.Menu).Include(o => o.Page));
             }
         }
 
