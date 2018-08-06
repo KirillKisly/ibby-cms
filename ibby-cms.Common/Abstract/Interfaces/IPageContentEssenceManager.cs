@@ -1,5 +1,4 @@
 ﻿using ibby_cms.Common.Models;
-using ibby_cms.Entities.Entitites;
 using System.Collections.Generic;
 
 namespace ibby_cms.Common.Abstract.Interfaces {
