@@ -90,6 +90,8 @@ namespace ibby_cms.Common {
 
         public IEnumerable<MenuItemModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
+
+                // ВЕРНУТЬСЯ СЮДА!!!!!!!!!!!!!!!
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemEssence, MenuItemModel>()).CreateMapper();
                 return mapper.Map<IEnumerable<MenuItemEssence>, List<MenuItemModel>>(context.MenuItemEssences.Include(o => o.Menu).Include(o => o.Page));
             }
