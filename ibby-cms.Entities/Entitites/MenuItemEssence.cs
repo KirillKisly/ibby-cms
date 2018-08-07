@@ -7,7 +7,7 @@ namespace ibby_cms.Entities.Entitites {
         public int? MenuID { get; set; }
         public string Url { get; set; }
         public int? PageID { get; set; }
-        public string Title { get; set; }
+        public string TitleMenuItem { get; set; }
 
         public virtual MenuEssence Menu { get; set; }
         public virtual PageContentEssence Page { get; set; }

@@ -1,7 +1,6 @@
 ﻿using ibby_cms.Models;
 using System.Web.Mvc;
 using ibby_cms.Common.Abstract.Interfaces;
-//using ibby_cms.Common.Models;
 using System.Collections.Generic;
 using AutoMapper;
 using ibby_cms.Common.Models;
@@ -16,16 +15,22 @@ namespace ibby_cms.Controllers {
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
         private readonly IHtmlContentEssenceManager _htmlContentEssenceManager;
+        private readonly IMenuManager _menuManager;
+        private readonly IMenuItemManager _menuItemManager;
 
-        public AdminController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager, IHtmlContentEssenceManager htmlContentEssenceManager) {
+        public AdminController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager, IHtmlContentEssenceManager htmlContentEssenceManager, IMenuManager menuManager, IMenuItemManager menuItemManager) {
             _pageContentEssenceManager = pageContentEssenseManager;
             _pageSeoEssenceManager = pageSeoEssenceManager;
             _htmlContentEssenceManager = htmlContentEssenceManager;
+            _menuManager = menuManager;
+            _menuItemManager = menuItemManager;
         }
 
         public ActionResult Index() {
             return View();
         }
+
+        #region Page
 
         public ActionResult ManagementPage(int? page, string searchString, string currentFilter) {
             if (searchString != null) {
@@ -183,7 +188,6 @@ namespace ibby_cms.Controllers {
             var pageContent = new PageContentViewModel {
                 Id = page.Id,
                 Header = page.Header,
-                //Content = page.Content,
                 Url = page.Url,
                 IsPublished = page.IsPublished,
                 SeoID = page.SeoID,
@@ -203,7 +207,6 @@ namespace ibby_cms.Controllers {
             var deletePage = _pageContentEssenceManager.Get(id);
             _pageContentEssenceManager.Delete(id);
             _pageSeoEssenceManager.Delete(deletePage.PageSeoModel.Id);
-            //_htmlContentEssenceManager.Delete(deletePage.HtmlContentID.Value);
 
             return RedirectToAction("ManagementPage");
         }
@@ -213,5 +216,43 @@ namespace ibby_cms.Controllers {
 
             return RedirectToAction("ManagementPage");
         }
+        #endregion
+
+        #region Menu
+        public ActionResult ManagementMenu(int? page, string searchString, string currentFilter) {
+            if (searchString != null) {
+                page = 1;
+            }
+            else {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            IEnumerable<MenuItemModel> menuItemModels = _menuItemManager.GetAll();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemModel, MenuViewModel>()).CreateMapper();
+            var menus = mapper.Map<IEnumerable<MenuItemModel>, List<MenuViewModel>>(menuItemModels);
+            menus.Reverse();
+
+            if (!String.IsNullOrEmpty(searchString)) {
+                menus = menus.Where(m => m.TitleMenuItem.ToUpper().Contains(searchString.ToUpper())).ToList();
+            }
+
+            //IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
+            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
+            //var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
+            //pages.Reverse();
+
+            //if (!String.IsNullOrEmpty(searchString)) {
+            //    pages = pages.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()) || p.Url.ToUpper().Contains(searchString.ToUpper())).ToList();
+            //}
+
+
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+
+            return View(menus.ToPagedList(pageNumber, pageSize));
+        }
+
+        #endregion
     }
 }

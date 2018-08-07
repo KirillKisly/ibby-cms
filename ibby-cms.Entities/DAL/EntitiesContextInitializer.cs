@@ -48,28 +48,28 @@ namespace ibby_cms.Entities.DAL {
             context.SaveChanges();
 
             var menu = new List<MenuEssence> {
-                new MenuEssence {Code="Header_menu1", Title="Title_menu1"},
-                new MenuEssence {Code="Header_menu2", Title="Title_menu2"},
-                new MenuEssence {Code="Header_menu3", Title="Title_menu3"},
-                new MenuEssence {Code="Header_menu4", Title="Title_menu4"},
-                new MenuEssence {Code="Header_menu5", Title="Title_menu5"},
-                new MenuEssence {Code="Header_menu6", Title="Title_menu6"},
-                new MenuEssence {Code="Header_menu7", Title="Title_menu7"},
-                new MenuEssence {Code="Header_menu8", Title="Title_menu8"}
+                new MenuEssence {Code="Header_menu1", TitleMenu="Title_menu1"},
+                new MenuEssence {Code="Header_menu2", TitleMenu="Title_menu2"},
+                new MenuEssence {Code="Header_menu3", TitleMenu="Title_menu3"},
+                new MenuEssence {Code="Header_menu4", TitleMenu="Title_menu4"},
+                new MenuEssence {Code="Header_menu5", TitleMenu="Title_menu5"},
+                new MenuEssence {Code="Header_menu6", TitleMenu="Title_menu6"},
+                new MenuEssence {Code="Header_menu7", TitleMenu="Title_menu7"},
+                new MenuEssence {Code="Header_menu8", TitleMenu="Title_menu8"}
             };
 
             menu.ForEach(c => context.MenuEssences.Add(c));
             context.SaveChanges();
 
             var menuItem = new List<MenuItemEssence> {
-                new MenuItemEssence{MenuID =1, PageID = 1, Title="Title_menuItem1", Url="Url_menuItem1"},
-                new MenuItemEssence{MenuID =2, PageID = 2, Title="Title_menuItem2", Url="Url_menuItem2"},
-                new MenuItemEssence{MenuID =3, PageID = 3, Title="Title_menuItem3", Url="Url_menuItem3"},
-                new MenuItemEssence{MenuID =4, PageID = 4, Title="Title_menuItem4", Url="Url_menuItem4"},
-                new MenuItemEssence{MenuID =5, PageID = 5, Title="Title_menuItem5", Url="Url_menuItem5"},
-                new MenuItemEssence{MenuID =6, PageID = 6, Title="Title_menuItem6", Url="Url_menuItem6"},
-                new MenuItemEssence{MenuID =7, PageID = 7, Title="Title_menuItem7", Url="Url_menuItem7"},
-                new MenuItemEssence{MenuID =8, PageID = 8, Title="Title_menuItem8", Url="Url_menuItem8"}
+                new MenuItemEssence{MenuID =1, PageID = 1, TitleMenuItem="Title_menuItem1", Url="Url_menuItem1"},
+                new MenuItemEssence{MenuID =2, PageID = 2, TitleMenuItem="Title_menuItem2", Url="Url_menuItem2"},
+                new MenuItemEssence{MenuID =3, PageID = 3, TitleMenuItem="Title_menuItem3", Url="Url_menuItem3"},
+                new MenuItemEssence{MenuID =4, PageID = 4, TitleMenuItem="Title_menuItem4", Url="Url_menuItem4"},
+                new MenuItemEssence{MenuID =5, PageID = 5, TitleMenuItem="Title_menuItem5", Url="Url_menuItem5"},
+                new MenuItemEssence{MenuID =6, PageID = 6, TitleMenuItem="Title_menuItem6", Url="Url_menuItem6"},
+                new MenuItemEssence{MenuID =7, PageID = 7, TitleMenuItem="Title_menuItem7", Url="Url_menuItem7"},
+                new MenuItemEssence{MenuID =8, PageID = 8, TitleMenuItem="Title_menuItem8", Url="Url_menuItem8"}
             };
 
             menuItem.ForEach(c => context.MenuItemEssences.Add(c));

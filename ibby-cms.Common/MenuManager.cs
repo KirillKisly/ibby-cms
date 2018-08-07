@@ -29,7 +29,7 @@ namespace ibby_cms.Common {
             var menu = new MenuEssence {
                 Id = menuModel.Id,
                 Code = menuModel.Code,
-                Title = menuModel.Title
+                TitleMenu = menuModel.TitleMenu
             };
 
             using (EntitiesContext context = new EntitiesContext()) {
@@ -50,7 +50,7 @@ namespace ibby_cms.Common {
                 var menuModel = new MenuModel {
                   Id = item.Id,
                   Code = item.Code,
-                  Title = item.Title
+                  TitleMenu = item.TitleMenu
                 };
 
                 return menuModel;
@@ -71,7 +71,7 @@ namespace ibby_cms.Common {
 
             var menu = new MenuEssence {
                 Code = menuModel.Code,
-                Title = menuModel.Title
+                TitleMenu = menuModel.TitleMenu
             };
 
             using (EntitiesContext context = new EntitiesContext()) {

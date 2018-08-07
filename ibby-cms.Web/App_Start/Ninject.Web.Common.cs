@@ -56,6 +56,8 @@ namespace ibby_cms.App_Start {
             kernel.Bind<Common.Abstract.Interfaces.IPageSeoEssenceManager>().To<PageSeoEssenceManager>();
             kernel.Bind<Common.Abstract.Interfaces.IPageContentEssenceManager>().To<PageContentEssenceManager>();
             kernel.Bind<Common.Abstract.Interfaces.IHtmlContentEssenceManager>().To<HtmlContentEssenceManager>();
+            kernel.Bind<Common.Abstract.Interfaces.IMenuManager>().To<MenuManager>();
+            kernel.Bind<Common.Abstract.Interfaces.IMenuItemManager>().To<MenuItemManager>();
         }
     }
 }

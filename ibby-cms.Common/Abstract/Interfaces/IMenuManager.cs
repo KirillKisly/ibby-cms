@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace ibby_cms.Common.Abstract.Interfaces {
-    interface IMenuManager {
+    public interface IMenuManager {
         IEnumerable<MenuModel> GetAll();
         MenuModel Get(int id);
         void Delete(int id);

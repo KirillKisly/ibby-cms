@@ -33,7 +33,7 @@ namespace ibby_cms.Common {
                 MenuID = menuItemModel.MenuID,
                 Url = menuItemModel.Url,
                 PageID = menuItemModel.PageID,
-                Title = menuItemModel.Title
+                TitleMenuItem = menuItemModel.TitleMenuItem
             };
 
             using (EntitiesContext context = new EntitiesContext()) {
@@ -57,11 +57,11 @@ namespace ibby_cms.Common {
                     MenuID = item.MenuID.Value,
                     Url = item.Url,
                     PageID = item.PageID,
-                    Title = item.Title,
+                    TitleMenuItem = item.TitleMenuItem,
                     MenuModel = new MenuModel {
                         Id = item.Menu.Id,
                         Code = item.Menu.Code,
-                        Title = item.Menu.Title
+                        TitleMenu = item.Menu.TitleMenu
                     },
                     PageModel = new PageContentModel {
                         Id = item.Page.Id,
@@ -104,10 +104,10 @@ namespace ibby_cms.Common {
 
             var menuItem = new MenuItemEssence() {
                 Url = url,
-                Title = menuItemModel.Title,
+                TitleMenuItem = menuItemModel.TitleMenuItem,
                 Menu = new MenuEssence {
                     Code = menuItemModel.MenuModel.Code,
-                    Title = menuItemModel.MenuModel.Title
+                    TitleMenu = menuItemModel.MenuModel.TitleMenu
                 },
                 PageID = menuItemModel.PageID
             };
