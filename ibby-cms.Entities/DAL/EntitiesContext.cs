@@ -9,8 +9,9 @@ namespace ibby_cms.Entities.DAL{
         public DbSet<PageContentEssence> PageContentEssences { get; set; }
         public DbSet<PageSeoEssence> PageSeoEssences { get; set; }
         public DbSet<HtmlContentEssence> HtmlContentEssences { get; set; }
-        public DbSet<Menu> Menus { get; set; }
-        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<MenuEssence> MenuEssences { get; set; }
+        public DbSet<MenuItemEssence> MenuItemEssences { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Entity<PageContentEssence>().ToTable("dbo.PageContentEssence");
             modelBuilder.Entity<PageContentEssence>().HasOptional(c => c.PageSeo).WithMany(a => a.PageContent).HasForeignKey(k => k.SeoID);
@@ -23,12 +24,12 @@ namespace ibby_cms.Entities.DAL{
             modelBuilder.Entity<HtmlContentEssence>().ToTable("dbo.HtmlContentEssence");
             modelBuilder.Entity<HtmlContentEssence>().HasMany(c => c.PageContent).WithOptional(a => a.HtmlContent);
 
-            modelBuilder.Entity<Menu>().ToTable("dbo.Menu");
-            modelBuilder.Entity<Menu>().HasMany(c => c.MenuItems).WithOptional(a => a.Menu);
+            modelBuilder.Entity<MenuEssence>().ToTable("dbo.Menu");
+            modelBuilder.Entity<MenuEssence>().HasMany(c => c.MenuItems).WithOptional(a => a.Menu);
 
-            modelBuilder.Entity<MenuItem>().ToTable("dbo.MenuItem");
-            modelBuilder.Entity<MenuItem>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
-            modelBuilder.Entity<MenuItem>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.PageID);
+            modelBuilder.Entity<MenuItemEssence>().ToTable("dbo.MenuItem");
+            modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
+            modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.PageID);
         }
     }
 }

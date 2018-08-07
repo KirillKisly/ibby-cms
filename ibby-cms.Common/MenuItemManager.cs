@@ -13,10 +13,10 @@ namespace ibby_cms.Common {
     public class MenuItemManager : IMenuItemManager {
         public void Delete(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.MenuItems.Find(id);
+                var item = context.MenuItemEssences.Find(id);
 
                 if (item != null) {
-                    context.MenuItems.Remove(item);
+                    context.MenuItemEssences.Remove(item);
 
                     context.SaveChanges();
                 }
@@ -28,7 +28,7 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
-            var menuItem = new MenuItem {
+            var menuItem = new MenuItemEssence {
                 Id = menuItemModel.Id,
                 MenuID = menuItemModel.MenuID,
                 Url = menuItemModel.Url,
@@ -45,7 +45,7 @@ namespace ibby_cms.Common {
 
         public MenuItemModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.MenuItems.Include(x => x.Menu).Include(x => x.Page).FirstOrDefault(a => a.Id.Equals(id));
+                var item = context.MenuItemEssences.Include(x => x.Menu).Include(x => x.Page).FirstOrDefault(a => a.Id.Equals(id));
                 //var item = context.MenuItems.Include(x => x.Menu).Include(x => x.Page).Include(x => x.Page.PageSeo).FirstOrDefault(a => a.Id.Equals(id));
 
                 if (item == null) {
@@ -90,8 +90,8 @@ namespace ibby_cms.Common {
 
         public IEnumerable<MenuItemModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItem, MenuItemModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<MenuItem>, List<MenuItemModel>>(context.MenuItems.Include(o => o.Menu).Include(o => o.Page));
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemEssence, MenuItemModel>()).CreateMapper();
+                return mapper.Map<IEnumerable<MenuItemEssence>, List<MenuItemModel>>(context.MenuItemEssences.Include(o => o.Menu).Include(o => o.Page));
             }
         }
 
@@ -102,27 +102,14 @@ namespace ibby_cms.Common {
 
             string url = !String.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.PageModel.Url;
 
-            var menuItem = new MenuItem() {
+            var menuItem = new MenuItemEssence() {
                 Url = url,
                 Title = menuItemModel.Title,
-                Menu = new Menu {
+                Menu = new MenuEssence {
                     Code = menuItemModel.MenuModel.Code,
                     Title = menuItemModel.MenuModel.Title
                 },
-                Page = new PageContentEssence {
-                    Header = menuItemModel.PageModel.Header,
-                    Url = url,
-                    IsPublished = menuItemModel.PageModel.IsPublished,
-                    HtmlContent = new HtmlContentEssence {
-                        HtmlContent = menuItemModel.PageModel.HtmlContentModel.HtmlContent,
-                        UniqueCode = menuItemModel.PageModel.HtmlContentModel.UniqueCode
-                    },
-                    PageSeo = new PageSeoEssence {
-                        Title = menuItemModel.PageModel.PageSeoModel.Title,
-                        KeyWords = menuItemModel.PageModel.PageSeoModel.KeyWords,
-                        Descriptions = menuItemModel.PageModel.PageSeoModel.Descriptions
-                    }
-                }
+                PageID = menuItemModel.PageID
             };
         }
     }

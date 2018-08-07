@@ -11,10 +11,10 @@ namespace ibby_cms.Common {
     public class MenuManager : IMenuManager {
         public void Delete(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.Menus.Find(id);
+                var item = context.MenuEssences.Find(id);
 
                 if (item != null) {
-                    context.Menus.Remove(item);
+                    context.MenuEssences.Remove(item);
 
                     context.SaveChanges();
                 }
@@ -26,7 +26,7 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Меню отсутствует", "");
             }
 
-            var menu = new Menu {
+            var menu = new MenuEssence {
                 Id = menuModel.Id,
                 Code = menuModel.Code,
                 Title = menuModel.Title
@@ -41,7 +41,7 @@ namespace ibby_cms.Common {
 
         public MenuModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.Menus.Find(id);
+                var item = context.MenuEssences.Find(id);
 
                 if (item == null) {
                     throw new ValidationException("Меню не найдено", "");
@@ -59,8 +59,8 @@ namespace ibby_cms.Common {
 
         public IEnumerable<MenuModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Menu, MenuModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<Menu>, List<MenuModel>>(context.Menus);
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuEssence, MenuModel>()).CreateMapper();
+                return mapper.Map<IEnumerable<MenuEssence>, List<MenuModel>>(context.MenuEssences);
             }
         }
 
@@ -69,13 +69,13 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Меню отсутствует", "");
             }
 
-            var menu = new Menu {
+            var menu = new MenuEssence {
                 Code = menuModel.Code,
                 Title = menuModel.Title
             };
 
             using (EntitiesContext context = new EntitiesContext()) {
-                context.Menus.Add(menu);
+                context.MenuEssences.Add(menu);
 
                 context.SaveChanges();
             }

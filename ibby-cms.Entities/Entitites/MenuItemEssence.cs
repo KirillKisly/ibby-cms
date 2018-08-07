@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ibby_cms.Entities.Entitites {
-    public class MenuItem {
+    public class MenuItemEssence {
         [Key]
         public int Id { get; set; }
         public int? MenuID { get; set; }
@@ -9,7 +9,7 @@ namespace ibby_cms.Entities.Entitites {
         public int? PageID { get; set; }
         public string Title { get; set; }
 
-        public virtual Menu Menu { get; set; }
+        public virtual MenuEssence Menu { get; set; }
         public virtual PageContentEssence Page { get; set; }
     }
 }
