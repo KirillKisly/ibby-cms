@@ -27,7 +27,8 @@ namespace ibby_cms.Entities.DAL{
             modelBuilder.Entity<Menu>().HasMany(c => c.MenuItems).WithOptional(a => a.Menu);
 
             modelBuilder.Entity<MenuItem>().ToTable("dbo.MenuItem");
-            modelBuilder.Entity<MenuItem>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuId);
+            modelBuilder.Entity<MenuItem>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
+            modelBuilder.Entity<MenuItem>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.PageID);
         }
     }
 }

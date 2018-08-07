@@ -137,6 +137,14 @@
     <Compile Include="Migrations\201807311239542_Update fields.Designer.cs">
       <DependentUpon>201807311239542_Update fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808070716356_Add fields menu and menuItem.cs" />
+    <Compile Include="Migrations\201808070716356_Add fields menu and menuItem.Designer.cs">
+      <DependentUpon>201808070716356_Add fields menu and menuItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808070739071_Foreign key is required.cs" />
+    <Compile Include="Migrations\201808070739071_Foreign key is required.Designer.cs">
+      <DependentUpon>201808070739071_Foreign key is required.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -170,6 +178,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807311239542_Update fields.resx">
       <DependentUpon>201807311239542_Update fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808070716356_Add fields menu and menuItem.resx">
+      <DependentUpon>201808070716356_Add fields menu and menuItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808070739071_Foreign key is required.resx">
+      <DependentUpon>201808070739071_Foreign key is required.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

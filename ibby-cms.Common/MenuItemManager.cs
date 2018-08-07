@@ -30,9 +30,9 @@ namespace ibby_cms.Common {
 
             var menuItem = new MenuItem {
                 Id = menuItemModel.Id,
-                MenuId = menuItemModel.MenuId,
+                MenuID = menuItemModel.MenuID,
                 Url = menuItemModel.Url,
-                PageId = menuItemModel.PageId,
+                PageID = menuItemModel.PageID,
                 Title = menuItemModel.Title
             };
 
@@ -54,9 +54,9 @@ namespace ibby_cms.Common {
 
                 var menuItemModel = new MenuItemModel {
                     Id = item.Id,
-                    MenuId = item.MenuId,
+                    MenuID = item.MenuID.Value,
                     Url = item.Url,
-                    PageId = item.PageId,
+                    PageID = item.PageID,
                     Title = item.Title,
                     MenuModel = new MenuModel {
                         Id = item.Menu.Id,
