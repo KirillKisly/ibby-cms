@@ -58,16 +58,12 @@
                                                 <h4 id="ModalTitle">Выбрать страницу</h4>
                                             </div>
                                             <div class="modal-body">
-                                                
-                                                    
-                                                        <div class="form-group">
-                                                            @Html.DropDownListFor(m => m.Pages.Id, ViewBag.Pages as SelectList, "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control" })
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <a href="#" class="btn btn-primary">Выбрать</a>
-                                                        </div>
-                                                   
-                                                
+                                                <div class="form-group">
+                                                    @Html.DropDownListFor(m => m.Pages.Id, ViewBag.Pages as SelectList, "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <a href="#" class="btn btn-primary">Выбрать</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -106,11 +102,11 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         @*<input type="submit" value="Создать страницу" formaction="CreatePage" class="btn btn-primary btn-block" />*@
-                        <button onclick="@Url.Action("CreateMenu", "Admin")" formaction="CreateMenu" class="btn btn-info btn-block">Просмотреть страницу</button>
+                        <button onclick="@Url.Action("CreateMenu", "Admin")" formaction="CreateMenu" class="btn btn-info btn-block">Создать меню</button>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <button onclick="@Url.Action("DetailsPage", "Admin")" formtarget="_blank" formaction="DetailsPage" class="btn btn-info btn-block">Просмотреть страницу</button>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>

@@ -70,13 +70,13 @@
                                    @Html.DisplayFor(modelItem => item.Code)
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("DetailsPage", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть страницу">
+                                    @*<a href="@Url.Action("DetailsPage", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть страницу">
                                         <i class="fa fa-eye"></i>
-                                    </a>
-                                    <button onclick="location.href = '@Url.Action("EditPage", "Admin", new { id = item.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
+                                    </a>*@
+                                    <button onclick="location.href = '@Url.Action("EditMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                    <button onclick="location.href = '@Url.Action("DeletePage", "Admin", new { id = item.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
+                                    <button onclick="location.href = '@Url.Action("DeleteMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                 </td>

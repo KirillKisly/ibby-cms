@@ -260,11 +260,10 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult CreateMenu() {
-
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
-
             ViewBag.Pages = new SelectList(pages, "Id", "Header");
+
             return View();
         }
 
@@ -273,30 +272,103 @@ namespace ibby_cms.Controllers {
         [ValidateInput(false)]
         public ActionResult CreateMenu(MenuViewModel menuViewModel) {
             try {
-                var menu = new MenuModel {
-                    Code = menuViewModel.Code,
-                    TitleMenu = menuViewModel.TitleMenu
-                };
+                if (ModelState.IsValid) {
+                    var menu = new MenuModel {
+                        Code = menuViewModel.Code,
+                        TitleMenu = menuViewModel.TitleMenu
+                    };
 
-                var menuItem = new MenuItemModel {
-                    MenuID = menuViewModel.MenuID,
-                    Url = menuViewModel.Url,
-                    PageID = menuViewModel.Pages.Id,
-                    TitleMenuItem = menuViewModel.TitleMenuItem,
-                    MenuModel = menu
-                };
+                    var page = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
-                _menuItemManager.SaveMenu(menuItem);
+                    var menuItem = new MenuItemModel {
+                        MenuID = menuViewModel.MenuID,
+                        Url = menuViewModel.Url,
+                        PageID = page,
+                        TitleMenuItem = menuViewModel.TitleMenuItem,
+                        MenuModel = menu
+                    };
 
-                return RedirectToAction("ManagementMenu");
+                    _menuItemManager.SaveMenu(menuItem);
+
+                    return RedirectToAction("ManagementMenu");
+                }
             }
-            catch(ValidationException ex) {
+            catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
+
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
+            ViewBag.Pages = new SelectList(pages, "Id", "Header");
 
             return View(menuViewModel);
         }
 
+        public ActionResult EditMenu(int? id) {
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
+            ViewBag.Pages = new SelectList(pages, "Id", "Header");
+
+            MenuItemModel menuItem = _menuItemManager.Get(id.Value);
+            var menu = new MenuViewModel {
+                Id = menuItem.Id,
+                MenuID = menuItem.MenuID,
+                Url = menuItem.Url,
+                PageID = menuItem.PageID,
+                TitleMenuItem = menuItem.TitleMenuItem,
+                TitleMenu = menuItem.MenuModel.TitleMenu,
+                TitlePage = menuItem.PageModel.Header,
+                Code = menuItem.MenuModel.Code,
+                Pages = menuItem.PageModel
+            };
+
+            return View(menu);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult EditMenu(PageContentViewModel pageContent) {
+            try {
+                if (ModelState.IsValid) {
+
+
+                    //var htmlContentModel = new HtmlContentModel {
+                    //    HtmlContent = pageContent.HtmlContent,
+                    //    UniqueCode = System.Guid.NewGuid().ToString()
+                    //};
+                    //_htmlContentEssenceManager.SaveHtmlContent(htmlContentModel);
+                    //int htmlContentId = _htmlContentEssenceManager.GetId(htmlContentModel.UniqueCode);
+
+                    //var pageSeoModel = new PageSeoModel {
+                    //    Id = pageContent.SeoID.Value,
+                    //    Title = pageContent.Title,
+                    //    KeyWords = pageContent.KeyWords,
+                    //    Descriptions = pageContent.Descriptions
+                    //};
+                    //_pageSeoEssenceManager.EditSeo(pageSeoModel);
+
+                    //var pageContentModel = new PageContentModel {
+                    //    Id = pageContent.Id,
+                    //    Header = pageContent.Header,
+                    //    Url = pageContent.Url,
+                    //    IsPublished = false,
+                    //    SeoID = pageSeoModel.Id,
+                    //    HtmlContentID = htmlContentId
+                    //};
+                    //_pageContentEssenceManager.EditPage(pageContentModel);
+
+                    return RedirectToAction("ManagementMenu");
+                }
+            }
+            catch (ValidationException ex) {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+
+            return View(pageContent);
+        }
+
         #endregion
+
     }
 }
