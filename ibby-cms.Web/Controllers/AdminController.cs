@@ -259,19 +259,10 @@ namespace ibby_cms.Controllers {
             return View(menus.ToPagedList(pageNumber, PAGE_SIZE));
         }
 
-        //[HttpPost]
-        //public ActionResult GetPages() {
-        //    IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
-        //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
-        //    var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
-        //    pages.Reverse();
-
-        //    return PartialView(pages);
-        //}
-
         public ActionResult CreateMenu() {
 
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
 
             ViewBag.Pages = new SelectList(pages, "Id", "Header");
             return View();
@@ -290,7 +281,7 @@ namespace ibby_cms.Controllers {
                 var menuItem = new MenuItemModel {
                     MenuID = menuViewModel.MenuID,
                     Url = menuViewModel.Url,
-                    PageID = menuViewModel.PageID,
+                    PageID = menuViewModel.Pages.Id,
                     TitleMenuItem = menuViewModel.TitleMenuItem,
                     MenuModel = menu
                 };
@@ -304,37 +295,6 @@ namespace ibby_cms.Controllers {
             }
 
             return View(menuViewModel);
-
-            //try {
-            //    if (ModelState.IsValid) {
-            //        var pageSeoModel = new PageSeoModel {
-            //            Title = pageContent.Title,
-            //            KeyWords = pageContent.KeyWords,
-            //            Descriptions = pageContent.Descriptions
-            //        };
-
-            //        var htmlContentModel = new HtmlContentModel {
-            //            HtmlContent = pageContent.HtmlContent,
-            //            UniqueCode = System.Guid.NewGuid().ToString()
-            //        };
-
-            //        var pageContentModel = new PageContentModel {
-            //            Header = pageContent.Header,
-            //            Url = pageContent.Url,
-            //            IsPublished = false,
-            //            PageSeoModel = pageSeoModel,
-            //            HtmlContentModel = htmlContentModel
-            //        };
-            //        _pageContentEssenceManager.CreatePage(pageContentModel);
-
-            //        return RedirectToAction("ManagementPage");
-            //    }
-            //}
-            //catch (ValidationException ex) {
-            //    ModelState.AddModelError(ex.Property, ex.Message);
-            //}
-
-            //return View(pageContent);
         }
 
         #endregion

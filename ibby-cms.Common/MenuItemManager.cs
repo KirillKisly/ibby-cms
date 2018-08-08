@@ -116,6 +116,12 @@ namespace ibby_cms.Common {
                 },
                 PageID = menuItemModel.PageID
             };
+
+            using (EntitiesContext context = new EntitiesContext()) {
+                context.MenuItemEssences.Add(menuItem);
+
+                context.SaveChanges();
+            }
         }
     }
 }

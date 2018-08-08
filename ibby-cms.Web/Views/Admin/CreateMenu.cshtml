@@ -16,114 +16,109 @@
 
 <br />
 
-@*@using (Html.BeginForm()) {*@
-@Html.AntiForgeryToken()
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
 
-            <div class="panel-body">
-                <div class="tab-content" @*style="min-height: 500px"*@>
-                    <div class="tab-pane fade in active col-lg-12">
-                        <br />
-                        <div class="form-group col-md-12">
-                            @Html.LabelFor(model => model.TitleMenu, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TitleMenu, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок меню" } })
-                                @Html.ValidationMessageFor(model => model.TitleMenu, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            @Html.LabelFor(model => model.TitleMenuItem, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TitleMenuItem, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок элемента меню" } })
-                                @Html.ValidationMessageFor(model => model.TitleMenuItem, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TitlePage, new { htmlAttributes = new { @class = "form-control", placeholder = "Заголовок страницы", @disabled = "disabled" } })
-                                <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="Выбрать страницу" style="margin: 10px 0" />
+                <div class="panel-body">
+                    <div class="tab-content" @*style="min-height: 500px"*@>
+                        <div class="tab-pane fade in active col-lg-12">
+                            <br />
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.TitleMenu, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TitleMenu, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок меню" } })
+                                    @Html.ValidationMessageFor(model => model.TitleMenu, "", new { @class = "text-danger" })
+                                </div>
                             </div>
 
-                            <div class="modal fade" id="myModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class=" modal-header">
-                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 id="ModalTitle">Выбрать страницу</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="form">
-                                                <fieldset id="SubmitForm">
-                                                    <div class="form-group">
-                                                        @Html.DropDownListFor(m => m.Pages.Id, ViewBag.Pages as SelectList, "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control" })
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <a href="#" class="btn btn-primary">Выбрать</a>
-                                                    </div>
-                                                </fieldset>
-                                            </form>
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.TitleMenuItem, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TitleMenuItem, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок элемента меню" } })
+                                    @Html.ValidationMessageFor(model => model.TitleMenuItem, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TitlePage, new { htmlAttributes = new { @class = "form-control", placeholder = "Заголовок страницы", @disabled = "disabled" } })
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin: 10px 0">Выбрать страницу</button>
+                                </div>
+
+                                <div class="modal fade" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class=" modal-header">
+                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                <h4 id="ModalTitle">Выбрать страницу</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                
+                                                    
+                                                        <div class="form-group">
+                                                            @Html.DropDownListFor(m => m.Pages.Id, ViewBag.Pages as SelectList, "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <a href="#" class="btn btn-primary">Выбрать</a>
+                                                        </div>
+                                                   
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-12">
-                            @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите URL" } })
-                                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите URL" } })
+                                    @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-12">
-                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите код меню" } })
-                                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите код меню" } })
+                                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                </div>
                             </div>
+
+
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="row">
-    <div class="col-lg-12">
-        <br />
-        <div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <input type="submit" value="Создать меню" formaction="CreatePage" class="btn btn-primary btn-block" />
-                </div>
-                <div class="col-md-6">
-                    <button onclick="@Url.Action("DetailsPage", "Admin")" formtarget="_blank" formaction="DetailsPage" class="btn btn-info btn-block">Просмотреть меню</button>
+    <div class="row">
+        <div class="col-lg-12">
+            <br />
+            <div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @*<input type="submit" value="Создать страницу" formaction="CreatePage" class="btn btn-primary btn-block" />*@
+                        <button onclick="@Url.Action("CreateMenu", "Admin")" formaction="CreateMenu" class="btn btn-info btn-block">Просмотреть страницу</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button onclick="@Url.Action("DetailsPage", "Admin")" formtarget="_blank" formaction="DetailsPage" class="btn btn-info btn-block">Просмотреть страницу</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@*}*@
-
-@section scripts{
-    <script>
-        $('#partialBlankEditor').style.display = 'block';
-    </script>
-
-    <script>
-        $('#btn-show-editor').click(function () {
-            $('#partialBlankEditor').style.display = 'block';
-        });
-    </script>
 }
+
+@*@section scripts{
+        <script type="text/javascript">
+
+        </script>
+    }*@
