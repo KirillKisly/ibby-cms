@@ -52,7 +52,6 @@ namespace ibby_cms.Controllers {
                 pages = pages.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()) || p.Url.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
-            //int pageSize = 15;
             int pageNumber = (page ?? 1);
 
             return View(pages.ToPagedList(pageNumber, PAGE_SIZE));
@@ -219,6 +218,10 @@ namespace ibby_cms.Controllers {
         }
         #endregion
 
+
+        // ------------
+        // --- Menu ---
+        // ------------
         #region Menu
         public ActionResult ManagementMenu(int? page, string searchString, string currentFilter) {
             if (searchString != null) {
@@ -239,7 +242,9 @@ namespace ibby_cms.Controllers {
                     PageID = item.PageID,
                     TitleMenuItem = item.TitleMenuItem,
                     TitleMenu = item.MenuModel.TitleMenu,
-                    Code = item.MenuModel.Code
+                    TitlePage = item.PageModel.Header,
+                    Code = item.MenuModel.Code,
+                    Pages = item.PageModel
                 };
                 menus.Add(menu);
             }
@@ -252,6 +257,84 @@ namespace ibby_cms.Controllers {
             int pageNumber = (page ?? 1);
 
             return View(menus.ToPagedList(pageNumber, PAGE_SIZE));
+        }
+
+        //[HttpPost]
+        //public ActionResult GetPages() {
+        //    IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
+        //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
+        //    var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
+        //    pages.Reverse();
+
+        //    return PartialView(pages);
+        //}
+
+        public ActionResult CreateMenu() {
+
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+
+            ViewBag.Pages = new SelectList(pages, "Id", "Header");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult CreateMenu(MenuViewModel menuViewModel) {
+            try {
+                var menu = new MenuModel {
+                    Code = menuViewModel.Code,
+                    TitleMenu = menuViewModel.TitleMenu
+                };
+
+                var menuItem = new MenuItemModel {
+                    MenuID = menuViewModel.MenuID,
+                    Url = menuViewModel.Url,
+                    PageID = menuViewModel.PageID,
+                    TitleMenuItem = menuViewModel.TitleMenuItem,
+                    MenuModel = menu
+                };
+
+                _menuItemManager.SaveMenu(menuItem);
+
+                return RedirectToAction("ManagementMenu");
+            }
+            catch(ValidationException ex) {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+
+            return View(menuViewModel);
+
+            //try {
+            //    if (ModelState.IsValid) {
+            //        var pageSeoModel = new PageSeoModel {
+            //            Title = pageContent.Title,
+            //            KeyWords = pageContent.KeyWords,
+            //            Descriptions = pageContent.Descriptions
+            //        };
+
+            //        var htmlContentModel = new HtmlContentModel {
+            //            HtmlContent = pageContent.HtmlContent,
+            //            UniqueCode = System.Guid.NewGuid().ToString()
+            //        };
+
+            //        var pageContentModel = new PageContentModel {
+            //            Header = pageContent.Header,
+            //            Url = pageContent.Url,
+            //            IsPublished = false,
+            //            PageSeoModel = pageSeoModel,
+            //            HtmlContentModel = htmlContentModel
+            //        };
+            //        _pageContentEssenceManager.CreatePage(pageContentModel);
+
+            //        return RedirectToAction("ManagementPage");
+            //    }
+            //}
+            //catch (ValidationException ex) {
+            //    ModelState.AddModelError(ex.Property, ex.Message);
+            //}
+
+            //return View(pageContent);
         }
 
         #endregion
