@@ -91,9 +91,19 @@ namespace ibby_cms.Common {
         public IEnumerable<MenuItemModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
 
+                var allMenuItems = new List<MenuItemModel> { };
+
+                foreach (var item in context.MenuItemEssences) {
+                    allMenuItems.Add(Get(item.Id));
+                }
+
+                return allMenuItems;
+
+
+
                 // ВЕРНУТЬСЯ СЮДА!!!!!!!!!!!!!!!
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemEssence, MenuItemModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<MenuItemEssence>, List<MenuItemModel>>(context.MenuItemEssences.Include(o => o.Menu).Include(o => o.Page));
+                //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemEssence, MenuItemModel>()).CreateMapper();
+                //return mapper.Map<IEnumerable<MenuItemEssence>, List<MenuItemModel>>(context.MenuItemEssences.Include(o => o.Menu).Include(o => o.Page));
             }
         }
 

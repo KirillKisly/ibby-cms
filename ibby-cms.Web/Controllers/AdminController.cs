@@ -12,6 +12,8 @@ using System.Linq;
 namespace ibby_cms.Controllers {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller {
+        const int PAGE_SIZE = 15;
+
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
         private readonly IHtmlContentEssenceManager _htmlContentEssenceManager;
@@ -50,11 +52,10 @@ namespace ibby_cms.Controllers {
                 pages = pages.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()) || p.Url.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
-
-            int pageSize = 15;
+            //int pageSize = 15;
             int pageNumber = (page ?? 1);
 
-            return View(pages.ToPagedList(pageNumber, pageSize));
+            return View(pages.ToPagedList(pageNumber, PAGE_SIZE));
         }
 
         public ActionResult DetailsPage(int? id) {
@@ -229,28 +230,28 @@ namespace ibby_cms.Controllers {
             ViewBag.CurrentFilter = searchString;
 
             IEnumerable<MenuItemModel> menuItemModels = _menuItemManager.GetAll();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuItemModel, MenuViewModel>()).CreateMapper();
-            var menus = mapper.Map<IEnumerable<MenuItemModel>, List<MenuViewModel>>(menuItemModels);
+            var menus = new List<MenuViewModel> { };
+            foreach (var item in menuItemModels) {
+                var menu = new MenuViewModel {
+                    Id = item.Id,
+                    MenuID = item.MenuID,
+                    Url = item.Url,
+                    PageID = item.PageID,
+                    TitleMenuItem = item.TitleMenuItem,
+                    TitleMenu = item.MenuModel.TitleMenu,
+                    Code = item.MenuModel.Code
+                };
+                menus.Add(menu);
+            }
             menus.Reverse();
 
             if (!String.IsNullOrEmpty(searchString)) {
                 menus = menus.Where(m => m.TitleMenuItem.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
-            //IEnumerable<PageContentModel> pageContentModels = _pageContentEssenceManager.GetAll();
-            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PageContentModel, PageContentViewModel>()).CreateMapper();
-            //var pages = mapper.Map<IEnumerable<PageContentModel>, List<PageContentViewModel>>(pageContentModels);
-            //pages.Reverse();
-
-            //if (!String.IsNullOrEmpty(searchString)) {
-            //    pages = pages.Where(p => p.Header.ToUpper().Contains(searchString.ToUpper()) || p.Url.ToUpper().Contains(searchString.ToUpper())).ToList();
-            //}
-
-
-            int pageSize = 15;
             int pageNumber = (page ?? 1);
 
-            return View(menus.ToPagedList(pageNumber, pageSize));
+            return View(menus.ToPagedList(pageNumber, PAGE_SIZE));
         }
 
         #endregion
