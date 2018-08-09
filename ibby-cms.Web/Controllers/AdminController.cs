@@ -334,7 +334,7 @@ namespace ibby_cms.Controllers {
         [ValidateInput(false)]
         public ActionResult EditMenu(MenuViewModel menuViewModel) {
             try {
-                //if (ModelState.IsValid) {
+                if (ModelState.IsValid) {
                     var menu = new MenuModel {
                         Id = menuViewModel.MenuID,
                         Code = menuViewModel.Code,
@@ -352,10 +352,10 @@ namespace ibby_cms.Controllers {
                         MenuModel = menu
                     };
 
-                    _menuItemManager.SaveMenu(menuItem);
+                    _menuItemManager.EditMenu(menuItem);
 
                     return RedirectToAction("ManagementMenu");
-                //}
+                }
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
