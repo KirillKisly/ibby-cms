@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ibby_cms.Common.Abstract.Interfaces {
     public interface IPageContentEssenceManager {
         IEnumerable<PageContentModel> GetAll();
-        PageContentModel Get(int id);
+        PageContentModel Get(int? id);
         void Delete(int id);
         void CreatePage(PageContentModel pageContentModel);
         void EditPage(PageContentModel pageContentModel);

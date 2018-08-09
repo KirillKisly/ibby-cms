@@ -46,8 +46,7 @@ namespace ibby_cms.Common {
         public MenuItemModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
                 var item = context.MenuItemEssences.Include(x => x.Menu).Include(x => x.Page).FirstOrDefault(a => a.Id.Equals(id));
-                //var item = context.MenuItems.Include(x => x.Menu).Include(x => x.Page).Include(x => x.Page.PageSeo).FirstOrDefault(a => a.Id.Equals(id));
-
+                
                 if (item == null) {
                     throw new ValidationException("Элемент меню не найден", "");
                 }
@@ -63,25 +62,25 @@ namespace ibby_cms.Common {
                         Code = item.Menu.Code,
                         TitleMenu = item.Menu.TitleMenu
                     },
-                    PageModel = new PageContentModel {
-                        Id = item.Page.Id,
-                        Header = item.Page.Header,
-                        HtmlContentID = item.Page.HtmlContentID,
-                        Url = item.Page.Url,
-                        IsPublished = item.Page.IsPublished,
-                        SeoID = item.Page.SeoID,
-                        HtmlContentModel = new HtmlContentModel {
-                            Id = item.Page.HtmlContent.Id,
-                            HtmlContent = item.Page.HtmlContent.HtmlContent,
-                            UniqueCode = item.Page.HtmlContent.UniqueCode
-                        },
-                        PageSeoModel = new PageSeoModel {
-                            Id = item.Page.PageSeo.Id,
-                            Title = item.Page.PageSeo.Title,
-                            KeyWords = item.Page.PageSeo.KeyWords,
-                            Descriptions = item.Page.PageSeo.Descriptions
-                        }
-                    }
+                    //PageModel = new PageContentModel {
+                    //    Id = item.Page.Id,
+                    //    Header = item.Page.Header,
+                    //    HtmlContentID = item.Page.HtmlContentID,
+                    //    Url = item.Page.Url,
+                    //    IsPublished = item.Page.IsPublished,
+                    //    SeoID = item.Page.SeoID,
+                    //    HtmlContentModel = new HtmlContentModel {
+                    //        Id = item.Page.HtmlContent.Id,
+                    //        HtmlContent = item.Page.HtmlContent.HtmlContent,
+                    //        UniqueCode = item.Page.HtmlContent.UniqueCode
+                    //    },
+                    //    PageSeoModel = new PageSeoModel {
+                    //        Id = item.Page.PageSeo.Id,
+                    //        Title = item.Page.PageSeo.Title,
+                    //        KeyWords = item.Page.PageSeo.KeyWords,
+                    //        Descriptions = item.Page.PageSeo.Descriptions
+                    //    }
+                    //}
                 };
 
                 return menuItemModel;
@@ -105,10 +104,10 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
-            string url = !String.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.PageModel.Url;
+            //string url = !String.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.PageModel.Url;
 
             var menuItem = new MenuItemEssence() {
-                Url = url,
+                Url = menuItemModel.Url,
                 TitleMenuItem = menuItemModel.TitleMenuItem,
                 Menu = new MenuEssence {
                     Code = menuItemModel.MenuModel.Code,

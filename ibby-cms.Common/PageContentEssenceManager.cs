@@ -26,9 +26,14 @@ namespace ibby_cms.Common {
             }
         }
 
-        public PageContentModel Get(int id) {
+        public PageContentModel Get(int? id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.PageContentEssences.Include(x => x.PageSeo).Include(x => x.HtmlContent).FirstOrDefault(a => a.Id.Equals(id));
+                if (id == null) {
+                    return null;
+                }
+                //var item = context.PageContentEssences.Include(x => x.PageSeo).Include(x => x.HtmlContent).FirstOrDefault(a => a.Id.Equals(id));
+
+                var item = context.PageContentEssences.Find(id);
 
                 if (item == null) {
                     throw new ValidationException("Страница не найдена", "");

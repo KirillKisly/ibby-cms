@@ -242,9 +242,9 @@ namespace ibby_cms.Controllers {
                     PageID = item.PageID,
                     TitleMenuItem = item.TitleMenuItem,
                     TitleMenu = item.MenuModel.TitleMenu,
-                    TitlePage = item.PageModel.Header,
+                    //TitlePage = item.PageModel.Header,
                     Code = item.MenuModel.Code,
-                    Pages = item.PageModel
+                    //Pages = item.PageModel
                 };
                 menus.Add(menu);
             }
@@ -262,14 +262,13 @@ namespace ibby_cms.Controllers {
         public ActionResult CreateMenu() {
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
-            ViewBag.Pages = new SelectList(pages, "Id", "Header");
+            ViewBag.Pages = pages;
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
         public ActionResult CreateMenu(MenuViewModel menuViewModel) {
             try {
                 if (ModelState.IsValid) {
@@ -278,12 +277,12 @@ namespace ibby_cms.Controllers {
                         TitleMenu = menuViewModel.TitleMenu
                     };
 
-                    var page = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
+                    var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
                     var menuItem = new MenuItemModel {
                         MenuID = menuViewModel.MenuID,
                         Url = menuViewModel.Url,
-                        PageID = page,
+                        PageID = pageId,
                         TitleMenuItem = menuViewModel.TitleMenuItem,
                         MenuModel = menu
                     };
@@ -299,7 +298,8 @@ namespace ibby_cms.Controllers {
 
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
-            ViewBag.Pages = new SelectList(pages, "Id", "Header");
+            ViewBag.Pages = pages;
+
 
             return View(menuViewModel);
         }
@@ -307,65 +307,66 @@ namespace ibby_cms.Controllers {
         public ActionResult EditMenu(int? id) {
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
-            ViewBag.Pages = new SelectList(pages, "Id", "Header");
+            ViewBag.Pages = pages;
 
             MenuItemModel menuItem = _menuItemManager.Get(id.Value);
-            var menu = new MenuViewModel {
+
+            var menuModel = new MenuViewModel {
                 Id = menuItem.Id,
                 MenuID = menuItem.MenuID,
-                Url = menuItem.Url,
-                PageID = menuItem.PageID,
-                TitleMenuItem = menuItem.TitleMenuItem,
                 TitleMenu = menuItem.MenuModel.TitleMenu,
-                TitlePage = menuItem.PageModel.Header,
+                TitleMenuItem = menuItem.TitleMenuItem,
                 Code = menuItem.MenuModel.Code,
-                Pages = menuItem.PageModel
+                Url = menuItem.Url,
+                PageID = menuItem.PageID
             };
 
-            return View(menu);
+            if (menuItem.PageID != null) {
+                menuModel.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
+                menuModel.TitlePage = menuModel.Pages.Header;
+            }
+
+            return View(menuModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult EditMenu(PageContentViewModel pageContent) {
+        public ActionResult EditMenu(MenuViewModel menuViewModel) {
             try {
-                if (ModelState.IsValid) {
+                //if (ModelState.IsValid) {
+                    var menu = new MenuModel {
+                        Id = menuViewModel.MenuID,
+                        Code = menuViewModel.Code,
+                        TitleMenu = menuViewModel.TitleMenu
+                    };
 
+                    var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
-                    //var htmlContentModel = new HtmlContentModel {
-                    //    HtmlContent = pageContent.HtmlContent,
-                    //    UniqueCode = System.Guid.NewGuid().ToString()
-                    //};
-                    //_htmlContentEssenceManager.SaveHtmlContent(htmlContentModel);
-                    //int htmlContentId = _htmlContentEssenceManager.GetId(htmlContentModel.UniqueCode);
+                    var menuItem = new MenuItemModel {
+                        Id = menuViewModel.Id,
+                        MenuID = menuViewModel.MenuID,
+                        Url = menuViewModel.Url,
+                        PageID = pageId,
+                        TitleMenuItem = menuViewModel.TitleMenuItem,
+                        MenuModel = menu
+                    };
 
-                    //var pageSeoModel = new PageSeoModel {
-                    //    Id = pageContent.SeoID.Value,
-                    //    Title = pageContent.Title,
-                    //    KeyWords = pageContent.KeyWords,
-                    //    Descriptions = pageContent.Descriptions
-                    //};
-                    //_pageSeoEssenceManager.EditSeo(pageSeoModel);
-
-                    //var pageContentModel = new PageContentModel {
-                    //    Id = pageContent.Id,
-                    //    Header = pageContent.Header,
-                    //    Url = pageContent.Url,
-                    //    IsPublished = false,
-                    //    SeoID = pageSeoModel.Id,
-                    //    HtmlContentID = htmlContentId
-                    //};
-                    //_pageContentEssenceManager.EditPage(pageContentModel);
+                    _menuItemManager.SaveMenu(menuItem);
 
                     return RedirectToAction("ManagementMenu");
-                }
+                //}
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
 
-            return View(pageContent);
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
+            ViewBag.Pages = pages;
+
+
+            return View(menuViewModel);
         }
 
         #endregion

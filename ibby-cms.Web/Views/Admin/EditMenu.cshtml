@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
 }
 
-<script src="~/CKEditor/ckeditor/ckeditor.js"></script>
-<script src="~/CKEditor/ckfinder/ckfinder.js"></script>
-
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Редактирование меню</h2>
@@ -44,10 +41,12 @@
                             </div>
 
                             <div class="form-group col-md-12">
+
                                 @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TitlePage, new { htmlAttributes = new { @class = "form-control", placeholder = "Заголовок страницы", @disabled = "disabled" } })
+                                    @Html.EditorFor(model => model.TitlePage, new { htmlAttributes = new { @id = "inputTitlePage", @class = "form-control colorr", placeholder = "Заголовок страницы", @readonly = "readonly" } })
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin: 10px 0">Выбрать страницу</button>
+                                    @Html.ValidationMessageFor(model => model.Pages.Id, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="modal fade" id="myModal">
@@ -59,10 +58,10 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    @Html.DropDownListFor(m => m.Pages.Id, ViewBag.Pages as SelectList, "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.PageID, new SelectList(ViewBag.Pages, "Id", "Header", Model.PageID), "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control selector" })
                                                 </div>
                                                 <div class="form-group">
-                                                    <a href="#" class="btn btn-primary">Выбрать</a>
+                                                    <input type="button" class="btn btn-primary getTitlePage" data-dismiss="modal" value="Выбрать" />
                                                 </div>
                                             </div>
                                         </div>
@@ -70,10 +69,16 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12" id="result">
                                 @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите URL" } })
+                                    @if (Model.PageID == null) {
+                                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @id = "inputUrl", @class = "form-control", placeholder = "Введите URL" } })
+                                    }
+                                    else {
+                                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @id = "inputUrl", @class = "form-control", placeholder = "Введите URL", @readonly="readonly" } })
+                                    }
+
                                     @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -85,7 +90,6 @@
                                     @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
 
                         </div>
                     </div>
@@ -101,14 +105,37 @@
             <div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        @*<input type="submit" value="Создать страницу" formaction="CreatePage" class="btn btn-primary btn-block" />*@
-                        <button onclick="@Url.Action("CreateMenu", "Admin")" formaction="CreateMenu" class="btn btn-info btn-block">Просмотреть страницу</button>
+                        <button onclick="@Url.Action("EditMenu", "Admin")" formaction="CreateMenu" class="btn btn-info btn-block">Сохранить изменения</button>
                     </div>
                     @*<div class="col-md-6">
-                        <button onclick="@Url.Action("DetailsPage", "Admin")" formtarget="_blank" formaction="DetailsPage" class="btn btn-info btn-block">Просмотреть страницу</button>
-                    </div>*@
+                            <button onclick="@Url.Action("DetailsPage", "Admin")" formtarget="_blank" formaction="DetailsPage" class="btn btn-info btn-block">Просмотреть страницу</button>
+                        </div>*@
                 </div>
             </div>
         </div>
     </div>
+
+}
+
+@section scripts{
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
+    <script type="text/javascript">
+        $(".getTitlePage").click(function () {
+            var $value = $(".selector").val();
+            var $title = $(".selector").children('option[value=' + $value + ']').html();
+
+            if ($value == "") {
+                $('input#inputTitlePage').val("Заголовок страницы");
+                $('input#inputUrl').attr('disabled', false);
+                $('input#inputUrl').attr('readonly', false);
+                $('input#inputUrl').val("");
+            }
+            else {
+                $('input#inputTitlePage').val($title);
+                $('input#inputUrl').attr('readonly', true);
+                $('input#inputUrl').val("SOME URL");
+            }
+        });
+    </script>
+
 }
