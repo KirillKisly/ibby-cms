@@ -15,9 +15,18 @@ namespace ibby_cms.Common {
         }
 
         public void Delete(int id) {
-            using (EntitiesContext context = new EntitiesContext()) {
-                try {
+            MenuItemManager menuItemManager = new MenuItemManager();
+
+            try {
+                using (EntitiesContext context = new EntitiesContext()) {
+
                     var item = context.PageContentEssences.Find(id);
+                    var allMenus = menuItemManager.GetAll();
+                    foreach (var menu in allMenus) {
+                        if (menu.PageID == item.Id) {
+                            throw new ValidationException("Страницу нельзя удалить","");
+                        }
+                    }
 
                     if (item != null) {
                         context.PageContentEssences.Remove(item);
@@ -25,9 +34,9 @@ namespace ibby_cms.Common {
                         context.SaveChanges();
                     }
                 }
-                catch (ValidationException ex) {
-                    throw new ValidationException(ex.Message, ex.Property);
-                }
+            }
+            catch (ValidationException ex) {
+                throw new ValidationException(ex.Message, ex.Property);
             }
         }
 

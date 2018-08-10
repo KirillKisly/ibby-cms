@@ -28,10 +28,12 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.MenuModel.TitleMenu);
+
             var menuItem = new MenuItemEssence {
                 Id = menuItemModel.Id,
                 MenuID = menuItemModel.MenuID,
-                Url = menuItemModel.Url,
+                Url = url,
                 PageID = menuItemModel.PageID,
                 TitleMenuItem = menuItemModel.TitleMenuItem
             };
@@ -104,10 +106,10 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
-            //string url = !String.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.PageModel.Url;
+            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.MenuModel.TitleMenu);
 
             var menuItem = new MenuItemEssence() {
-                Url = menuItemModel.Url,
+                Url = url,
                 TitleMenuItem = menuItemModel.TitleMenuItem,
                 Menu = new MenuEssence {
                     Code = menuItemModel.MenuModel.Code,

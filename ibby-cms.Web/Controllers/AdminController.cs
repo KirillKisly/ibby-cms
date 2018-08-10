@@ -205,10 +205,31 @@ namespace ibby_cms.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult DeletePage(int id) {
             var deletePage = _pageContentEssenceManager.Get(id);
-            _pageContentEssenceManager.Delete(id);
-            _pageSeoEssenceManager.Delete(deletePage.PageSeoModel.Id);
+            try {
+               
+                _pageContentEssenceManager.Delete(id);
+                _pageSeoEssenceManager.Delete(deletePage.PageSeoModel.Id);
 
-            return RedirectToAction("ManagementPage");
+                return RedirectToAction("ManagementPage");
+            }
+            catch (ValidationException ex) {
+                ModelState.AddModelError(ex.Property, ex.Message);
+
+                var pageContent = new PageContentViewModel {
+                    Id = deletePage.Id,
+                    Header = deletePage.Header,
+                    Url = deletePage.Url,
+                    IsPublished = deletePage.IsPublished,
+                    SeoID = deletePage.SeoID,
+                    Title = deletePage.PageSeoModel.Title,
+                    Descriptions = deletePage.PageSeoModel.Descriptions,
+                    KeyWords = deletePage.PageSeoModel.KeyWords,
+                    HtmlContent = deletePage.HtmlContentModel.HtmlContent,
+                    UniqueCode = deletePage.HtmlContentModel.UniqueCode
+                };
+
+                return View(pageContent);
+            }
         }
 
         public ActionResult PublishPage(int? id) {
@@ -299,6 +320,7 @@ namespace ibby_cms.Controllers {
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
             ViewBag.Pages = pages;
+
 
 
             return View(menuViewModel);

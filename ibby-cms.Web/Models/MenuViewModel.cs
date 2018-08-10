@@ -18,6 +18,7 @@ namespace ibby_cms.Models {
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 100 символов")]
         public string TitleMenuItem { get; set; }
 
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Заголовок меню")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 100 символов")]
         public string TitleMenu { get; set; }
