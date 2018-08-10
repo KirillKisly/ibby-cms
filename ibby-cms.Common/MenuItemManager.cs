@@ -61,7 +61,7 @@ namespace ibby_cms.Common {
                         Id = item.Menu.Id,
                         Code = item.Menu.Code,
                         TitleMenu = item.Menu.TitleMenu
-                    },
+                    }
                     //PageModel = new PageContentModel {
                     //    Id = item.Page.Id,
                     //    Header = item.Page.Header,

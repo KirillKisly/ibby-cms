@@ -369,6 +369,71 @@ namespace ibby_cms.Controllers {
             return View(menuViewModel);
         }
 
+        public ActionResult DeleteMenu(int? id) {
+            MenuItemModel menuItem = _menuItemManager.Get(id.Value);
+
+            var menu = new MenuViewModel {
+                Id = menuItem.Id,
+                MenuID = menuItem.MenuID,
+                TitleMenu = menuItem.MenuModel.TitleMenu,
+                TitleMenuItem = menuItem.TitleMenuItem,
+                Code = menuItem.MenuModel.Code,
+                Url = menuItem.Url,
+                PageID = menuItem.PageID
+            };
+
+            if (menuItem.PageID != null) {
+                menu.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
+                menu.TitlePage = menu.Pages.Header;
+            }
+
+            return View(menu);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteMenu(int id) {
+            var deleteMenu = _menuItemManager.Get(id);
+            _menuItemManager.Delete(id);
+            _menuManager.Delete(id);
+
+            return RedirectToAction("ManagementMenu");
+
+
+            //var deletePage = _pageContentEssenceManager.Get(id);
+            //_pageContentEssenceManager.Delete(id);
+            //_pageSeoEssenceManager.Delete(deletePage.PageSeoModel.Id);
+
+            //return RedirectToAction("ManagementPage");
+        }
+
+        public ActionResult DetailsMenu(int? id) {
+            MenuItemModel menuItem = _menuItemManager.Get(id.Value);
+
+            var menu = new MenuViewModel {
+                Id = menuItem.Id,
+                MenuID = menuItem.MenuID,
+                TitleMenu = menuItem.MenuModel.TitleMenu,
+                TitleMenuItem = menuItem.TitleMenuItem,
+                Code = menuItem.MenuModel.Code,
+                Url = menuItem.Url,
+                PageID = menuItem.PageID
+            };
+
+            if (menuItem.PageID != null) {
+                menu.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
+                menu.TitlePage = menu.Pages.Header;
+            }
+
+            return View(menu);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult DetailsMenu(MenuViewModel menuViewModel) {
+            return View(menuViewModel);
+        }
+
         #endregion
 
     }

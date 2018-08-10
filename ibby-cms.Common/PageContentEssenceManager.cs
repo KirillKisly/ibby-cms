@@ -16,12 +16,17 @@ namespace ibby_cms.Common {
 
         public void Delete(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
-                var item = context.PageContentEssences.Find(id);
+                try {
+                    var item = context.PageContentEssences.Find(id);
 
-                if (item != null) {
-                    context.PageContentEssences.Remove(item);
+                    if (item != null) {
+                        context.PageContentEssences.Remove(item);
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
+                }
+                catch (ValidationException ex) {
+                    throw new ValidationException(ex.Message, ex.Property);
                 }
             }
         }

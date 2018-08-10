@@ -1,0 +1,28 @@
+﻿@model ibby_cms.Models.MenuViewModel
+
+@{
+    ViewBag.Title = Html.DisplayFor(model => model.TitleMenu);
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+
+}
+
+
+<br /><br /><hr />
+
+<div class="container">
+    <h1>@Html.DisplayFor(model => model.TitleMenu)</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <h3>@Html.DisplayFor(model => model.TitleMenuItem)</h3>
+                    @if (Model.Pages != null) {
+                        <h3>@Html.DisplayFor(model => model.TitlePage)</h3>
+                        <p>@Html.Raw(Model.Pages.HtmlContentModel.HtmlContent)</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
