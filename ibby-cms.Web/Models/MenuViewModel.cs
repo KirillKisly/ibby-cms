@@ -4,14 +4,13 @@ using System.ComponentModel.DataAnnotations;
 namespace ibby_cms.Models {
     public class MenuViewModel {
         public int Id { get; set; }
+        public int? PageID { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public int MenuID { get; set; }
 
         [Display(Name = "URL")]
         public string Url { get; set; }
-
-        public int? PageID { get; set; }
 
         public string TitlePage { get; set; }
 

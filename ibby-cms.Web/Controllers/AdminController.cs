@@ -340,6 +340,7 @@ namespace ibby_cms.Controllers {
                         Code = menuViewModel.Code,
                         TitleMenu = menuViewModel.TitleMenu
                     };
+                    _menuManager.EditMenu(menu);
 
                     var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
@@ -351,7 +352,6 @@ namespace ibby_cms.Controllers {
                         TitleMenuItem = menuViewModel.TitleMenuItem,
                         MenuModel = menu
                     };
-
                     _menuItemManager.EditMenu(menuItem);
 
                     return RedirectToAction("ManagementMenu");
