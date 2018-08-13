@@ -28,7 +28,17 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
-            var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.MenuModel.TitleMenu);
+            // Unique url 
+            var url = "";
+            if (menuItemModel.PageID == null) {
+                url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.MenuModel.TitleMenu);
+                if (!HasUrl(url)) {
+                    throw new ValidationException("Такой url уже существует.", "");
+                }
+            }
+            else {
+                url = menuItemModel.Url;
+            }
 
             var menuItem = new MenuItemEssence {
                 Id = menuItemModel.Id,
@@ -106,6 +116,7 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Элемент меню отсутствует", "");
             }
 
+            // Unique url
             var url = "";
             if (menuItemModel.PageID == null) {
                 url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(menuItemModel.Url) ? menuItemModel.Url : menuItemModel.MenuModel.TitleMenu);
@@ -116,8 +127,6 @@ namespace ibby_cms.Common {
             else {
                 url = menuItemModel.Url;
             }
-
-            
 
             var menuItem = new MenuItemEssence() {
                 Url = url,
@@ -139,8 +148,15 @@ namespace ibby_cms.Common {
         private bool HasUrl(string url) {
             PageContentEssenceManager pageManager = new PageContentEssenceManager();
             IEnumerable<PageContentModel> allPage = pageManager.GetAll();
+            IEnumerable<MenuItemModel> allMenu = GetAll();
 
+           
             foreach (var item in allPage) {
+                if (item.Url.Contains(url)) {
+                    return false;
+                }
+            }
+            foreach(var item in allMenu) {
                 if (item.Url.Contains(url)) {
                     return false;
                 }

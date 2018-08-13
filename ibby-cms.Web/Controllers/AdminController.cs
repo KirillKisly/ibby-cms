@@ -272,7 +272,7 @@ namespace ibby_cms.Controllers {
             menus.Reverse();
 
             if (!String.IsNullOrEmpty(searchString)) {
-                menus = menus.Where(m => m.TitleMenuItem.ToUpper().Contains(searchString.ToUpper())).ToList();
+                menus = menus.Where(m => m.TitleMenu.ToUpper().Contains(searchString.ToUpper()) || m.Url.ToUpper().Contains(searchString.ToUpper()) || m.Code.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
             int pageNumber = (page ?? 1);
