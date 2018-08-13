@@ -121,6 +121,18 @@
 }
 
 @section scripts{
+    <script type="text/javascript">
+        var arrayPages = @Html.Raw(
+        Json.Encode(
+            ((IEnumerable<ibby_cms.Common.Models.PageContentModel>)ViewBag.Pages).Select(page => new
+            {
+                pageId = page.Id,
+                pageUrl = page.Url
+            })
+        )
+);
+    </script>
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
     <script type="text/javascript">
         $(".getTitlePage").click(function () {
@@ -136,9 +148,12 @@
             else {
                 $('input#inputTitlePage').val($title);
                 $('input#inputUrl').attr('readonly', true);
-                $('input#inputUrl').val("SOME URL");
+                var result = $.grep(arrayPages, function (e) {
+                    return e.pageId == $value;
+                });
+
+                $('input#inputUrl').val(result[0].pageUrl);
             }
         });
     </script>
-
 }

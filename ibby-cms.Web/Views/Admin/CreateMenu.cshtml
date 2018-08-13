@@ -144,16 +144,8 @@
                     return e.pageId == $value;
                 });
 
-                console.log(result);
-
-                var url = result[0].pageUrl;
-                console.log(url);
-
-                $('input#inputUrl').val(url);
+                $('input#inputUrl').val(result[0].pageUrl);
             }
         });
     </script>
-
-
-
 }
