@@ -41,6 +41,7 @@ namespace ibby_cms.Common {
 
         public MenuModel Get(int id) {
             using (EntitiesContext context = new EntitiesContext()) {
+                //var item = context.MenuEssences.Include(x => x.MenuItems).FirstOrDefaultAsync(a => a.Id.Equals(id));
                 var item = context.MenuEssences.Find(id);
 
                 if (item == null) {
@@ -48,9 +49,9 @@ namespace ibby_cms.Common {
                 }
 
                 var menuModel = new MenuModel {
-                  Id = item.Id,
-                  Code = item.Code,
-                  TitleMenu = item.TitleMenu
+                    Id = item.Id,
+                    Code = item.Code,
+                    TitleMenu = item.TitleMenu 
                 };
 
                 return menuModel;
@@ -60,7 +61,7 @@ namespace ibby_cms.Common {
         public IEnumerable<MenuModel> GetAll() {
             using (EntitiesContext context = new EntitiesContext()) {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuEssence, MenuModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<MenuEssence>, List<MenuModel>>(context.MenuEssences);
+                return mapper.Map<IEnumerable<MenuEssence>, List<MenuModel>>(context.MenuEssences.Include(o => o.MenuItems));
             }
         }
 

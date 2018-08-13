@@ -19,8 +19,8 @@ namespace ibby_cms.Entities.DAL{
             modelBuilder.Entity<PageContentEssence>().HasMany(c => c.MenuItems).WithOptional(a => a.Page);
 
             modelBuilder.Entity<MenuItemEssence>().ToTable("dbo.MenuItemEssence");
-            //modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
             modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.PageID);
+            modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
 
             modelBuilder.Entity<PageSeoEssence>().ToTable("dbo.PageSeoEssence");
             modelBuilder.Entity<PageSeoEssence>().HasMany(c => c.PageContent).WithOptional(a => a.PageSeo);
@@ -29,7 +29,7 @@ namespace ibby_cms.Entities.DAL{
             modelBuilder.Entity<HtmlContentEssence>().HasMany(c => c.PageContent).WithOptional(a => a.HtmlContent);
 
             modelBuilder.Entity<MenuEssence>().ToTable("dbo.MenuEssence");
-            //modelBuilder.Entity<MenuEssence>().HasMany(c => c.MenuItems).WithOptional(a => a.Menu);
+            modelBuilder.Entity<MenuEssence>().HasMany(c => c.MenuItems).WithOptional(a => a.Menu);
         }
     }
 }
