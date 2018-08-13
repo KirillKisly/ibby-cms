@@ -21,7 +21,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                    <div class="tab-content" @*style="min-height: 500px"*@>
+                    <div class="tab-content">
                         <div class="tab-pane fade in active col-lg-12">
                             <br />
                             <div class="form-group col-md-12">
@@ -103,8 +103,8 @@
                         <button onclick="@Url.Action("CreateMenu", "Admin")" formaction="CreateMenu" class="btn btn-primary btn-block">Создать меню</button>
                     </div>
                     <div class="col-md-6">
-                            <button onclick="@Url.Action("DetailsMenu", "Admin")" formtarget="_blank" formaction="DetailsMenu" class="btn btn-info btn-block">Просмотреть меню</button>
-                        </div>
+                        <button onclick="@Url.Action("DetailsMenu", "Admin")" formtarget="_blank" formaction="DetailsMenu" class="btn btn-info btn-block">Просмотреть меню</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,6 +113,18 @@
 }
 
 @section scripts{
+    <script type="text/javascript">
+        var arrayPages = @Html.Raw(
+        Json.Encode(
+            ((IEnumerable<ibby_cms.Common.Models.PageContentModel>)ViewBag.Pages).Select(page => new
+            {
+                pageId = page.Id,
+                pageUrl = page.Url
+            })
+        )
+    );
+    </script>
+
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
     <script type="text/javascript">
         $(".getTitlePage").click(function () {
@@ -128,9 +140,20 @@
             else {
                 $('input#inputTitlePage').val($title);
                 $('input#inputUrl').attr('readonly', true);
-                $('input#inputUrl').val("SOME URL");
+                var result = $.grep(arrayPages, function (e) {
+                    return e.pageId == $value;
+                });
+
+                console.log(result);
+
+                var url = result[0].pageUrl;
+                console.log(url);
+
+                $('input#inputUrl').val(url);
             }
         });
     </script>
+
+
 
 }
