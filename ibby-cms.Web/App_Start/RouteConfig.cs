@@ -10,12 +10,12 @@ namespace ibby_cms {
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "CustomRoute",
-                url: "{*permalink}",
-                defaults: new { controller = "Page", action = "Index" },
-                constraints: new { permalink = new UrlConstraint() }
-                );
+            //routes.MapRoute(
+            //    name: "CustomRoute",
+            //    url: "{*permalink}",
+            //    defaults: new { controller = "Page", action = "Index" },
+            //    constraints: new { permalink = new UrlConstraint() }
+            //    );
 
             routes.MapRoute(
                 name: "Default",

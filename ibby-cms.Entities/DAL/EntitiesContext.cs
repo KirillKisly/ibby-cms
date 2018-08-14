@@ -20,7 +20,7 @@ namespace ibby_cms.Entities.DAL{
 
             modelBuilder.Entity<MenuItemEssence>().ToTable("dbo.MenuItemEssence");
             modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.PageID);
-            modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Page).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
+            modelBuilder.Entity<MenuItemEssence>().HasOptional(c => c.Menu).WithMany(a => a.MenuItems).HasForeignKey(k => k.MenuID);
 
             modelBuilder.Entity<PageSeoEssence>().ToTable("dbo.PageSeoEssence");
             modelBuilder.Entity<PageSeoEssence>().HasMany(c => c.PageContent).WithOptional(a => a.PageSeo);

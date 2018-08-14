@@ -35,9 +35,9 @@
             <div class="col-xs-12">
                 <div class="form-horizontal">
                     <h3>@Html.DisplayFor(model => model.TitleMenuItem)</h3>
-                    @if (Model.Pages != null) {
+                    @if (Model.Page != null) {
                         <h3>@Html.DisplayFor(model => model.TitlePage)</h3>
-                        <p>@Html.Raw(Model.Pages.HtmlContentModel.HtmlContent)</p>
+                        <p>@Html.Raw(Model.Page.HtmlContentModel.HtmlContent)</p>
                     }
                 </div>
             </div>

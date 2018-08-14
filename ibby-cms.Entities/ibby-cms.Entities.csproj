@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201808071222311_Refresh fields.Designer.cs">
       <DependentUpon>201808071222311_Refresh fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808140841318_Linking tables.cs" />
+    <Compile Include="Migrations\201808140841318_Linking tables.Designer.cs">
+      <DependentUpon>201808140841318_Linking tables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808071222311_Refresh fields.resx">
       <DependentUpon>201808071222311_Refresh fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808140841318_Linking tables.resx">
+      <DependentUpon>201808140841318_Linking tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

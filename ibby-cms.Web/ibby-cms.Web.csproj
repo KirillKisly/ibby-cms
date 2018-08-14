@@ -53,6 +53,9 @@
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="BeginCollectionItem, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
+    </Reference>
     <Reference Include="CKFinder, Version=2.4.0.2631, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>CKEditor\ckfinder\bin\Release\CKFinder.dll</HintPath>
@@ -237,7 +240,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MenuItemViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\PageContentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1304,6 +1306,9 @@
     <Content Include="Views\Admin\EditMenu.cshtml" />
     <Content Include="Views\Admin\DeleteMenu.cshtml" />
     <Content Include="Views\Admin\DetailsMenu.cshtml" />
+    <Content Include="Views\Admin\CreateMenuTest.cshtml" />
+    <Content Include="Views\Admin\MenuItemsPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
