@@ -4,6 +4,9 @@
     ViewBag.Title = "Создать меню";
     Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
 }
+@Scripts.Render("~/scripts/jquery-1.10.2.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -50,55 +53,25 @@
                                 <div class="panel ">
                                     <div class="panel-heading">
                                         @Html.Label("Элементы меню", htmlAttributes: new { @class = "control-label" })
-                                        <input type="button" id="addMenuItem" name="addMenuItem" value="Добавить" class="btn btn-success" style="margin:0 10px" />
+                                        @*<input type="button" id="addMenuItem" name="addMenuItem" value="Добавить" class="btn btn-success" style="margin:0 10px" />*@
+
+                                        @Html.ActionLink("Добавить", "AddNewMenuItem", null, new { id = "addItem", @class = "btn btn-success" })
                                     </div>
 
                                     <div class="panel-body">
-                                        <div id="NewMenuItem">
-                                            @foreach (var item in Model.menuItems) {
-                                                Html.RenderPartial("MenuItemsPartial", item);
-                                            }
-                                            @*<div class="panel-group" id="accordion">
-                                                    <div class="panel panel-success">
-                                                        <div class="panel-heading">
-                                                            <h4 class="panel-title">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Элемент меню #1</a>
-                                                            </h4>
-                                                        </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in">
-                                                            <div class="panel-body">
+                                        <div class="panel-group" id="accordion">
+                                            <div id="NewMenuItem">
+                                                @if (Model.menuItems != null) {
+                                                    foreach (var menuItem in Model.menuItems) {
 
-                                                                <div class="form-group col-md-12">
-                                                                    @Html.LabelFor(model => model.TitleMenuItem, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                                    <div class="col-md-10">
-                                                                        @Html.EditorFor(model => model.TitleMenuItem, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок элемента меню" } })
-                                                                        @Html.ValidationMessageFor(model => model.TitleMenuItem, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
+                                                        Html.RenderPartial("MenuItemsPartial");
+                                                    }
+                                                }
+                                                @*else {
+                                                        Html.RenderPartial("MenuItemsPartial", new ibby_cms.Models.MenuItemViewModel());
+                                                    }*@
+                                            </div>
 
-                                                                <div class="form-group col-md-12">
-                                                                    @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
-                                                                    <div class="col-md-10">
-                                                                        @Html.DropDownListFor(m => m.PageID, new SelectList(ViewBag.Pages, "Id", "Header"), "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control selector" })
-
-                                                                        @Html.ValidationMessageFor(model => model.Page.Id, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group col-md-12" id="result">
-                                                                    @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                                    <div class="col-md-10">
-                                                                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @id = "inputUrl", @class = "form-control", placeholder = "Введите URL" } })
-                                                                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>*@
                                         </div>
                                     </div>
 
@@ -172,14 +145,25 @@
         });
     </script>
 
-    <script type="text/javascript">
-        $('#addMenuItem').on('click', function () {
+
+
+    <script>
+        $("#addItem").click(function () {
             $.ajax({
-                async: false,
-                url: '/Admin/AddNewMenuItem'
-            }).success(function (partialView) {
-                $('#NewMenuItem').append(partialView);
+                url: this.href,
+                cache: false,
+                success: function (html) { $("#NewMenuItem").append(html); }
             });
+            return false;
         });
+    </script>
+
+    <script>
+        $("button.deleteRow").live("click", function () {
+            $(this).parents("div.menuItemRow:first").remove();
+            return false;
+        });
+
+
     </script>
 }

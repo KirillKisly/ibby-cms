@@ -1,18 +1,22 @@
-﻿@model ibby_cms.Models.MenuViewModel
+﻿@model ibby_cms.Models.MenuItemViewModel
 
-
+<link href="~/Content/bootstrap-template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 @using (Html.BeginCollectionItem("MenuItems")) {
-    int foo = 0;
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-success">
+
+    string col = "collapse";
+
+    <div id="menuItemRow" class="menuItemRow">
+
+        @*<div class="panel-group" id="accordion">*@
+        <div class="panel panel-success" style="margin: 10px;">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse+'@foo'">Элемент меню #@foo</a>
-                    <a href="#" class="deleteRow">Delete</a>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">Элемент меню #foo</a>
+                    <button type="button" id="deleteRow" class="deleteRow btn btn-danger close" data-toggle="tooltip" data-placement="top" title="Удалить элемент меню">&times;</button>
                 </h4>
             </div>
-            <div id="collapse+'@foo'" class="panel-collapse collapse in">
+            <div id="collapse" class="panel-collapse collapse in">
                 <div class="panel-body">
 
                     <div class="form-group col-md-12">
@@ -42,19 +46,78 @@
 
                 </div>
             </div>
-        </div>
+            @*</div>*@
 
+
+        </div>
 
     </div>
 
 }
 
-@section Scripts
-{
-    <script>
-        $("a.deleteRow").live("click", function () {
-            $(this).parents("div.employeeRow:first").remove();
-            return false;
-        });
-    </script>
-}
+@*@section scripts{
+
+        <script type="text/javascript">
+            var arrayPages = @Html.Raw(
+            Json.Encode(
+                ((IEnumerable<ibby_cms.Common.Models.PageContentModel>)ViewBag.Pages).Select(page => new
+                {
+                    pageId = page.Id,
+                    pageUrl = page.Url
+                })
+            )
+        );
+        </script>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
+        <script type="text/javascript">
+            $(window).load(function () {
+                $(".selector").change(function () {
+                    var $value = $(this).val();
+                    var $title = $(this).children('option[value=' + $value + ']').html();
+
+                    if ($value == "") {
+                        $('input#inputUrl').attr('readonly', false);
+                        $('input#inputUrl').val("");
+                    }
+                    else {
+                        $('input#inputUrl').attr('readonly', true);
+                        var result = $.grep(arrayPages, function (e) {
+                            return e.pageId == $value;
+                        });
+
+                        $('input#inputUrl').val(result[0].pageUrl);
+                    }
+                });
+            });
+        </script>
+        <script>
+            $("#addItem").click(function () {
+                $.ajax({
+                    url: this.href,
+                    cache: false,
+                    success: function (html) { $("#NewMenuItem").append(html); }
+                });
+                return false;
+            });
+        </script>
+
+        <script type="text/javascript">
+            $('#addMenuItem').on('click', function () {
+                $.ajax({
+                    async: false,
+                    url: '/Admin/AddNewMenuItem'
+                }).success(function (partialView) {
+                    $('#NewMenuItem').append(partialView);
+                });
+            });
+
+
+            $("a.deleteRow").live("click", function () {
+                $(this).parents("div.menuItemRow:first").remove();
+                return false;
+            });
+
+
+        </script>
+    }*@

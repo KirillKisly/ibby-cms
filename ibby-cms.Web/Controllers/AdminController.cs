@@ -288,7 +288,11 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult AddNewMenuItem() {
-            var menuItem = new MenuItemModel();
+
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
+            ViewBag.Pages = pages;
+            var menuItem = new MenuItemViewModel();
 
             return PartialView("MenuItemsPartial", menuItem);
         }
@@ -298,10 +302,29 @@ namespace ibby_cms.Controllers {
             pages.Reverse();
             ViewBag.Pages = pages;
 
-            //var menuItem = new MenuItemModel();
-
-            return View();
+            var menu = new MenuViewModel();
+            return View(menu);
         }
+
+        [HttpPost]
+        public ActionResult CreateMenuTest(IEnumerable<MenuItemViewModel> menuItem) {
+            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            pages.Reverse();
+            ViewBag.Pages = pages;
+
+            //var menu = new MenuViewModel();
+            return View("CreateMenuTest", menuItem);
+        }
+
+        //public ViewResult Add() {
+        //    List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+        //    pages.Reverse();
+        //    ViewBag.Pages = pages;
+
+        //    return View("MenuItemsPartial", new MenuItemViewModel());
+        //}
+
+
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
