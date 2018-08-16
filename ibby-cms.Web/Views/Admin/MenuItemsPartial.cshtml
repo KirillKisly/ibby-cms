@@ -4,16 +4,16 @@
 
 @using (Html.BeginCollectionItem("MenuItems")) {
 
-    string col = "collapse";
+    var foo = ViewBag.Number;
+    string col = "collapse" + Model.Count;
 
     <div id="menuItemRow" class="menuItemRow">
 
-        @*<div class="panel-group" id="accordion">*@
         <div class="panel panel-success" style="margin: 10px;">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">Элемент меню #foo</a>
-                    <button type="button" id="deleteRow" class="deleteRow btn btn-danger close" data-toggle="tooltip" data-placement="top" title="Удалить элемент меню">&times;</button>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse">Элемент меню @foo</a>
+                    <button type="button" id="deleteRow" class="deleteRow btn btn-danger" style="display:block; float:right; padding:3px; margin:0px; line-height: 0.7" data-toggle="tooltip" data-placement="top" title="Удалить элемент меню">&times;</button>
                 </h4>
             </div>
             <div id="collapse" class="panel-collapse collapse in">
@@ -46,7 +46,7 @@
 
                 </div>
             </div>
-            @*</div>*@
+
 
 
         </div>
@@ -55,9 +55,10 @@
 
 }
 
-@*@section scripts{
+@section scripts{
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
             var arrayPages = @Html.Raw(
             Json.Encode(
                 ((IEnumerable<ibby_cms.Common.Models.PageContentModel>)ViewBag.Pages).Select(page => new
@@ -67,31 +68,32 @@
                 })
             )
         );
-        </script>
+    </script>
 
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
-        <script type="text/javascript">
-            $(window).load(function () {
-                $(".selector").change(function () {
-                    var $value = $(this).val();
-                    var $title = $(this).children('option[value=' + $value + ']').html();
 
-                    if ($value == "") {
-                        $('input#inputUrl').attr('readonly', false);
-                        $('input#inputUrl').val("");
-                    }
-                    else {
-                        $('input#inputUrl').attr('readonly', true);
-                        var result = $.grep(arrayPages, function (e) {
-                            return e.pageId == $value;
-                        });
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".selector").change(function () {
+                var $value = $(this).val();
+                var $title = $(this).children('option[value=' + $value + ']').html();
 
-                        $('input#inputUrl').val(result[0].pageUrl);
-                    }
-                });
+                if ($value == "") {
+                    $('input#inputUrl').attr('readonly', false);
+                    $('input#inputUrl').val("");
+                }
+                else {
+                    $('input#inputUrl').attr('readonly', true);
+                    var result = $.grep(arrayPages, function (e) {
+                        return e.pageId == $value;
+                    });
+
+                    $('input#inputUrl').val(result[0].pageUrl);
+                }
             });
-        </script>
-        <script>
+        });
+    </script>
+
+    @*<script>
             $("#addItem").click(function () {
                 $.ajax({
                     url: this.href,
@@ -119,5 +121,5 @@
             });
 
 
-        </script>
-    }*@
+        </script>*@
+}

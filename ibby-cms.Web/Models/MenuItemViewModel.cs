@@ -19,6 +19,8 @@ namespace ibby_cms.Models {
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 30 символов")]
         public string TitleMenuItem { get; set; }
 
+        public int Count { get; set; }
+
         public virtual Common.Models.PageContentModel Page { get; set; }
     }
 }

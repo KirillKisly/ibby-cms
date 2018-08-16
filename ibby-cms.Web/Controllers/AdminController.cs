@@ -287,13 +287,14 @@ namespace ibby_cms.Controllers {
             return View(menus.ToPagedList(pageNumber, PAGE_SIZE));
         }
 
-        public ActionResult AddNewMenuItem() {
+        public ActionResult AddNewMenuItem(int clickCount) {
 
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
             pages.Reverse();
             ViewBag.Pages = pages;
+            ViewBag.Number = clickCount;
             var menuItem = new MenuItemViewModel();
-
+             
             return PartialView("MenuItemsPartial", menuItem);
         }
 

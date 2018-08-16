@@ -14,6 +14,9 @@ namespace ibby_cms.Models {
         [Display(Name = "Код меню")]
         public string Code { get; set; }
 
+       
+
+
         //public int? PageID { get; set; }
 
         //[Required(ErrorMessage = "Это поле обязательно для заполнения")]
@@ -29,7 +32,7 @@ namespace ibby_cms.Models {
         //[StringLength(30, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 30 символов")]
         //public string TitleMenuItem { get; set; }
 
-        
+
 
         public virtual ICollection<MenuItemViewModel> menuItems { get; set; }
         public virtual Common.Models.PageContentModel Page { get; set; }
