@@ -6,6 +6,7 @@ using ibby_cms.Entities.DAL;
 using ibby_cms.Entities.Entitites;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace ibby_cms.Common {
     public class MenuManager : IMenuManager {
@@ -26,17 +27,24 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Меню отсутствует", "");
             }
 
-            var menu = new MenuEssence {
-                Id = menuModel.Id,
-                Code = menuModel.Code,
-                TitleMenu = menuModel.TitleMenu
-            };
+            if (HasUniqueCode(menuModel.Code, menuModel.Id)) {
+                var menu = new MenuEssence {
+                    Id = menuModel.Id,
+                    Code = menuModel.Code,
+                    TitleMenu = menuModel.TitleMenu
+                };
 
-            using (EntitiesContext context = new EntitiesContext()) {
-                context.Entry(menu).State = EntityState.Modified;
+                using (EntitiesContext context = new EntitiesContext()) {
+                    context.Entry(menu).State = EntityState.Modified;
 
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
             }
+            else {
+                throw new ValidationException("Меню с таким кодом уже существует.", "");
+            }
+
+            
         }
 
         public MenuModel Get(int id) {
@@ -51,18 +59,54 @@ namespace ibby_cms.Common {
                 var menuModel = new MenuModel {
                     Id = item.Id,
                     Code = item.Code,
-                    TitleMenu = item.TitleMenu 
+                    TitleMenu = item.TitleMenu
                 };
+
+
+
+                if (item.MenuItems != null) {
+                    var listMenuItem = new List<MenuItemModel>();
+                    foreach (var menuItems in item.MenuItems) {
+
+                        var menu = new MenuItemModel {
+                            Id = menuItems.Id,
+                            MenuID = menuItems.MenuID.Value,
+                            PageID = menuItems.PageID,
+                            TitleMenuItem = menuItems.TitleMenuItem,
+                            Url = menuItems.Url
+                        };
+                        listMenuItem.Add(menu);
+                    }
+                    menuModel.MenuItemsModel = listMenuItem;
+                }
+
+
 
                 return menuModel;
             }
         }
 
         public IEnumerable<MenuModel> GetAll() {
+
             using (EntitiesContext context = new EntitiesContext()) {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuEssence, MenuModel>()).CreateMapper();
-                return mapper.Map<IEnumerable<MenuEssence>, List<MenuModel>>(context.MenuEssences.Include(o => o.MenuItems));
+                var allMenus = new List<MenuModel> { };
+
+                foreach (var item in context.MenuEssences.Include(o => o.MenuItems)) {
+                    allMenus.Add(Get(item.Id));
+                }
+
+                return allMenus;
             }
+
+
+            //using (EntitiesContext context = new EntitiesContext()) {
+            //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuEssence, MenuModel>()).CreateMapper();
+            //    var menus = mapper.Map<IEnumerable<MenuEssence>, List<MenuModel>>(context.MenuEssences.Include(o => o.MenuItems));
+
+
+
+            //    return menus;
+            //}
         }
 
         public void SaveMenu(MenuModel menuModel) {
@@ -70,16 +114,34 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Меню отсутствует", "");
             }
 
-            var menu = new MenuEssence {
-                Code = menuModel.Code,
-                TitleMenu = menuModel.TitleMenu
-            };
+            if (HasUniqueCode(menuModel.Code, menuModel.Id)) {
+                var menu = new MenuEssence {
+                    Code = menuModel.Code,
+                    TitleMenu = menuModel.TitleMenu
+                };
 
-            using (EntitiesContext context = new EntitiesContext()) {
-                context.MenuEssences.Add(menu);
+                using (EntitiesContext context = new EntitiesContext()) {
+                    context.MenuEssences.Add(menu);
 
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
+                
             }
+            else {
+                throw new ValidationException("Меню с таким кодом уже существует.", "");
+            }
+        }
+
+        private bool HasUniqueCode(string code, int id) {
+            IEnumerable<MenuModel> allMenu = GetAll();
+
+            foreach (var item in allMenu) {
+                if (item.Code == code && item.Id != id) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

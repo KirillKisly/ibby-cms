@@ -1310,6 +1310,8 @@
     <Content Include="Views\Admin\CreateMenuTest.cshtml" />
     <Content Include="Views\Admin\MenuItemsPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\Admin\CreateMenuItem.cshtml" />
+    <Content Include="Views\Admin\EditMenuItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,7 +24,7 @@ namespace ibby_cms.Common {
                     var allMenus = menuItemManager.GetAll();
                     foreach (var menu in allMenus) {
                         if (menu.PageID == item.Id) {
-                            throw new ValidationException("Страницу нельзя удалить","");
+                            throw new ValidationException("Страницу нельзя удалить", "");
                         }
                     }
 
@@ -90,7 +90,7 @@ namespace ibby_cms.Common {
             }
 
             var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
-            if (!HasUrl(url)) {
+            if (!HasUrl(url, pageContentModel.Id)) {
                 throw new ValidationException("Такой url уже существует.", "");
             }
 
@@ -122,6 +122,10 @@ namespace ibby_cms.Common {
             }
 
             var url = FriendlyUrls.GetFriendlyUrl(!string.IsNullOrEmpty(pageContentModel.Url) ? pageContentModel.Url : pageContentModel.Header);
+            if (!HasUrl(url, pageContentModel.Id)) {
+                throw new ValidationException("Такой url уже существует.", "");
+            }
+
             var pageContentEssence = new PageContentEssence {
                 Id = pageContentModel.Id,
                 Header = pageContentModel.Header,
@@ -163,11 +167,11 @@ namespace ibby_cms.Common {
             }
         }
 
-        private bool HasUrl(string url) {
+        private bool HasUrl(string url, int id) {
             IEnumerable<PageContentModel> allPage = GetAll();
 
             foreach (var item in allPage) {
-                if (item.Url.Contains(url)) {
+                if (item.Url == url && item.Id != id) {
                     return false;
                 }
             }

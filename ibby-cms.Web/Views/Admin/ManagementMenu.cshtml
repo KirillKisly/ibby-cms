@@ -53,6 +53,7 @@
                         <tr>
                             <th>Заголовок меню</th>
                             <th>Код меню</th>
+                            <th>Элементы меню</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -63,16 +64,55 @@
                                     @Html.DisplayFor(modelItem => item.TitleMenu)
                                 </td>
                                 <td>
-                                   @Html.DisplayFor(modelItem => item.Code)
+                                    @Html.DisplayFor(modelItem => item.Code)
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("DetailsMenu", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть страницу">
+                                    @if (item.menuItems != null) {
+                                        <table style="width:100%">
+                                            @foreach (var menuItem in item.menuItems) {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => menuItem.TitleMenuItem)</td>
+                                                    <td style="width: 20%">
+                                                        <button onclick="location.href = '@Url.Action("EditMenuItem", "Admin", new { id = menuItem.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать элемент меню">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </button>
+
+                                                        <button onclick="location.href = '@Url.Action("DeleteMenuItem", "Admin", new { id = menuItem.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить элемент меню">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+
+                                    }
+
+                                    @*<div>
+                                            @Html.DisplayFor(modelItem => menuItem.TitleMenuItem)
+                                            <div style="float:right">
+                                                <button onclick="location.href = '@Url.Action("CreateMenuItem", "Admin", new { id = item.Id})'" type="button" class="btn btn-success btn-sm" title="Добавить элемент меню">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+
+                                                <a href="@Url.Action("DetailsMenu", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть меню">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>*@
+
+                                </td>
+                                <td>
+                                    <button onclick="location.href = '@Url.Action("CreateMenuItem", "Admin", new { id = item.Id})'" type="button" class="btn btn-success btn-circle" title="Добавить элемент меню">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+
+                                    <a href="@Url.Action("DetailsMenu", "Admin", new { id = item.Id})" target="_blank" class="btn btn-info btn-circle" title="Просмотреть меню">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <button onclick="location.href = '@Url.Action("EditMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать страницу">
+                                    <button onclick="location.href = '@Url.Action("EditMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-warning btn-circle" title="Редактировать меню">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                    <button onclick="location.href = '@Url.Action("DeleteMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить страницу">
+                                    <button onclick="location.href = '@Url.Action("DeleteMenu", "Admin", new { id = item.Id})'" type="button" class="btn btn-danger btn-circle" title="Удалить меню">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                 </td>
@@ -90,3 +130,22 @@
         }
     </div>
 </div>
+
+
+@section scripts{
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script>
+        function DelMenuItem(id, title) {
+
+            var result = confirm("Вы действительно хотите удалить " + title + "?");
+            if (result == true) {
+                $.ajax({
+                    url: '/Admin/DeleteMenuItem',
+                    data: { id: id }
+                });
+            }
+        }
+    </script>
+}

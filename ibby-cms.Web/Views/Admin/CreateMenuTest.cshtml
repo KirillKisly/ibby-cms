@@ -9,7 +9,6 @@
 @Scripts.Render("~/scripts/jquery-1.10.2.js")
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
 
-
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Создание меню</h2>
@@ -24,12 +23,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-
                 <div class="panel-body">
                     <div class="tab-content">
                         <div class="tab-pane fade in active col-lg-12">
                             <br />
-
                             <!-- Menu -->
                             <div class="col-md-12">
                                 <div class="form-group col-md-12">
@@ -55,13 +52,8 @@
                                 <div class="panel ">
                                     <div class="panel-heading">
                                         @Html.Label("Элементы меню", htmlAttributes: new { @class = "control-label" })
-                                        @*<input type="button" id="addMenuItem" name="addMenuItem" value="Добавить" class="btn btn-success" style="margin:0 10px" />*@
-                                        @*@Html.ActionLink("Добавить", "AddNewMenuItem", null, new { id = "addItem", @class = "btn btn-success" })*@
-
-                                        <a href="#" onclick="NumCount()" id="addItem">asdf</a>
-
+                                        @Html.ActionLink("Добавить", "AddNewMenuItem", new { clickCount = foo }, new { id = "addItem", @class = "btn btn-success" })
                                     </div>
-
                                     <div class="panel-body">
                                         <div class="panel-group" id="accordion">
                                             <div id="NewMenuItem">
@@ -71,17 +63,10 @@
                                                     }
                                                 }
                                             </div>
-
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
@@ -157,31 +142,28 @@
         </script>*@
 
     <script>
-        function NumCount() {
-            $("#addItem").click(function () {
-                var clickCount = +$(this).data("clickcount");
-                if (!clickCount)
-                    clickCount = 1;
+
+        $("#addItem").click(function () {
+            var clickCount = +$(this).data("clickcount");
+            if (!clickCount)
+                clickCount = 1;
+
+            $(this).data("clickcount", clickCount)
+
+            $.ajax({
+                url: this.href,
+                //url: '/Admin/AddNewMenuItem',
+                //data: { clickCount: clickCount1 },
+                cache: false,
+                success: function (html) { $("#NewMenuItem").append(html); }
+            });
 
 
-
-
-
-                $(this).data("clickcount", clickCount)
-                $.ajax({
-                    //url: this.href,
-                    url: '/Admin/AddNewMenuItem',
-                    data: { clickCount: clickCount },
-                    cache: false,
-                    success: function (html) { $("#NewMenuItem").append(html); }
-                });
-
-
-                alert(clickCount++);
-                return false;
-            }
-            );
+            alert(clickCount++);
+            return false;
         }
+        );
+
 
     </script>
 

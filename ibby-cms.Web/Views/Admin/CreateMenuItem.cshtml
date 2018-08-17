@@ -1,0 +1,163 @@
+﻿@model ibby_cms.Models.MenuItemViewModel
+
+@{
+    ViewBag.Title = "Создать элемент меню";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Создание элемента меню</h2>
+    </div>
+</div>
+
+<br />
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="MenuID" value="@Model.MenuID" />
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active col-lg-12">
+                            <br />
+                            @*<div class="form-group col-md-12">
+                                    @Html.LabelFor(model => model.TitleMenu, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TitleMenu, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок меню" } })
+                                        @Html.ValidationMessageFor(model => model.TitleMenu, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите код меню" } })
+                                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(model => model.TitleMenuItem, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TitleMenuItem, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите заголовок элемента меню" } })
+                                    @Html.ValidationMessageFor(model => model.TitleMenuItem, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.PageID, new SelectList(ViewBag.Pages, "Id", "Header"), "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control selector" })
+
+                                    @Html.ValidationMessageFor(model => model.Page.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group col-md-12">
+                                    @Html.Label("Страница", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TitlePage, new { htmlAttributes = new { @id = "inputTitlePage", @class = "form-control colorr", placeholder = "Заголовок страницы", @readonly = "readonly" } })
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin: 10px 0">Выбрать страницу</button>
+                                        @Html.ValidationMessageFor(model => model.Page.Id, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class=" modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                    <h4 id="ModalTitle">Выбрать страницу</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        @Html.DropDownListFor(m => m.PageID, new SelectList(ViewBag.Pages, "Id", "Header"), "-- Выберите страницу --", new { @id = "DropDwn", @class = "form-control selector" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="button" class="btn btn-primary getTitlePage" data-dismiss="modal" value="Выбрать" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group col-md-12" id="result">
+                                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @id = "inputUrl", @class = "form-control", placeholder = "Введите URL" } })
+                                    @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <br />
+            <div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <button onclick="@Url.Action("CreateMenuItem", "Admin")" formaction="CreateMenuItem" class="btn btn-primary btn-block">Создать меню</button>
+                    </div>
+                    @*<div class="col-md-6">
+                            <button onclick="@Url.Action("DetailsMenu", "Admin")" formtarget="_blank" formaction="DetailsMenu" class="btn btn-info btn-block">Просмотреть меню</button>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts{
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.js"></script>
+
+    <script type="text/javascript">
+            var arrayPages = @Html.Raw(
+            Json.Encode(
+                ((IEnumerable<ibby_cms.Common.Models.PageContentModel>)ViewBag.Pages).Select(page => new
+                {
+                    pageId = page.Id,
+                    pageUrl = page.Url
+                })
+            )
+        );
+    </script>
+
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".selector").change(function () {
+                var $value = $(this).val();
+                var $title = $(this).children('option[value=' + $value + ']').html();
+
+                if ($value == "") {
+                    $('input#inputUrl').attr('readonly', false);
+                    $('input#inputUrl').val("");
+                }
+                else {
+                    $('input#inputUrl').attr('readonly', true);
+                    var result = $.grep(arrayPages, function (e) {
+                        return e.pageId == $value;
+                    });
+
+                    $('input#inputUrl').val(result[0].pageUrl);
+                }
+            });
+        });
+    </script>
+}

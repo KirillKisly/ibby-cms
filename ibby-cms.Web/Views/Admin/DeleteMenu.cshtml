@@ -15,7 +15,6 @@
 @using (@Html.BeginForm()) {
     @Html.AntiForgeryToken()
 
-    <input type="hidden" name="PageId" value="@Model.PageID" />
 
     <div class="form-group">
         <div class="col-md-10">
@@ -28,19 +27,33 @@
 <br /><br /><hr />
 
 <div class="container">
-    <h1>@Html.DisplayFor(model => model.TitleMenu)</h1>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="form-horizontal">
-                    <h3>@Html.DisplayFor(model => model.TitleMenuItem)</h3>
-                    @if (Model.Page != null) {
-                        <h3>@Html.DisplayFor(model => model.TitlePage)</h3>
-                        <p>@Html.Raw(Model.Page.HtmlContentModel.HtmlContent)</p>
+    <table style="width: 100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+
+        <thead>
+            <tr>
+                <th>Заголовок меню</th>
+                <th>Код меню</th>
+                <th>Элементы меню</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.TitleMenu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Code)
+                </td>
+                <td>
+                    @if (Model.menuItems != null) {
+                        foreach (var menuItem in Model.menuItems) {
+
+                            <div> @Html.DisplayFor(modelItem => menuItem.TitleMenuItem)</div>
+
+                        }
                     }
-                </div>
-            </div>
-        </div>
-    </div>
+                </td>
+        </tbody>
+    </table>
 </div>
