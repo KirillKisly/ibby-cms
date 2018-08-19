@@ -554,10 +554,32 @@ namespace ibby_cms.Controllers {
         //    return View(menuViewModel);
         //}
 
-        public ActionResult CreateMenuItem(int id) {
+        private List<PageContentModel> GetPublishedPages() {
             List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            pages.Reverse();
-            ViewBag.Pages = pages;
+            List<PageContentModel> publishedPages = new List<PageContentModel>();
+            foreach (var item in pages) {
+                if (item.IsPublished) {
+                    publishedPages.Add(item);
+                }
+            }
+            publishedPages.Reverse();
+            //ViewBag.Pages = new SelectList(publishedPages, "Id", "Header");
+
+            return publishedPages;
+        }
+
+        public ActionResult CreateMenuItem(int id) {
+            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            //List<PageContentModel> publishedPages = new List<PageContentModel>();
+            //foreach (var item in pages) {
+            //    if (item.IsPublished) {
+            //        publishedPages.Add(item);
+            //    }
+            //}
+
+            //publishedPages.Reverse();
+
+            ViewBag.Pages = GetPublishedPages();
 
             var menuItem = new MenuItemViewModel() { MenuID = id };
 
@@ -601,17 +623,17 @@ namespace ibby_cms.Controllers {
             //pages.Reverse();
             //ViewBag.Pages = pages;
 
-            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            pages.Reverse();
-            ViewBag.Pages = pages;
+            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            //pages.Reverse();
+            ViewBag.Pages = GetPublishedPages();
 
             return View(menuItemViewModel);
         }
 
         public ActionResult EditMenuItem(int? id) {
-            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            pages.Reverse();
-            ViewBag.Pages = pages;
+            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            //pages.Reverse();
+            ViewBag.Pages = GetPublishedPages();
 
             MenuItemModel menuItem = _menuItemManager.Get(id.Value);
 
@@ -639,35 +661,35 @@ namespace ibby_cms.Controllers {
         public ActionResult EditMenuItem(MenuItemViewModel menuViewModel) {
             try {
 
-                    //var menu = new MenuModel {
-                    //    Id = menuViewModel.Id,
-                    //    Code = menuViewModel.Code,
-                    //    TitleMenu = menuViewModel.TitleMenu
-                    //};
-                    //_menuManager.EditMenu(menu);
+                //var menu = new MenuModel {
+                //    Id = menuViewModel.Id,
+                //    Code = menuViewModel.Code,
+                //    TitleMenu = menuViewModel.TitleMenu
+                //};
+                //_menuManager.EditMenu(menu);
 
-                    //var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
+                //var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
-                    var menuItem = new MenuItemModel {
-                        Id = menuViewModel.Id,
-                        MenuID = menuViewModel.MenuID,
-                        Url = menuViewModel.Url,
-                        PageID = menuViewModel.PageID,
-                        TitleMenuItem = menuViewModel.TitleMenuItem,
-                        //MenuModel = menu
-                    };
-                    _menuItemManager.EditMenu(menuItem);
+                var menuItem = new MenuItemModel {
+                    Id = menuViewModel.Id,
+                    MenuID = menuViewModel.MenuID,
+                    Url = menuViewModel.Url,
+                    PageID = menuViewModel.PageID,
+                    TitleMenuItem = menuViewModel.TitleMenuItem,
+                    //MenuModel = menu
+                };
+                _menuItemManager.EditMenu(menuItem);
 
-                    return RedirectToAction("ManagementMenu");
-                
+                return RedirectToAction("ManagementMenu");
+
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
 
-            List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            pages.Reverse();
-            ViewBag.Pages = pages;
+            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+            //pages.Reverse();
+            ViewBag.Pages = GetPublishedPages();
 
 
             return View(menuViewModel);
