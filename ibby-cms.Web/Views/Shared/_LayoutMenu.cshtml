@@ -2,7 +2,11 @@
 
 @{
     ibby_cms.Models.MenuViewModel menu = ViewBag.Menu;
+
+
 }
+
+@using System.Text.RegularExpressions
 
 <html>
 
@@ -33,9 +37,20 @@
                 <ul class="nav navbar-nav">
                     @if (menu != null) {
                         foreach (var menuItem in menu.menuItems) {
-                            <li>
-                                @Html.ActionLink(menuItem.TitleMenuItem, "Index", "Page", new { permalink = menuItem.Url, codeMenu = menu.Code }, null)
-                            </li>
+                    <li>
+
+                        @if (Uri.IsWellFormedUriString(menuItem.Url, UriKind.Absolute)) {
+                        <a href="@menuItem.Url" target="_blank"  >
+                            @menuItem.TitleMenuItem
+                        </a>
+                        }
+                        else {
+                            @Html.ActionLink(menuItem.TitleMenuItem, "Index", "Page", new { permalink = menuItem.Url, codeMenu = menu.Code }, null)
+                        }
+
+
+
+                    </li>
                         }
                     }
                 </ul>
@@ -64,3 +79,17 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
+<script type="text/javascript">
+    function CheckUrl(url) {
+        var pettern = /^(ftp|http|https):\/\/[^ "]+$/;
+        if (pettern.test(url)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
