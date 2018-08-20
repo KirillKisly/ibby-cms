@@ -44,7 +44,7 @@ namespace ibby_cms.Common {
                 throw new ValidationException("Меню с таким кодом уже существует.", "");
             }
 
-            
+
         }
 
         public MenuModel Get(int id) {
@@ -125,7 +125,7 @@ namespace ibby_cms.Common {
 
                     context.SaveChanges();
                 }
-                
+
             }
             else {
                 throw new ValidationException("Меню с таким кодом уже существует.", "");
@@ -142,6 +142,40 @@ namespace ibby_cms.Common {
             }
 
             return true;
+        }
+
+        public MenuModel RenderMenu(string menuCode) {
+            using (EntitiesContext context = new EntitiesContext()) {
+                var menu = context.MenuEssences.Where(a => a.Code == menuCode).FirstOrDefault(); //.Find(menuCode);
+
+                if (menu == null) {
+                    throw new ValidationException("Меню не найдено", "");
+                }
+
+                var menuModel = new MenuModel {
+                    Id = menu.Id,
+                    Code = menu.Code,
+                    TitleMenu = menu.TitleMenu
+                };
+
+                if (menu.MenuItems != null) {
+                    var listMenuItem = new List<MenuItemModel>();
+                    foreach (var menuItems in menu.MenuItems) {
+
+                        var menuItem = new MenuItemModel {
+                            Id = menuItems.Id,
+                            MenuID = menuItems.MenuID.Value,
+                            PageID = menuItems.PageID,
+                            TitleMenuItem = menuItems.TitleMenuItem,
+                            Url = menuItems.Url
+                        };
+                        listMenuItem.Add(menuItem);
+                    }
+                    menuModel.MenuItemsModel = listMenuItem;
+                }
+
+                return menuModel;
+            }
         }
     }
 }

@@ -111,14 +111,17 @@
         <div class="col-lg-12">
             <br />
             <div>
+
                 <div class="form-group">
                     <div class="col-md-6">
-                        <button onclick="@Url.Action("EditMenuItem", "Admin")" formaction="EditMenuItem" class="btn btn-primary btn-block">Создать меню</button>
+                        <input type="submit" value="Сохранить изменения" class="btn btn-primary btn-block" />
                     </div>
-                    @*<div class="col-md-6">
-                            <button onclick="@Url.Action("DetailsMenu", "Admin")" formtarget="_blank" formaction="DetailsMenu" class="btn btn-info btn-block">Просмотреть меню</button>
-                        </div>*@
+
+                    <div class="col-md-6">
+                        <input type="button" value="Отмена" onclick="location.href='@Url.Action("ManagementMenu","Admin")';" class="btn btn-danger btn-block" />
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

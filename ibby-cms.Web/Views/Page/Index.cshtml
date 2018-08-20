@@ -4,7 +4,7 @@
     ViewBag.Title = Html.DisplayFor(model => model.Header);
     ViewBag.Description = @Html.DisplayFor(model => model.Descriptions);
     ViewBag.Keywords = @Html.DisplayFor(model => model.KeyWords);
-
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
 }
 
 <h1>@Html.DisplayFor(model => model.Header)</h1>

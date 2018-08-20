@@ -1,0 +1,15 @@
+﻿
+@{
+    ibby_cms.Models.MenuViewModel menu = ViewBag.Menu;
+}
+
+<ul class="nav navbar-nav">
+
+    @if (menu != null) {
+        foreach (var menuItem in menu.menuItems) {
+            <li>
+                @Html.ActionLink(menuItem.TitleMenuItem, "Index", "Page", new { permalink = menuItem.Url }, null)
+            </li>
+        }
+    }
+</ul>

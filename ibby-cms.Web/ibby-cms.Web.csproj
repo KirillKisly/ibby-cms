@@ -1312,6 +1312,9 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Admin\CreateMenuItem.cshtml" />
     <Content Include="Views\Admin\EditMenuItem.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Views\Admin\RenderMenu.cshtml" />
+    <Content Include="Views\Shared\_LayoutMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

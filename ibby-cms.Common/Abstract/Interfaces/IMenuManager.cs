@@ -8,5 +8,6 @@ namespace ibby_cms.Common.Abstract.Interfaces {
         void Delete(int id);
         void SaveMenu(MenuModel menuModel);
         void EditMenu(MenuModel menuModel);
+        MenuModel RenderMenu(string codeMenu);
     }
 }

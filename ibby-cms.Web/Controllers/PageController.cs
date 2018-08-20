@@ -12,14 +12,17 @@ namespace ibby_cms.Controllers {
         private readonly IPageContentEssenceManager _pageContentEssenceManager;
         private readonly IPageSeoEssenceManager _pageSeoEssenceManager;
         private readonly IHtmlContentEssenceManager _htmlContentEssenceManager;
+        private readonly IMenuManager _menuManager;
 
-        public PageController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager, IHtmlContentEssenceManager htmlContentEssenceManager) {
+        public PageController(IPageContentEssenceManager pageContentEssenseManager, IPageSeoEssenceManager pageSeoEssenceManager, IHtmlContentEssenceManager htmlContentEssenceManager, IMenuManager menuManager) {
             _pageContentEssenceManager = pageContentEssenseManager;
             _pageSeoEssenceManager = pageSeoEssenceManager;
             _htmlContentEssenceManager = htmlContentEssenceManager;
+            _menuManager = menuManager;
         }
 
-        public ActionResult Index(string permalink) {
+        
+        public ActionResult Index(string permalink, string codeMenu) {
             var page = _pageContentEssenceManager.FindUrl(permalink);
 
             if (!page.IsPublished) {
@@ -38,6 +41,33 @@ namespace ibby_cms.Controllers {
                 HtmlContent = page.HtmlContentModel.HtmlContent,
                 UniqueCode = page.HtmlContentModel.UniqueCode
             };
+
+            // Has menu
+            if (!String.IsNullOrEmpty(codeMenu)) {
+                var menu = _menuManager.RenderMenu(codeMenu);
+                var menuViewModel = new MenuViewModel {
+                    Id = menu.Id,
+                    TitleMenu = menu.TitleMenu,
+                    Code = menu.Code
+                };
+
+                var listMenuItem = new List<MenuItemViewModel>();
+                foreach (var menuItems in menu.MenuItemsModel) {
+
+                    var menuItem = new MenuItemViewModel {
+                        Id = menuItems.Id,
+                        MenuID = menuItems.MenuID,
+                        PageID = menuItems.PageID,
+                        TitleMenuItem = menuItems.TitleMenuItem,
+                        Url = menuItems.Url
+                    };
+                    listMenuItem.Add(menuItem);
+                }
+                menuViewModel.menuItems = listMenuItem;
+
+
+                ViewBag.Menu = menuViewModel;
+            }
 
             return View(pageContent);
         }
