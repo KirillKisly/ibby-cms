@@ -112,10 +112,6 @@ namespace ibby_cms.Common {
                 Url = menuItemModel.Url,
                 TitleMenuItem = menuItemModel.TitleMenuItem,
                 MenuID = menuItemModel.MenuID,
-                //Menu = new MenuEssence {
-                //    Code = menuItemModel.MenuModel.Code,
-                //    TitleMenu = menuItemModel.MenuModel.TitleMenu
-                //},
                 PageID = menuItemModel.PageID,
                 Weight = menuItemModel.Weight
             };

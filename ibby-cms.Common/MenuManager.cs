@@ -62,12 +62,9 @@ namespace ibby_cms.Common {
                     TitleMenu = item.TitleMenu
                 };
 
-
-
                 if (item.MenuItems != null) {
                     var listMenuItem = new List<MenuItemModel>();
                     foreach (var menuItems in item.MenuItems) {
-
                         var menuItem = new MenuItemModel {
                             Id = menuItems.Id,
                             MenuID = menuItems.MenuID.Value,
@@ -78,10 +75,10 @@ namespace ibby_cms.Common {
                         };
                         listMenuItem.Add(menuItem);
                     }
+                    listMenuItem =  listMenuItem.OrderBy(x => x.Weight).ToList();
+
                     menuModel.MenuItemsModel = listMenuItem;
                 }
-
-
 
                 return menuModel;
             }
