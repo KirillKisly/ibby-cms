@@ -36,21 +36,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (menu != null) {
-                        foreach (var menuItem in menu.menuItems) {
-                    <li>
+                        foreach (var menuItem in menu.MenuItems) {
+                            <li>
 
-                        @if (Uri.IsWellFormedUriString(menuItem.Url, UriKind.Absolute)) {
-                        <a href="@menuItem.Url" target="_blank"  >
-                            @menuItem.TitleMenuItem
-                        </a>
-                        }
-                        else {
-                            @Html.ActionLink(menuItem.TitleMenuItem, "Index", "Page", new { permalink = menuItem.Url, codeMenu = menu.Code }, null)
-                        }
+                                @if (Uri.IsWellFormedUriString(menuItem.Url, UriKind.Absolute)) {
+                                    <a href="@menuItem.Url" target="_blank">@menuItem.TitleMenuItem</a>
+                                }
+                                else {
+                                    @Html.ActionLink(menuItem.TitleMenuItem, "Index", "Page", new { permalink = menuItem.Url, codeMenu = menu.Code }, null)
+                                }
 
 
 
-                    </li>
+                            </li>
                         }
                     }
                 </ul>

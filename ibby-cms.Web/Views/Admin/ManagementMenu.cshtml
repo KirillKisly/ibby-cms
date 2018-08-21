@@ -67,9 +67,9 @@
                                     @Html.DisplayFor(modelItem => item.Code)
                                 </td>
                                 <td>
-                                    @if (item.menuItems != null) {
+                                    @if (item.MenuItems != null) {
                                         <table style="width:100%">
-                                            @foreach (var menuItem in item.menuItems) {
+                                            @foreach (var menuItem in item.MenuItems) {
                                                 <tr>
                                                     <td>
                                                         @*@Html.DisplayFor(modelItem => menuItem.TitleMenuItem)*@
@@ -106,7 +106,7 @@
 
                                 </td>
                                 <td>
-                                    <button onclick="location.href = '@Url.Action("CreateMenuItem", "Admin", new { id = item.Id})'" type="button" class="btn btn-success btn-circle" title="Добавить элемент меню">
+                                    <button onclick="location.href = '@Url.Action("CreateMenuItem", "Admin", new { menuID = item.Id})'" type="button" class="btn btn-success btn-circle" title="Добавить элемент меню">
                                         <i class="fa fa-plus"></i>
                                     </button>
 

@@ -149,6 +149,10 @@
     <Compile Include="Migrations\201808171224276_Cascade delete.Designer.cs">
       <DependentUpon>201808171224276_Cascade delete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808210728235_Add Weight field in MenuItemEssence.cs" />
+    <Compile Include="Migrations\201808210728235_Add Weight field in MenuItemEssence.Designer.cs">
+      <DependentUpon>201808210728235_Add Weight field in MenuItemEssence.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -191,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808171224276_Cascade delete.resx">
       <DependentUpon>201808171224276_Cascade delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808210728235_Add Weight field in MenuItemEssence.resx">
+      <DependentUpon>201808210728235_Add Weight field in MenuItemEssence.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

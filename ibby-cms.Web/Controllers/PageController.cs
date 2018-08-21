@@ -63,7 +63,7 @@ namespace ibby_cms.Controllers {
                     };
                     listMenuItem.Add(menuItem);
                 }
-                menuViewModel.menuItems = listMenuItem;
+                menuViewModel.MenuItems = listMenuItem;
 
 
                 ViewBag.Menu = menuViewModel;

@@ -68,14 +68,15 @@ namespace ibby_cms.Common {
                     var listMenuItem = new List<MenuItemModel>();
                     foreach (var menuItems in item.MenuItems) {
 
-                        var menu = new MenuItemModel {
+                        var menuItem = new MenuItemModel {
                             Id = menuItems.Id,
                             MenuID = menuItems.MenuID.Value,
                             PageID = menuItems.PageID,
                             TitleMenuItem = menuItems.TitleMenuItem,
-                            Url = menuItems.Url
+                            Url = menuItems.Url,
+                            Weight = menuItems.Weight
                         };
-                        listMenuItem.Add(menu);
+                        listMenuItem.Add(menuItem);
                     }
                     menuModel.MenuItemsModel = listMenuItem;
                 }
@@ -167,7 +168,8 @@ namespace ibby_cms.Common {
                             MenuID = menuItems.MenuID.Value,
                             PageID = menuItems.PageID,
                             TitleMenuItem = menuItems.TitleMenuItem,
-                            Url = menuItems.Url
+                            Url = menuItems.Url,
+                            Weight = menuItems.Weight
                         };
                         listMenuItem.Add(menuItem);
                     }

@@ -58,14 +58,14 @@ namespace ibby_cms.Entities.DAL {
             context.SaveChanges();
 
             var menuItem = new List<MenuItemEssence> {
-                new MenuItemEssence{MenuID =1, PageID = 1, TitleMenuItem="Title_menuItem1", Url="Url_menuItem1"},
-                new MenuItemEssence{MenuID =1, PageID = 2, TitleMenuItem="Title_menuItem2", Url="Url_menuItem2"},
-                new MenuItemEssence{MenuID =1, PageID = 3, TitleMenuItem="Title_menuItem3", Url="Url_menuItem3"},
-                new MenuItemEssence{MenuID =2, PageID = 4, TitleMenuItem="Title_menuItem4", Url="Url_menuItem4"},
-                new MenuItemEssence{MenuID =2, PageID = 5, TitleMenuItem="Title_menuItem5", Url="Url_menuItem5"},
-                new MenuItemEssence{MenuID =3, PageID = 6, TitleMenuItem="Title_menuItem6", Url="Url_menuItem6"},
-                new MenuItemEssence{MenuID =3, PageID = 7, TitleMenuItem="Title_menuItem7", Url="Url_menuItem7"},
-                new MenuItemEssence{MenuID =4, PageID = 8, TitleMenuItem="Title_menuItem8", Url="Url_menuItem8"}
+                new MenuItemEssence{MenuID =1, PageID = 1, TitleMenuItem="Title_menuItem1", Url="Url_menuItem1", Weight = 5 },
+                new MenuItemEssence{MenuID =1, PageID = 2, TitleMenuItem="Title_menuItem2", Url="Url_menuItem2", Weight = 4 },
+                new MenuItemEssence{MenuID =1, PageID = 3, TitleMenuItem="Title_menuItem3", Url="Url_menuItem3", Weight = 3 },
+                new MenuItemEssence{MenuID =2, PageID = 4, TitleMenuItem="Title_menuItem4", Url="Url_menuItem4", Weight = 4 },
+                new MenuItemEssence{MenuID =2, PageID = 5, TitleMenuItem="Title_menuItem5", Url="Url_menuItem5", Weight = 1 },
+                new MenuItemEssence{MenuID =3, PageID = 6, TitleMenuItem="Title_menuItem6", Url="Url_menuItem6", Weight = 10 },
+                new MenuItemEssence{MenuID =3, PageID = 7, TitleMenuItem="Title_menuItem7", Url="Url_menuItem7", Weight = 3 },
+                new MenuItemEssence{MenuID =4, PageID = 8, TitleMenuItem="Title_menuItem8", Url="Url_menuItem8", Weight = 1 }
             };
 
             menuItem.ForEach(c => context.MenuItemEssences.Add(c));

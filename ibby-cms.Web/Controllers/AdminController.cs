@@ -271,47 +271,17 @@ namespace ibby_cms.Controllers {
                             MenuID = menuItem.MenuID,
                             PageID = menuItem.PageID,
                             TitleMenuItem = menuItem.TitleMenuItem,
-                            Url = menuItem.Url
+                            Url = menuItem.Url,
+                            Weight = menuItem.Weight
                         };
                         listMenuItem.Add(newMenuitem);
                     }
-                    menuViewModel.menuItems = listMenuItem;
+                    menuViewModel.MenuItems = listMenuItem;
                 }
 
                 menus.Add(menuViewModel);
             }
-
             menus.Reverse();
-
-
-            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuModel, MenuViewModel>().ForMember("menuItems", opt => opt.MapFrom(c => c.MenuItemsModel))).CreateMapper();
-            //var menus = mapper.Map<IEnumerable<MenuModel>, List<MenuViewModel>>(menuModels);
-
-
-            //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MenuModel, MenuViewModel>()).CreateMapper();
-            //var menus = mapper.Map<IEnumerable<MenuModel>, List<MenuViewModel>>(menuModels);
-            //menus.Reverse();
-
-
-            ////IEnumerable<MenuItemModel> menuItemModels = _menuItemManager.GetAll();
-            //var menus = new List<MenuViewModel> { };
-
-            //foreach (var item in menuItemModels) {
-            //    var menu = new MenuViewModel {
-            //        Id = item.Id,
-            //        TitleMenu = item.MenuModel.TitleMenu,
-            //        Code = item.MenuModel.Code,
-            //        //MenuID = item.MenuID,
-            //        //Url = item.Url,
-            //        //PageID = item.PageID,
-            //        //TitleMenuItem = item.TitleMenuItem,
-            //        //TitlePage = item.PageModel.Header,
-            //        //Pages = item.PageModel
-            //    };
-            //    menus.Add(menu);
-            //}
-            //menus.Reverse();
-
 
             if (!String.IsNullOrEmpty(searchString)) {
                 menus = menus.Where(m => m.TitleMenu.ToUpper().Contains(searchString.ToUpper()) || m.Code.ToUpper().Contains(searchString.ToUpper())).ToList();
@@ -371,12 +341,12 @@ namespace ibby_cms.Controllers {
         public ActionResult CreateMenu(MenuViewModel menuViewModel) {
             try {
                 if (ModelState.IsValid) {
-                    var menu = new MenuModel {
+                    var menuModel = new MenuModel {
                         Code = menuViewModel.Code,
                         TitleMenu = menuViewModel.TitleMenu
                     };
 
-                    _menuManager.SaveMenu(menu);
+                    _menuManager.SaveMenu(menuModel);
 
                     //var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
 
@@ -407,26 +377,13 @@ namespace ibby_cms.Controllers {
         }
 
         public ActionResult EditMenu(int? id) {
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
-            //ViewBag.Pages = pages;
+            var menuModel = _menuManager.Get(id.Value);
 
-            MenuModel menuItem = _menuManager.Get(id.Value);
-
-            var menuModel = new MenuViewModel {
-                Id = menuItem.Id,
-                //MenuID = menuItem.MenuID,
-                TitleMenu = menuItem.TitleMenu,
-                //TitleMenuItem = menuItem.TitleMenuItem,
-                Code = menuItem.Code,
-                //Url = menuItem.Url,
-                //PageID = menuItem.PageID
+            var menuViewModel = new MenuViewModel {
+                Id = menuModel.Id,
+                TitleMenu = menuModel.TitleMenu,
+                Code = menuModel.Code,
             };
-
-            //if (menuItem.PageID != null) {
-            //    menuModel.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
-            //    menuModel.TitlePage = menuModel.Pages.Header;
-            //}
 
             return View(menuModel);
         }
@@ -444,18 +401,6 @@ namespace ibby_cms.Controllers {
                     };
                     _menuManager.EditMenu(menu);
 
-                    //var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
-
-                    //var menuItem = new MenuItemModel {
-                    //    Id = menuViewModel.Id,
-                    //    MenuID = menuViewModel.MenuID,
-                    //    Url = menuViewModel.Url,
-                    //    PageID = pageId,
-                    //    TitleMenuItem = menuViewModel.TitleMenuItem,
-                    //    MenuModel = menu
-                    //};
-                    //_menuItemManager.EditMenu(menuItem);
-
                     return RedirectToAction("ManagementMenu");
                 }
             }
@@ -463,25 +408,16 @@ namespace ibby_cms.Controllers {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
 
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
-            //ViewBag.Pages = pages;
-
-
             return View(menuViewModel);
         }
 
         public ActionResult DeleteMenu(int? id) {
-            MenuModel menuModel = _menuManager.Get(id.Value);
+            var menuModel = _menuManager.Get(id.Value);
 
-            var menu = new MenuViewModel {
+            var menuViewModel = new MenuViewModel {
                 Id = menuModel.Id,
-                //MenuID = menuItem.MenuID,
                 TitleMenu = menuModel.TitleMenu,
-                //TitleMenuItem = menuItem.TitleMenuItem,
                 Code = menuModel.Code,
-                //Url = menuItem.Url,
-                //PageID = menuItem.PageID
             };
 
             if (menuModel.MenuItemsModel != null) {
@@ -493,38 +429,25 @@ namespace ibby_cms.Controllers {
                         MenuID = menuItem.MenuID,
                         PageID = menuItem.PageID,
                         TitleMenuItem = menuItem.TitleMenuItem,
-                        Url = menuItem.Url
+                        Url = menuItem.Url,
+                        Weight = menuItem.Weight
                     };
                     listMenuItem.Add(newMenuitem);
                 }
 
-                menu.menuItems = listMenuItem;
+                menuViewModel.MenuItems = listMenuItem;
             }
 
-
-            //if (menuItem.PageID != null) {
-            //    menu.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
-            //    menu.TitlePage = menu.Pages.Header;
-            //}
-
-            return View(menu);
+            return View(menuViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteMenu(int id) {
             var deleteMenu = _menuManager.Get(id);
-            //_menuItemManager.Delete(id);
             _menuManager.Delete(id);
 
             return RedirectToAction("ManagementMenu");
-
-
-            //var deletePage = _pageContentEssenceManager.Get(id);
-            //_pageContentEssenceManager.Delete(id);
-            //_pageSeoEssenceManager.Delete(deletePage.PageSeoModel.Id);
-
-            //return RedirectToAction("ManagementPage");
         }
 
         //public ActionResult DetailsMenu(int? id) {
@@ -554,12 +477,28 @@ namespace ibby_cms.Controllers {
         //    return View(menuViewModel);
         //}
 
-        public ActionResult CreateMenuItem(int id) {
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
-            ViewBag.Pages = GetPublishedPages();
 
-            var menuItem = new MenuItemViewModel() { MenuID = id };
+        //public ActionResult CreateMenuItem(int id) {
+        //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+        //pages.Reverse();
+
+        //private List<PageContentModel> GetPublishedPages() {
+        //    List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
+        //    List<PageContentModel> publishedPages = new List<PageContentModel>();
+        //    foreach (var item in pages) {
+        //        if (item.IsPublished) {
+        //            publishedPages.Add(item);
+        //        }
+        //    }
+        //    publishedPages.Reverse();
+        //    //ViewBag.Pages = new SelectList(publishedPages, "Id", "Header");
+
+        //    return publishedPages;
+        //}
+
+        public ActionResult CreateMenuItem(int menuID) {
+            ViewBag.Pages = GetPublishedPages();
+            var menuItem = new MenuItemViewModel() { MenuID = menuID };
 
             return View(menuItem);
         }
@@ -568,49 +507,30 @@ namespace ibby_cms.Controllers {
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult CreateMenuItem(MenuItemViewModel menuItemViewModel) {
-
-
             try {
-                //if (ModelState.IsValid) {
-                //var menu = new MenuModel {
-                //    Code = menuViewModel.Code,
-                //    TitleMenu = menuViewModel.TitleMenu
-                //};
+                if (ModelState.IsValid) {
+                    var menuItem = new MenuItemModel {
+                        MenuID = menuItemViewModel.MenuID,
+                        Url = menuItemViewModel.Url,
+                        PageID = menuItemViewModel.PageID,
+                        TitleMenuItem = menuItemViewModel.TitleMenuItem,
+                        Weight = menuItemViewModel.Weight
+                    };
 
-                //_menuManager.SaveMenu(menu);
+                    _menuItemManager.SaveMenu(menuItem);
 
-                //var pageId = (menuItemViewModel.Page == null) ? menuItemViewModel.PageID : menuItemViewModel.menuItemViewModel.Id;
-
-                var menuItem = new MenuItemModel {
-                    MenuID = menuItemViewModel.MenuID,
-                    Url = menuItemViewModel.Url,
-                    PageID = menuItemViewModel.PageID,
-                    TitleMenuItem = menuItemViewModel.TitleMenuItem
-                };
-
-                _menuItemManager.SaveMenu(menuItem);
-
-                return RedirectToAction("ManagementMenu");
-                // }
+                    return RedirectToAction("ManagementMenu");
+                }
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
-
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
-            //ViewBag.Pages = pages;
-
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
             ViewBag.Pages = GetPublishedPages();
 
             return View(menuItemViewModel);
         }
 
         public ActionResult EditMenuItem(int? id) {
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
             ViewBag.Pages = GetPublishedPages();
 
             MenuItemModel menuItem = _menuItemManager.Get(id.Value);
@@ -618,17 +538,11 @@ namespace ibby_cms.Controllers {
             var menuItemViewModel = new MenuItemViewModel {
                 Id = menuItem.Id,
                 MenuID = menuItem.MenuID,
-                //TitleMenu = menuItem.TitleMenu,
+                PageID = menuItem.PageID,
                 TitleMenuItem = menuItem.TitleMenuItem,
-                //Code = menuItem.Code,
                 Url = menuItem.Url,
-                PageID = menuItem.PageID
+                Weight = menuItem.Weight
             };
-
-            //if (menuItem.PageID != null) {
-            //    menuModel.Pages = _pageContentEssenceManager.Get(menuItem.PageID.Value);
-            //    menuModel.TitlePage = menuModel.Pages.Header;
-            //}
 
             return View(menuItemViewModel);
         }
@@ -638,37 +552,24 @@ namespace ibby_cms.Controllers {
         [ValidateInput(false)]
         public ActionResult EditMenuItem(MenuItemViewModel menuViewModel) {
             try {
-
-                    //var menu = new MenuModel {
-                    //    Id = menuViewModel.Id,
-                    //    Code = menuViewModel.Code,
-                    //    TitleMenu = menuViewModel.TitleMenu
-                    //};
-                    //_menuManager.EditMenu(menu);
-
-                    //var pageId = (menuViewModel.Pages == null) ? menuViewModel.PageID : menuViewModel.Pages.Id;
-
+                if (ModelState.IsValid) {
                     var menuItem = new MenuItemModel {
                         Id = menuViewModel.Id,
                         MenuID = menuViewModel.MenuID,
                         Url = menuViewModel.Url,
                         PageID = menuViewModel.PageID,
                         TitleMenuItem = menuViewModel.TitleMenuItem,
-                        //MenuModel = menu
+                        Weight = menuViewModel.Weight
                     };
                     _menuItemManager.EditMenu(menuItem);
 
                     return RedirectToAction("ManagementMenu");
-                
+                }
             }
             catch (ValidationException ex) {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
-
-            //List<PageContentModel> pages = _pageContentEssenceManager.GetAll().ToList();
-            //pages.Reverse();
             ViewBag.Pages = GetPublishedPages();
-
 
             return View(menuViewModel);
         }
@@ -680,10 +581,6 @@ namespace ibby_cms.Controllers {
             return RedirectToAction("ManagementMenu");
         }
 
-
-
-
-
         public ActionResult RenderMenu(string menuCode) {
             var menu = _menuManager.RenderMenu(menuCode);
             var menuViewModel = new MenuViewModel {
@@ -694,18 +591,17 @@ namespace ibby_cms.Controllers {
 
             var listMenuItem = new List<MenuItemViewModel>();
             foreach (var menuItems in menu.MenuItemsModel) {
-
                 var menuItem = new MenuItemViewModel {
                     Id = menuItems.Id,
                     MenuID = menuItems.MenuID,
                     PageID = menuItems.PageID,
                     TitleMenuItem = menuItems.TitleMenuItem,
-                    Url = menuItems.Url
+                    Url = menuItems.Url,
+                    Weight = menuItems.Weight
                 };
                 listMenuItem.Add(menuItem);
             }
-            menuViewModel.menuItems = listMenuItem;
-
+            menuViewModel.MenuItems = listMenuItem;
 
             ViewBag.Menu = menuViewModel;
             return View();
@@ -720,12 +616,10 @@ namespace ibby_cms.Controllers {
                 }
             }
             publishedPages.Reverse();
-            //ViewBag.Pages = new SelectList(publishedPages, "Id", "Header");
 
             return publishedPages;
         }
 
         #endregion
-
     }
 }
